@@ -1,7 +1,14 @@
 [versions]
 kotlin = "1.9.23"
 ktor = "2.3.10"
+spring-boot = "3.2.5"
+spring-dependencies = "1.1.4"
 logback = "1.5.6"
+webjars-jquery = "3.7.0"
+webjars-bootstrap = "5.3.1"
+webjars-popper = "2.11.7"
+webjars-locator = "0.47"
+webjars-fontawesome = "6.4.2"
 
 [libraries]
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit" }
@@ -9,9 +16,25 @@ ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 ktor-server-tests = { module = "io.ktor:ktor-server-tests", version.ref = "ktor" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+webjars-jquery = { module = "org.webjars:jquery", version.ref = "webjars-jquery" }
+webjars-bootstrap = { module = "org.webjars:bootstrap", version.ref = "webjars-bootstrap" }
+webjars-popper = { module = "org.webjars:popper.js", version.ref = "webjars-popper" }
+webjars-locator = { module = "org.webjars:webjars-locator", version.ref = "webjars-locator" }
+webjars-fontawesome = { module = "org.webjars:font-awesome", version.ref = "webjars-fontawesome" }
 
 [plugins]
-kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+spring-dependencies = { id = "io.spring.dependency-management", version.ref = "spring-dependencies" }
 
 [bundles]
+webjars = [
+    "webjars-jquery",
+    "webjars-bootstrap",
+    "webjars-popper",
+    "webjars-locator",
+    "webjars-fontawesome"
+]

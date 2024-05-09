@@ -1,0 +1,9 @@
+### KTOR ###
+ktor:
+  # Deployment
+  deployment:
+    port: 8080
+  # Application
+  application:
+    modules:
+      - com.onlyteo.sandbox.KtorOAuth2ReactClientFrontendApiApplicationKt.module
