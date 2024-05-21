@@ -6,12 +6,12 @@ plugins {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.security:spring-security-oauth2-authorization-server")
-    implementation("org.springframework.boot:spring-boot-starter-jdbc")
-    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
-    implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
-    implementation("com.h2database:h2")
+    implementation(libs.spring.boot.starter.web)
+    implementation(libs.spring.boot.starter.jdbc)
+    implementation(libs.spring.boot.starter.thymeleaf)
+    implementation(libs.spring.security.oauth2.authorization.server)
+    implementation(libs.thymeleaf.layout.dialect)
+    implementation(libs.thymeleaf.extras.spring.security)
+    implementation(libs.h2.database)
     implementation(libs.bundles.webjars)
 }

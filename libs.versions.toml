@@ -3,7 +3,11 @@ kotlin = "1.9.23"
 ktor = "2.3.10"
 spring-boot = "3.2.5"
 spring-dependencies = "1.1.4"
+jackson = "2.17.1"
 logback = "1.5.6"
+logstash-logback = "7.4"
+micrometer = "1.12.5"
+hoplite = "2.7.5"
 webjars-jquery = "3.7.0"
 webjars-bootstrap = "5.3.1"
 webjars-popper = "2.11.7"
@@ -11,11 +15,47 @@ webjars-locator = "0.47"
 webjars-fontawesome = "6.4.2"
 
 [libraries]
+# Kotlin
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit" }
-ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
-ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
-ktor-server-tests = { module = "io.ktor:ktor-server-tests", version.ref = "ktor" }
+# Ktor server
+ktor-server-core = { module = "io.ktor:ktor-server-core" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation" }
+ktor-server-tests = { module = "io.ktor:ktor-server-tests" }
+ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml" }
+ktor-server-webjars = { module = "io.ktor:ktor-server-webjars" }
+ktor-server-micrometer = { module = "io.ktor:ktor-server-metrics-micrometer" }
+ktor-server-sessions = { module = "io.ktor:ktor-server-sessions" }
+ktor-server-auth = { module = "io.ktor:ktor-server-auth" }
+# Ktor client
+ktor-client-core = { module = "io.ktor:ktor-client-core" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation" }
+# Ktor other
+ktor-serialization-jackson = { module = "io.ktor:ktor-serialization-jackson" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json" }
+# Spring Boot
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc" }
+spring-boot-starter-thymeleaf = { module = "org.springframework.boot:spring-boot-starter-thymeleaf" }
+# Spring Security
+spring-security-oauth2-authorization-server = { module = "org.springframework.security:spring-security-oauth2-authorization-server" }
+# Jackson
+jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
+# Logback
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+logstash-logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash-logback" }
+# Micrometer
+micrometer-prometheus-registry = { module = "io.micrometer:micrometer-registry-prometheus", version.ref = "micrometer" }
+# Hoplite
+hoplite-yaml = { module = "com.sksamuel.hoplite:hoplite-yaml", version.ref = "hoplite" }
+# H2
+h2-database = { module = "com.h2database:h2" }
+# Thymeleaf
+thymeleaf-layout-dialect = { module = "nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect" }
+thymeleaf-extras-spring-security = { module = "org.thymeleaf.extras:thymeleaf-extras-springsecurity6" }
+# Webjars
 webjars-jquery = { module = "org.webjars:jquery", version.ref = "webjars-jquery" }
 webjars-bootstrap = { module = "org.webjars:bootstrap", version.ref = "webjars-bootstrap" }
 webjars-popper = { module = "org.webjars:popper.js", version.ref = "webjars-popper" }
@@ -31,10 +71,42 @@ spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependencies = { id = "io.spring.dependency-management", version.ref = "spring-dependencies" }
 
 [bundles]
+ktor-server = [
+    "ktor-server-core",
+    "ktor-server-netty",
+    "ktor-server-config-yaml",
+    "ktor-server-content-negotiation"
+]
+ktor-client = [
+    "ktor-client-core",
+    "ktor-client-cio",
+    "ktor-client-logging",
+    "ktor-client-content-negotiation"
+]
+ktor-serialization = [
+    "ktor-serialization-jackson",
+    "jackson-datatype-jsr310"
+]
+logback = [
+    "logback-classic",
+    "logstash-logback-encoder"
+]
+ktor-micrometer = [
+    "ktor-server-micrometer",
+    "micrometer-prometheus-registry"
+]
 webjars = [
     "webjars-jquery",
     "webjars-bootstrap",
     "webjars-popper",
     "webjars-locator",
     "webjars-fontawesome"
+]
+ktor-authentication = [
+    "ktor-server-sessions",
+    "ktor-server-auth"
+]
+ktor-unit-test = [
+    "kotlin-test-junit",
+    "ktor-server-tests"
 ]

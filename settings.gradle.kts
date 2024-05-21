@@ -24,4 +24,5 @@ rootProject.name = "ktor-sandbox"
 
 include(":ktor-oauth2-react-client:ktor-oauth2-react-client-frontend")
 include(":ktor-oauth2-react-client:ktor-oauth2-react-client-frontend-api")
+include(":ktor-oauth2-react-client:ktor-oauth2-react-client-backend")
 include(":ktor-oauth2-react-client:ktor-oauth2-react-client-authorization-server")

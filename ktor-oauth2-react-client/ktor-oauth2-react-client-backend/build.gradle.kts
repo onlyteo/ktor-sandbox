@@ -8,12 +8,9 @@ plugins {
 dependencies {
     implementation(libs.bundles.ktor.server)
     implementation(libs.bundles.ktor.serialization)
-    implementation(libs.bundles.ktor.client)
-    implementation(libs.bundles.ktor.authentication)
     implementation(libs.bundles.logback)
     implementation(libs.ktor.server.webjars)
     implementation(libs.bundles.webjars)
-    implementation(libs.hoplite.yaml)
     testImplementation(libs.bundles.ktor.unit.test)
 }
 

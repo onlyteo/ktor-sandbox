@@ -1,5 +1,7 @@
 package com.onlyteo.sandbox.plugin
 
+import com.onlyteo.sandbox.cache.RequestCache
+import com.onlyteo.sandbox.config.Config
 import com.onlyteo.sandbox.model.UserSession
 import io.ktor.client.HttpClient
 import io.ktor.http.HttpMethod
@@ -10,37 +12,38 @@ import io.ktor.server.auth.OAuthServerSettings
 import io.ktor.server.auth.oauth
 import io.ktor.server.sessions.Sessions
 import io.ktor.server.sessions.cookie
-import kotlin.collections.set
 
 fun Application.configAuthentication(
+    config: Config,
     httpClient: HttpClient,
-    redirects: MutableMap<String, String>
+    requestCache: RequestCache<String, String>
 ) {
+    val (name, callbackUrl, provider) = config.app.security.oauth2
     install(Sessions) {
         cookie<UserSession>("USER_SESSION")
     }
     install(Authentication) {
-        oauth("spring-authorization-server") {
+        oauth(name) {
             client = httpClient
             providerLookup = {
                 OAuthServerSettings.OAuth2ServerSettings(
-                    name = "spring-authorization-server",
-                    authorizeUrl = "http://localhost:8888/oauth2/authorize",
-                    accessTokenUrl = "http://localhost:8888/oauth2/token",
+                    name = provider.name,
+                    authorizeUrl = provider.authorizeUrl,
+                    accessTokenUrl = provider.tokenUrl,
                     requestMethod = HttpMethod.Post,
                     accessTokenRequiresBasicAuth = true,
-                    clientId = "sandbox-oauth2-client",
-                    clientSecret = "G4nd4lf",
-                    defaultScopes = listOf("openid", "profile", "roles"),
+                    clientId = provider.clientId,
+                    clientSecret = provider.clientSecret,
+                    defaultScopes = provider.scopes,
                     onStateCreated = { call, state ->
                         call.request.queryParameters["redirectUrl"]?.let {
-                            redirects[state] = it
+                            requestCache.put(state, it)
                         }
                     }
                 )
             }
             urlProvider = {
-                "http://localhost:8080/callback"
+                callbackUrl
             }
         }
     }
