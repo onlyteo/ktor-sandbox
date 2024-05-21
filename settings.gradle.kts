@@ -30,3 +30,7 @@ include(":ktor-oauth2-react-client:ktor-oauth2-react-client-authorization-server
 include(":ktor-kafka-streams:ktor-kafka-streams-frontend")
 include(":ktor-kafka-streams:ktor-kafka-streams-frontend-api")
 include(":ktor-kafka-streams:ktor-kafka-streams-backend")
+
+include(":ktor-otel-observability:ktor-otel-observability-frontend")
+include(":ktor-otel-observability:ktor-otel-observability-frontend-api")
+include(":ktor-otel-observability:ktor-otel-observability-backend")
