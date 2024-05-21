@@ -1,0 +1,9 @@
+### KTOR ###
+ktor:
+  # Deployment
+  deployment:
+    port: 8081
+  # Application
+  application:
+    modules:
+      - com.onlyteo.sandbox.ApplicationKt.module
