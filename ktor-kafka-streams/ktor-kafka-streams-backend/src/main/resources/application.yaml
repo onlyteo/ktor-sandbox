@@ -2,14 +2,14 @@
 app:
   id: ktor-kafka-streams-backend
   kafka:
-    brokers:
-      - "localhost:9092"
     streams:
       id: ktor-kafka-streams-backend-streams
+      brokers:
+        - "localhost:9092"
       sourceTopic: persons
       targetTopic: greetings
-      stateStore: greetings
-      processor: greetingProcessor
+      stateStore: persons
+      processor: personProcessor
 
 ### KTOR ###
 ktor:

@@ -1,21 +1,16 @@
 package com.onlyteo.sandbox.service
 
-import com.onlyteo.sandbox.config.IntegrationConfig
-import com.onlyteo.sandbox.model.Greeting
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
+import com.onlyteo.sandbox.model.Person
+import com.onlyteo.sandbox.properties.KafkaProducerProperties
+import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.ProducerRecord
 
-class GreetingService(private val integration: IntegrationConfig, private val httpClient: HttpClient) {
+class GreetingService(
+    private val properties: KafkaProducerProperties,
+    private val kafkaProducer: KafkaProducer<String, Person>
+) {
 
-    suspend fun getGreeting(name: String?): Greeting {
-        val response = httpClient.get(integration.url) {
-            if (!name.isNullOrBlank()) {
-                url {
-                    parameters.append("name", name)
-                }
-            }
-        }
-        return response.call.body()
+    fun publishPerson(person: Person) {
+        kafkaProducer.send(ProducerRecord(properties.targetTopic, person.name, person))
     }
 }

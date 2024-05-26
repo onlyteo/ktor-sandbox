@@ -1,5 +1,6 @@
 package com.onlyteo.sandbox.properties
 
+import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.StreamsConfig
 
@@ -13,14 +14,29 @@ data class ApplicationProperties(
 )
 
 data class KafkaProperties(
+    val producer: KafkaProducerProperties,
     val streams: KafkaStreamsProperties
 )
+
+data class KafkaProducerProperties(
+    val id: String,
+    val brokers: List<String>,
+    val targetTopic: String
+) {
+    fun asMap(): Map<String, Any> {
+        return mapOf(
+            ProducerConfig.CLIENT_ID_CONFIG to id,
+            ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to brokers.joinToString(","),
+            ProducerConfig.ACKS_CONFIG to "all",
+            ProducerConfig.RETRIES_CONFIG to 0
+        )
+    }
+}
 
 data class KafkaStreamsProperties(
     val id: String,
     val brokers: List<String>,
     val sourceTopic: String,
-    val targetTopic: String,
     val stateStore: String,
     val processor: String
 ) {

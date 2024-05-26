@@ -35,14 +35,14 @@ fun buildStreamsTopology(): Topology = StreamsBuilder().apply {
     )
 
     stream(properties.sourceTopic, Consumed.with(Serdes.String(), buildJsonSerde<Person>()))
-        .process(GreetingProcessorSupplier(logger, properties), Named.`as`(properties.processor), properties.stateStore)
+        .process(PersonProcessorSupplier(logger, properties), Named.`as`(properties.processor), properties.stateStore)
         .mapValues { person ->
             return@mapValues Greeting("Hello ${person.name}!")
         }
         .to(properties.targetTopic, Produced.with(Serdes.String(), buildJsonSerde<Greeting>()))
 }.build()
 
-class GreetingPunctuator(
+class PersonPunctuator(
     private val logger: Logger,
     private val processorContext: ProcessorContext<String, Person>,
     private val keyValueStore: TimestampedKeyValueStore<String, Person>
@@ -54,7 +54,7 @@ class GreetingPunctuator(
                 val greetingTime = Instant.ofEpochMilli(value.timestamp())
                 if (Instant.now().minusSeconds(60).isAfter(greetingTime)) {
                     val person = value.value()
-                    logger.info("Publishing greeting for ${person.name}")
+                    logger.info("Completed delayed processing for ${person.name}")
                     keyValueStore.delete(person.name)
                     processorContext.forward(Record(person.name, person, Instant.now().toEpochMilli()))
                 }
@@ -63,16 +63,16 @@ class GreetingPunctuator(
     }
 }
 
-class GreetingProcessorSupplier(
+class PersonProcessorSupplier(
     private val logger: Logger,
     private val properties: KafkaStreamsProperties
 ) : ProcessorSupplier<String, Person, String, Person> {
     override fun get(): Processor<String, Person, String, Person> {
-        return GreetingProcessor(logger, properties)
+        return PersonProcessor(logger, properties)
     }
 }
 
-class GreetingProcessor(
+class PersonProcessor(
     private val logger: Logger,
     private val properties: KafkaStreamsProperties
 ) : Processor<String, Person, String, Person> {
@@ -88,7 +88,7 @@ class GreetingProcessor(
         processorContext.schedule(
             Duration.ofSeconds(10),
             PunctuationType.WALL_CLOCK_TIME,
-            GreetingPunctuator(logger, processorContext, keyValueStore)
+            PersonPunctuator(logger, processorContext, keyValueStore)
         )
     }
 
@@ -96,11 +96,11 @@ class GreetingProcessor(
         val person = record?.value() ?: return
         if (setOf("John", "Julie", "James", "Jenny").contains(person.name)) {
             // Delay greeting for these names by 1 minute
-            logger.info("Delaying greeting for ${person.name}")
+            logger.info("Delaying processing for ${person.name}")
             this.keyValueStore.put(person.name, ValueAndTimestamp.make(person, Instant.now().toEpochMilli()))
         } else {
             // Otherwise forward greeting
-            logger.info("Publishing greeting for ${person.name}")
+            logger.info("Completed processing for ${person.name}")
             this.processorContext.forward(record)
         }
     }

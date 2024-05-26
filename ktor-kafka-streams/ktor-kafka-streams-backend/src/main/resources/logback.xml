@@ -10,5 +10,6 @@
     <logger name="com.onlyteo" level="DEBUG"/>
     <logger name="org.apache.kafka.clients.producer.ProducerConfig" level="WARN"/>
     <logger name="org.apache.kafka.clients.consumer.ConsumerConfig" level="WARN"/>
+    <logger name="org.apache.kafka.clients.admin.AdminClientConfig" level="WARN"/>
     <logger name="org.apache.kafka.streams.StreamsConfig" level="WARN"/>
 </configuration>

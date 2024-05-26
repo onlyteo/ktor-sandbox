@@ -1,23 +1,18 @@
 package com.onlyteo.sandbox.routes
 
-import com.onlyteo.sandbox.config.Config
+import com.onlyteo.sandbox.model.Person
 import com.onlyteo.sandbox.service.GreetingService
-import io.ktor.client.HttpClient
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
-import io.ktor.server.auth.authenticate
-import io.ktor.server.response.respond
+import io.ktor.server.request.receive
 import io.ktor.server.routing.Route
-import io.ktor.server.routing.get
+import io.ktor.server.routing.post
 
-fun Route.greetingRouting(config: Config, httpClient: HttpClient) {
+fun Route.greetingRouting(greetingService: GreetingService) {
 
-    val greetingService = GreetingService(config.app.integrations.greetingService, httpClient)
-
-    authenticate("spring-authorization-server") {
-        get("/api/greeting") {
-            val name = call.parameters["name"]
-            val greeting = greetingService.getGreeting(name)
-            call.respond(greeting)
-        }
+    post("/api/greeting") {
+        val person = call.receive<Person>()
+        greetingService.publishPerson(person)
+        call.response.status(HttpStatusCode.Accepted)
     }
 }
