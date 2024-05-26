@@ -15,11 +15,18 @@ allprojects {
 }
 
 subprojects {
+    configurations {
+        all {
+            exclude(group = "junit", module = "junit")
+            exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+        }
+    }
+
     tasks {
         withType<KotlinCompile> {
             kotlinOptions {
-                freeCompilerArgs += "-Xjsr305=strict"
                 jvmTarget = "21"
+                freeCompilerArgs = listOf("-Xjsr305=strict", "-Xcontext-receivers")
             }
         }
 

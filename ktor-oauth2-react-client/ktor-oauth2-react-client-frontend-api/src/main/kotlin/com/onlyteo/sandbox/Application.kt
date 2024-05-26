@@ -8,8 +8,9 @@ import com.onlyteo.sandbox.plugin.configureWebjars
 import com.onlyteo.sandbox.plugin.httpClientSupplier
 import com.onlyteo.sandbox.plugin.requestCacheSupplier
 import io.ktor.server.application.Application
+import io.ktor.server.netty.EngineMain
 
-fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
+fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 fun Application.module() {
     val config = configSupplier

@@ -1,6 +1,5 @@
 package com.onlyteo.sandbox.plugin
 
-import com.onlyteo.sandbox.routes.greetingRouting
 import com.onlyteo.sandbox.routes.staticRouting
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
@@ -11,6 +10,5 @@ fun Application.configureRouting() {
     install(IgnoreTrailingSlash)
     routing {
         staticRouting()
-        greetingRouting()
     }
 }

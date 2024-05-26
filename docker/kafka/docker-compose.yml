@@ -1,6 +1,6 @@
-version: "3.7"
-
+### SERVICES ###
 services:
+  # Kafka
   sandbox.kafka:
     image: confluentinc/cp-kafka:latest
     container_name: sandbox.kafka
@@ -21,17 +21,32 @@ services:
     ports:
       - "9092:9092"
     volumes:
-      - sandbox.kafka-secrets:/etc/kafka/secrets
       - sandbox.kafka-data:/var/lib/kafka/data
+      - sandbox.kafka-secrets:/etc/kafka/secrets
     networks:
       - sandbox.kafka
 
+  # Kafka Init
+  sandbox.kafka-init:
+    image: confluentinc/cp-kafka:latest
+    container_name: sandbox.kafka-init
+    environment:
+      BOOTSTRAP_SERVER: sandbox.kafka:29092
+      CREATE_TOPICS: persons,greetings
+    volumes:
+      - ./config/kafka_init.sh:/kafka_init.sh
+    networks:
+      - sandbox.kafka
+    command: /kafka_init.sh
+
+### VOLUMES ###
 volumes:
-  sandbox.kafka-secrets:
-    name: sandbox.kafka-secrets
   sandbox.kafka-data:
     name: sandbox.kafka-data
+  sandbox.kafka-secrets:
+    name: sandbox.kafka-secrets
 
+### NETWORKS ###
 networks:
   sandbox.kafka:
     name: sandbox.kafka
