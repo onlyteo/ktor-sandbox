@@ -10,13 +10,12 @@ app:
       targetTopic: greetings
       stateStore: persons
       processor: personProcessor
+      punctuatorSchedule: PT10S
+      processingDelay: PT60S
 
 ### KTOR ###
 ktor:
   # Deployment
   deployment:
     port: 8081
-  # Application
-  application:
-    modules:
-      - com.onlyteo.sandbox.ApplicationKt.module
+    host: 0.0.0.0

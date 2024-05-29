@@ -17,5 +17,5 @@ dependencies {
 }
 
 application {
-    mainClass.set("io.ktor.server.netty.EngineMain")
+    mainClass.set("com.onlyteo.sandbox.KafkaStreamsBackendApplication")
 }

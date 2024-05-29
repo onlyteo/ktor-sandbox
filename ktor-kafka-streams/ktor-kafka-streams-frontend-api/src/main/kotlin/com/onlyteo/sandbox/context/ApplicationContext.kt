@@ -1,9 +1,10 @@
 package com.onlyteo.sandbox.context
 
+import com.onlyteo.sandbox.config.loadProperties
+import com.onlyteo.sandbox.properties.APPLICATION_PROPERTIES_FILE
 import com.onlyteo.sandbox.properties.ApplicationProperties
-import org.slf4j.Logger
+import com.onlyteo.sandbox.properties.ApplicationPropertiesHolder
 
 data class ApplicationContext(
-    val logger: Logger,
-    val applicationProperties: ApplicationProperties
+    val properties: ApplicationProperties = loadProperties<ApplicationPropertiesHolder>(APPLICATION_PROPERTIES_FILE).app
 )

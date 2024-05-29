@@ -2,6 +2,9 @@ package com.onlyteo.sandbox.properties
 
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.StreamsConfig
+import java.time.Duration
+
+const val APPLICATION_PROPERTIES_FILE = "/application.yaml"
 
 data class ApplicationPropertiesHolder(
     val app: ApplicationProperties
@@ -22,7 +25,9 @@ data class KafkaStreamsProperties(
     val sourceTopic: String,
     val targetTopic: String,
     val stateStore: String,
-    val processor: String
+    val processor: String,
+    val punctuatorSchedule: Duration,
+    val processingDelay: Duration
 ) {
     fun asMap(): Map<String, Any> {
         return mapOf(

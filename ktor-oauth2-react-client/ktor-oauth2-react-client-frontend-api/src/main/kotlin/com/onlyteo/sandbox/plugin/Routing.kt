@@ -1,7 +1,7 @@
 package com.onlyteo.sandbox.plugin
 
 import com.onlyteo.sandbox.cache.RequestCache
-import com.onlyteo.sandbox.config.Config
+import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.routes.authRouting
 import com.onlyteo.sandbox.routes.greetingRouting
 import com.onlyteo.sandbox.routes.staticRouting
@@ -12,16 +12,16 @@ import io.ktor.server.application.install
 import io.ktor.server.routing.IgnoreTrailingSlash
 import io.ktor.server.routing.routing
 
+context(ApplicationContext)
 fun Application.configureRouting(
-    config: Config,
     httpClient: HttpClient,
     requestCache: RequestCache<String, String>
 ) {
     install(IgnoreTrailingSlash)
     routing {
         staticRouting()
-        authRouting(config, requestCache)
+        authRouting(requestCache)
         userRouting()
-        greetingRouting(config, httpClient)
+        greetingRouting(httpClient)
     }
 }

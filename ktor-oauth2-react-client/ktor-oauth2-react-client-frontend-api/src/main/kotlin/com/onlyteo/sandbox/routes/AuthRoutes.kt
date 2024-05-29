@@ -1,7 +1,7 @@
 package com.onlyteo.sandbox.routes
 
 import com.onlyteo.sandbox.cache.RequestCache
-import com.onlyteo.sandbox.config.Config
+import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.UserSession
 import io.ktor.server.application.call
 import io.ktor.server.auth.OAuthAccessTokenResponse
@@ -13,7 +13,8 @@ import io.ktor.server.routing.get
 import io.ktor.server.sessions.sessions
 import io.ktor.server.sessions.set
 
-fun Route.authRouting(config: Config, requestCache: RequestCache<String, String>) {
+context(ApplicationContext)
+fun Route.authRouting(requestCache: RequestCache<String, String>) {
     authenticate("spring-authorization-server") {
         get("/login") {
             // Redirects for authentication

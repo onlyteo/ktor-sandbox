@@ -23,7 +23,4 @@ ktor:
   # Deployment
   deployment:
     port: 8080
-  # Application
-  application:
-    modules:
-      - com.onlyteo.sandbox.ApplicationKt.module
+    host: 0.0.0.0

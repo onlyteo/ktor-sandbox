@@ -14,14 +14,14 @@ import java.time.Duration
 
 @KtorDsl
 class KafkaStreamsPluginConfig {
-    var properties: Map<String, Any>? = null
-    var topology: Topology? = null
+    var streamsProperties: Map<String, Any>? = null
+    var streamsTopology: Topology? = null
 }
 
 val KafkaStreamsPlugin: ApplicationPlugin<KafkaStreamsPluginConfig> =
     createApplicationPlugin("KafkaStreams", ::KafkaStreamsPluginConfig) {
-        val properties = requireNotNull(pluginConfig.properties)
-        val topology = requireNotNull(pluginConfig.topology)
+        val properties = requireNotNull(pluginConfig.streamsProperties) { "Kafka streams properties must not be null" }
+        val topology = requireNotNull(pluginConfig.streamsTopology) { "Kafka streams topology must not be null" }
 
         val kafkaStreams = KafkaStreams(topology, StreamsConfig(properties))
 
