@@ -1,38 +1,21 @@
-import React, {FC, ReactElement, useEffect, useReducer} from "react";
+import React, {FC, ReactElement} from "react";
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
-import {userInitialState, userReducer} from "./state/reducers";
-import {User} from "./types";
 import {Footer, Header} from "./fragments";
 import {Home, NotFound} from "./pages";
-import {GET} from "./state/client";
 
-interface LayoutProps {
-    userInfo: User
-}
-
-const Layout: FC<LayoutProps> = (props: LayoutProps): ReactElement => (
+const Layout: FC = (): ReactElement => (
     <>
-        <Header userInfo={props.userInfo}/>
+        <Header/>
         <Outlet/>
         <Footer/>
     </>
 );
 
 const App: FC = (): ReactElement => {
-    const [userState, userDispatch] = useReducer(userReducer, userInitialState);
-
-    useEffect(() => {
-        GET<User>("/api/user")
-            .then(response => userDispatch({status: 'SUCCESS', data: response.data}))
-            .catch(error => {
-                console.log("ERROR", error)
-                userDispatch({status: 'FAILED'})
-            });
-    }, []);
 
     const router = createBrowserRouter([
         {
-            element: <Layout userInfo={userState.data}/>,
+            element: <Layout/>,
             children: [
                 {
                     path: "/",

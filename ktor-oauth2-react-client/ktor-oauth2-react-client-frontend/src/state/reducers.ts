@@ -1,11 +1,12 @@
-import {Action, State, User} from "../types";
+import {Action, Greeting, State} from "../types";
 
-export const userInitialState: State<User> = {
-    loading: true
+export const initialGreetingState: State<Greeting> = {
+    loading: false
 }
 
-export const userReducer = (state: State<User>, action: Action<User>): State<User> => {
+export const greetingReducer = (state: State<Greeting>, action: Action<Greeting>): State<Greeting> => {
     const {status, data} = action;
+
     switch (status) {
         case 'SUCCESS':
             return {
