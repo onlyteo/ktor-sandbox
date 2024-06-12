@@ -7,7 +7,7 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 
 fun Route.greetingRouting() {
-    get("/api/greeting") {
+    get("/api/greetings") {
         val name = call.parameters["name"] ?: "Nobody"
         call.respond(Greeting("Hello $name!"))
     }

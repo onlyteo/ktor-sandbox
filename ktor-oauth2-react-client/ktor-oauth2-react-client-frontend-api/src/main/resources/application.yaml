@@ -2,7 +2,7 @@
 app:
   integrations:
     greeting-service:
-      url: "http://localhost:8081/api/greeting"
+      url: "http://localhost:8081/api/greetings"
   security:
     oauth2:
       name: "oauth2"
@@ -23,7 +23,4 @@ ktor:
   # Deployment
   deployment:
     port: 8080
-  # Application
-  application:
-    modules:
-      - com.onlyteo.sandbox.ApplicationKt.module
+    host: 0.0.0.0

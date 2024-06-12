@@ -1,0 +1,22 @@
+### APP ###
+app:
+  id: ktor-kafka-streams-frontend-api
+  kafka:
+    producer:
+      clientId: ktor-kafka-streams-frontend-api-person-producer
+      brokers:
+        - "localhost:9092"
+      targetTopic: persons
+    consumer:
+      clientId: ktor-kafka-streams-frontend-api-greeting-consumer
+      groupId: ktor-kafka-streams-frontend-api-greeting-consumer-group
+      brokers:
+        - "localhost:9092"
+      sourceTopic: greetings
+
+### KTOR ###
+ktor:
+  # Deployment
+  deployment:
+    port: 8080
+    host: 0.0.0.0

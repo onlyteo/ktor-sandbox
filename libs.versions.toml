@@ -1,6 +1,6 @@
 [versions]
 kotlin = "1.9.23"
-ktor = "2.3.10"
+ktor = "2.3.11"
 spring-boot = "3.2.5"
 spring-dependencies = "1.1.4"
 jackson = "2.17.1"
@@ -8,11 +8,23 @@ logback = "1.5.6"
 logstash-logback = "7.4"
 micrometer = "1.12.5"
 hoplite = "2.7.5"
+kafka = "3.7.0"
 webjars-jquery = "3.7.0"
 webjars-bootstrap = "5.3.1"
 webjars-popper = "2.11.7"
 webjars-locator = "0.47"
 webjars-fontawesome = "6.4.2"
+junit = "5.10.2"
+kotest = "5.9.0"
+mockk = "1.13.11"
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+spring-dependencies = { id = "io.spring.dependency-management", version.ref = "spring-dependencies" }
 
 [libraries]
 # Kotlin
@@ -21,17 +33,20 @@ kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit" }
 ktor-server-core = { module = "io.ktor:ktor-server-core" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty" }
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation" }
-ktor-server-tests = { module = "io.ktor:ktor-server-tests" }
 ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml" }
 ktor-server-webjars = { module = "io.ktor:ktor-server-webjars" }
 ktor-server-micrometer = { module = "io.ktor:ktor-server-metrics-micrometer" }
 ktor-server-sessions = { module = "io.ktor:ktor-server-sessions" }
 ktor-server-auth = { module = "io.ktor:ktor-server-auth" }
+ktor-server-websockets = { module = "io.ktor:ktor-server-websockets" }
+ktor-server-tests = { module = "io.ktor:ktor-server-tests" }
+ktor-server-test-host = { module = "io.ktor:ktor-server-test-host" }
 # Ktor client
 ktor-client-core = { module = "io.ktor:ktor-client-core" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation" }
+ktor-client-websockets = { module = "io.ktor:ktor-client-websockets" }
 # Ktor other
 ktor-serialization-jackson = { module = "io.ktor:ktor-serialization-jackson" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json" }
@@ -52,6 +67,10 @@ micrometer-prometheus-registry = { module = "io.micrometer:micrometer-registry-p
 hoplite-yaml = { module = "com.sksamuel.hoplite:hoplite-yaml", version.ref = "hoplite" }
 # H2
 h2-database = { module = "com.h2database:h2" }
+# Kafka
+kafka-clients = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
+kafka-streams = { module = "org.apache.kafka:kafka-streams", version.ref = "kafka" }
+kafka-streams-test-utils = { module = "org.apache.kafka:kafka-streams-test-utils", version.ref = "kafka" }
 # Thymeleaf
 thymeleaf-layout-dialect = { module = "nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect" }
 thymeleaf-extras-spring-security = { module = "org.thymeleaf.extras:thymeleaf-extras-springsecurity6" }
@@ -61,14 +80,16 @@ webjars-bootstrap = { module = "org.webjars:bootstrap", version.ref = "webjars-b
 webjars-popper = { module = "org.webjars:popper.js", version.ref = "webjars-popper" }
 webjars-locator = { module = "org.webjars:webjars-locator", version.ref = "webjars-locator" }
 webjars-fontawesome = { module = "org.webjars:font-awesome", version.ref = "webjars-fontawesome" }
-
-[plugins]
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
-spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
-spring-dependencies = { id = "io.spring.dependency-management", version.ref = "spring-dependencies" }
+# JUnit
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+# Kotest
+kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+# Mockk
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 [bundles]
 ktor-server = [
@@ -95,6 +116,17 @@ ktor-micrometer = [
     "ktor-server-micrometer",
     "micrometer-prometheus-registry"
 ]
+hoplite = [
+    "hoplite-yaml"
+]
+ktor-webjars = [
+    "ktor-server-webjars",
+    "webjars-jquery",
+    "webjars-bootstrap",
+    "webjars-popper",
+    "webjars-locator",
+    "webjars-fontawesome"
+]
 webjars = [
     "webjars-jquery",
     "webjars-bootstrap",
@@ -102,11 +134,25 @@ webjars = [
     "webjars-locator",
     "webjars-fontawesome"
 ]
+kafka = [
+    "kafka-clients",
+    "kafka-streams"
+]
 ktor-authentication = [
     "ktor-server-sessions",
     "ktor-server-auth"
 ]
-ktor-unit-test = [
+ktor-test = [
+    "ktor-server-tests",
+    "ktor-server-test-host"
+]
+junit = [
     "kotlin-test-junit",
-    "ktor-server-tests"
+    "junit-jupiter",
+    "junit-platform-launcher"
+]
+kotest = [
+    "kotest-runner-junit5",
+    "kotest-assertions-core",
+    "kotest-property"
 ]
