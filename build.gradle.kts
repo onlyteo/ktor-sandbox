@@ -30,7 +30,7 @@ subprojects {
             }
         }
 
-        withType<Test> {
+        withType<Test>().configureEach {
             useJUnitPlatform()
         }
     }

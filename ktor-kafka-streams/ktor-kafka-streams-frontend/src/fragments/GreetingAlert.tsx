@@ -10,8 +10,6 @@ export const GreetingAlert: FC<GreetingAlertProps> = (props: GreetingAlertProps)
     const {delayedGreeting} = props;
     const {message, initial, waiting} = delayedGreeting
 
-    console.log("Alert", delayedGreeting);
-
     if (initial && !waiting) {
         return (<></>);
     } else if (!initial && waiting) {

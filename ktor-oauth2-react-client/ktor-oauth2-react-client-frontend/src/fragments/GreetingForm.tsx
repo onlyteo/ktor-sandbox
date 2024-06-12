@@ -47,7 +47,7 @@ export const GreetingForm: FC<GreetingFormProps> = (props: GreetingFormProps): R
         e.preventDefault();
         setFormData(initialFormData)
         greetingDispatch({status: 'LOADING'})
-        POST<void, Person>("/api/greeting", {name: formData.name})
+        POST<void, Person>("/api/greetings", {name: formData.name})
             .then(() => {
                 setDelayedGreeting(waitingDelayedGreeting)
                 greetingDispatch({status: 'SUCCESS'})

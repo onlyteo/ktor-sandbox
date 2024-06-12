@@ -1,8 +1,7 @@
 package com.onlyteo.sandbox.properties
 
+import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerConfig
-import org.apache.kafka.common.serialization.Serdes
-import org.apache.kafka.streams.StreamsConfig
 
 const val APPLICATION_PROPERTIES_FILE = "/application.yaml"
 
@@ -17,37 +16,35 @@ data class ApplicationProperties(
 
 data class KafkaProperties(
     val producer: KafkaProducerProperties,
-    val streams: KafkaStreamsProperties
+    val consumer: KafkaConsumerProperties
 )
 
 data class KafkaProducerProperties(
-    val id: String,
+    val clientId: String,
     val brokers: List<String>,
     val targetTopic: String
 ) {
-    fun asMap(): Map<String, Any> {
+    fun asMap(): Map<String, String> {
         return mapOf(
-            ProducerConfig.CLIENT_ID_CONFIG to id,
+            ProducerConfig.CLIENT_ID_CONFIG to clientId,
             ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to brokers.joinToString(","),
             ProducerConfig.ACKS_CONFIG to "all",
-            ProducerConfig.RETRIES_CONFIG to 0
+            ProducerConfig.RETRIES_CONFIG to "0"
         )
     }
 }
 
-data class KafkaStreamsProperties(
-    val id: String,
+data class KafkaConsumerProperties(
+    val clientId: String,
+    val groupId: String,
     val brokers: List<String>,
-    val sourceTopic: String,
-    val stateStore: String,
-    val processor: String
+    val sourceTopic: String
 ) {
-    fun asMap(): Map<String, Any> {
+    fun asMap(): Map<String, String> {
         return mapOf(
-            StreamsConfig.APPLICATION_ID_CONFIG to id,
-            StreamsConfig.BOOTSTRAP_SERVERS_CONFIG to brokers.joinToString(","),
-            StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG to Serdes.String().javaClass,
-            StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG to Serdes.String().javaClass,
+            ConsumerConfig.CLIENT_ID_CONFIG to clientId,
+            ConsumerConfig.GROUP_ID_CONFIG to groupId,
+            ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to brokers.joinToString(","),
         )
     }
 }

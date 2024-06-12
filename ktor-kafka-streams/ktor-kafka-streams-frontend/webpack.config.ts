@@ -89,7 +89,7 @@ const webpackConfig = (env): {
         historyApiFallback: true,
         proxy: [
             {
-                context: ['/api', '/login', '/logout', '/oauth2', '/error', '/webjars', '/assets'],
+                context: ['/api', '/ws', '/login', '/logout', '/oauth2', '/error', '/webjars', '/assets'],
                 target: 'http://localhost:8080',
                 secure: false
             }

@@ -1,11 +1,37 @@
-import React, {FC, ReactElement, useState} from "react";
+import React, {FC, ReactElement, useEffect, useState} from "react";
 import {Col, Container, Row} from "react-bootstrap";
-import {GreetingAlert} from "../fragments/GreetingAlert";
-import {GreetingForm} from "../fragments/GreetingForm";
-import {initialDelayedGreeting} from "../types";
+import useWebSocket, {ReadyState} from 'react-use-websocket';
+import {GreetingAlert, GreetingForm} from "../fragments";
+import {Greeting, initialDelayedGreeting} from "../types";
 
 export const Home: FC = (): ReactElement => {
-    const [pendingGreeting, setPendingGreeting] = useState(initialDelayedGreeting)
+    const [delayedGreeting, setDelayedGreeting] = useState(initialDelayedGreeting)
+    const {lastJsonMessage, readyState} = useWebSocket<Greeting>("ws://localhost:8080/ws/greetings", {
+        onOpen: (event) => {
+            console.log("WebSocket connection opened", event);
+        },
+        onMessage: (event) => {
+            console.log("WebSocket received message", event);
+        },
+        onError: (event) => {
+            console.log("WebSocket connection error", event);
+        },
+        onClose: (event) => {
+            console.log("WebSocket connection closed", event);
+        },
+        shouldReconnect: () => false,
+    });
+
+    useEffect(() => {
+        console.log("WebSocket connection state", ReadyState[readyState]);
+    }, [readyState]);
+
+    useEffect(() => {
+        console.log("WebSocket message", lastJsonMessage);
+        if (lastJsonMessage) {
+            setDelayedGreeting({...delayedGreeting, message: lastJsonMessage.message})
+        }
+    }, [delayedGreeting, setDelayedGreeting, lastJsonMessage]);
 
     return (
         <Container>
@@ -19,14 +45,14 @@ export const Home: FC = (): ReactElement => {
                 <Row className="mt-5">
                     <Col></Col>
                     <Col xs={5}>
-                        <GreetingForm delayedGreeting={pendingGreeting} setDelayedGreeting={setPendingGreeting}/>
+                        <GreetingForm delayedGreeting={delayedGreeting} setDelayedGreeting={setDelayedGreeting}/>
                     </Col>
                     <Col></Col>
                 </Row>
                 <Row className="mt-4">
                     <Col></Col>
                     <Col xs={5}>
-                        <GreetingAlert delayedGreeting={pendingGreeting}/>
+                        <GreetingAlert delayedGreeting={delayedGreeting}/>
                     </Col>
                     <Col></Col>
                 </Row>

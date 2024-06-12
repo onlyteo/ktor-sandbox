@@ -15,7 +15,7 @@ fun Route.greetingRouting(httpClient: HttpClient) {
     val greetingService = GreetingService(properties.integrations.greetingService, httpClient)
 
     authenticate("spring-authorization-server") {
-        get("/api/greeting") {
+        get("/api/greetings") {
             val name = call.parameters["name"]
             val greeting = greetingService.getGreeting(name)
             call.respond(greeting)

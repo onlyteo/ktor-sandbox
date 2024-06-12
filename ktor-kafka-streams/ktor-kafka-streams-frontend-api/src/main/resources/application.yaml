@@ -3,17 +3,16 @@ app:
   id: ktor-kafka-streams-frontend-api
   kafka:
     producer:
-      id: ktor-kafka-streams-frontend-api-producer
+      clientId: ktor-kafka-streams-frontend-api-person-producer
       brokers:
         - "localhost:9092"
       targetTopic: persons
-    streams:
-      id: ktor-kafka-streams-frontend-api-streams
+    consumer:
+      clientId: ktor-kafka-streams-frontend-api-greeting-consumer
+      groupId: ktor-kafka-streams-frontend-api-greeting-consumer-group
       brokers:
         - "localhost:9092"
       sourceTopic: greetings
-      stateStore: greetings
-      processor: greetingProcessor
 
 ### KTOR ###
 ktor:

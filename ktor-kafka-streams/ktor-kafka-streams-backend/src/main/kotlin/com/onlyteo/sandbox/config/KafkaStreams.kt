@@ -7,6 +7,7 @@ import com.onlyteo.sandbox.model.Person
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.StreamsBuilder
 import org.apache.kafka.streams.Topology
+import org.apache.kafka.streams.errors.StreamsUncaughtExceptionHandler
 import org.apache.kafka.streams.kstream.Consumed
 import org.apache.kafka.streams.kstream.Named
 import org.apache.kafka.streams.kstream.Produced
@@ -23,7 +24,7 @@ import java.time.Duration
 import java.time.Instant
 
 context(ApplicationContext, LoggingContext)
-fun buildStreamsTopology(): Topology = StreamsBuilder().apply {
+fun buildKafkaStreamsTopology(): Topology = StreamsBuilder().apply {
     val properties = properties.kafka.streams
     addStateStore(
         Stores.timestampedKeyValueStoreBuilder(
@@ -34,15 +35,17 @@ fun buildStreamsTopology(): Topology = StreamsBuilder().apply {
     )
 
     stream(properties.sourceTopic, Consumed.with(Serdes.String(), buildJsonSerde<Person>()))
+        .peek { _, person -> logger.info("Received person \"${person.name}\" on Kafka topic \"${properties.sourceTopic}\"") }
         .process(buildPersonProcessorSupplier(), Named.`as`(properties.processor), properties.stateStore)
         .mapValues { person ->
             return@mapValues Greeting("Hello ${person.name}!")
         }
+        .peek { _, greeting -> logger.info("Sending greeting \"${greeting.message}\" to Kafka topic \"${properties.targetTopic}\"") }
         .to(properties.targetTopic, Produced.with(Serdes.String(), buildJsonSerde<Greeting>()))
 }.build()
 
 context(LoggingContext)
-fun buildPersonPunctuator(
+private fun buildPersonPunctuator(
     processorContext: ProcessorContext<String, Person>,
     keyValueStore: TimestampedKeyValueStore<String, Person>
 ) = Punctuator {
@@ -52,7 +55,7 @@ fun buildPersonPunctuator(
             val greetingTime = Instant.ofEpochMilli(value.timestamp())
             if (Instant.now().minusSeconds(60).isAfter(greetingTime)) {
                 val person = value.value()
-                logger.info("Completed delayed processing for ${person.name}")
+                logger.info("Completed delayed processing for \"${person.name}\"")
                 keyValueStore.delete(person.name)
                 processorContext.forward(Record(person.name, person, Instant.now().toEpochMilli()))
             }
@@ -61,10 +64,10 @@ fun buildPersonPunctuator(
 }
 
 context(ApplicationContext, LoggingContext)
-fun buildPersonProcessorSupplier() = ProcessorSupplier { buildPersonProcessor() }
+private fun buildPersonProcessorSupplier() = ProcessorSupplier { buildPersonProcessor() }
 
 context(ApplicationContext, LoggingContext)
-fun buildPersonProcessor() = object : Processor<String, Person, String, Person> {
+private fun buildPersonProcessor() = object : Processor<String, Person, String, Person> {
     private lateinit var processorContext: ProcessorContext<String, Person>
     private lateinit var keyValueStore: TimestampedKeyValueStore<String, Person>
 
@@ -85,12 +88,18 @@ fun buildPersonProcessor() = object : Processor<String, Person, String, Person> 
         val person = record?.value() ?: return
         if (setOf("John", "Julie", "James", "Jenny").contains(person.name)) {
             // Delay greeting for these names by 1 minute
-            logger.info("Delaying processing for ${person.name}")
+            logger.info("Delaying processing for \"${person.name}\"")
             this.keyValueStore.put(person.name, ValueAndTimestamp.make(person, Instant.now().toEpochMilli()))
         } else {
             // Otherwise forward greeting
-            logger.info("Completed processing for ${person.name}")
+            logger.info("Completed processing for \"${person.name}\"")
             this.processorContext.forward(record)
         }
     }
+}
+
+context(LoggingContext)
+fun buildKafkaStreamsExceptionHandler() = StreamsUncaughtExceptionHandler { throwable ->
+    logger.error("Uncaught Kafka Streams exception", throwable)
+    StreamsUncaughtExceptionHandler.StreamThreadExceptionResponse.SHUTDOWN_APPLICATION
 }

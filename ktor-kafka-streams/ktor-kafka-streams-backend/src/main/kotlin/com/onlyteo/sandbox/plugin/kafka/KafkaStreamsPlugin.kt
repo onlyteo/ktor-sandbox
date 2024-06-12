@@ -10,20 +10,25 @@ import io.ktor.util.KtorDsl
 import org.apache.kafka.streams.KafkaStreams
 import org.apache.kafka.streams.StreamsConfig
 import org.apache.kafka.streams.Topology
+import org.apache.kafka.streams.errors.StreamsUncaughtExceptionHandler
 import java.time.Duration
 
 @KtorDsl
 class KafkaStreamsPluginConfig {
     var streamsProperties: Map<String, Any>? = null
     var streamsTopology: Topology? = null
+    var streamsExceptionHandler: StreamsUncaughtExceptionHandler? = null
 }
 
 val KafkaStreamsPlugin: ApplicationPlugin<KafkaStreamsPluginConfig> =
     createApplicationPlugin("KafkaStreams", ::KafkaStreamsPluginConfig) {
         val properties = requireNotNull(pluginConfig.streamsProperties) { "Kafka streams properties must not be null" }
         val topology = requireNotNull(pluginConfig.streamsTopology) { "Kafka streams topology must not be null" }
+        val exceptionHandler =
+            requireNotNull(pluginConfig.streamsExceptionHandler) { "Kafka streams exception handler must not be null" }
 
         val kafkaStreams = KafkaStreams(topology, StreamsConfig(properties))
+        kafkaStreams.setUncaughtExceptionHandler(exceptionHandler)
 
         on(MonitoringEvent(ApplicationStarted)) { application ->
             application.log.info("Starting Kafka Streams")

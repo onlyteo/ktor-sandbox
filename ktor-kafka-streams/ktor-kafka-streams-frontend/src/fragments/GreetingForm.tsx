@@ -27,15 +27,12 @@ export const GreetingForm: FC<GreetingFormProps> = (props: GreetingFormProps): R
     const [formData, setFormData] = useState(initialFormData)
 
     useEffect(() => {
-        console.log("Form", delayedGreeting)
         if (delayedGreeting.waiting && !greetingState.loading) {
-            console.log("Received", greetingState)
-            setDelayedGreeting({...receivedDelayedGreeting, message: "Hello!"})
+            setDelayedGreeting({...receivedDelayedGreeting, message: delayedGreeting.message})
         }
     }, [delayedGreeting, setDelayedGreeting, greetingState]);
 
     const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        console.log("onChange", delayedGreeting);
         if (delayedGreeting.received) {
             setDelayedGreeting(initialDelayedGreeting)
         }
@@ -43,11 +40,10 @@ export const GreetingForm: FC<GreetingFormProps> = (props: GreetingFormProps): R
     }, [delayedGreeting, setDelayedGreeting]);
 
     const onSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
-        console.log("onSubmit", delayedGreeting)
         e.preventDefault();
         setFormData(initialFormData)
         greetingDispatch({status: 'LOADING'})
-        POST<void, Person>("/api/greeting", {name: formData.name})
+        POST<void, Person>("/api/greetings", {name: formData.name})
             .then(() => {
                 setDelayedGreeting(waitingDelayedGreeting)
                 greetingDispatch({status: 'SUCCESS'})
@@ -56,7 +52,7 @@ export const GreetingForm: FC<GreetingFormProps> = (props: GreetingFormProps): R
                 console.log("ERROR", error)
                 greetingDispatch({status: 'FAILED'})
             });
-    }, [delayedGreeting, setDelayedGreeting, greetingDispatch, formData, setFormData]);
+    }, [setDelayedGreeting, greetingDispatch, formData, setFormData]);
 
     return (
         <Form onSubmit={onSubmit}>
