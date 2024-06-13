@@ -1,26 +1,25 @@
 import React, {FC, ReactElement} from "react";
-import {DelayedGreeting} from "../types";
 import {Alert, Spinner} from "react-bootstrap";
+import {Greeting, State} from "../types";
 
 export interface GreetingAlertProps {
-    delayedGreeting: DelayedGreeting
+    greetingState: State<Greeting>
 }
 
 export const GreetingAlert: FC<GreetingAlertProps> = (props: GreetingAlertProps): ReactElement => {
-    const {delayedGreeting} = props;
-    const {message, initial, waiting} = delayedGreeting
+    const {greetingState} = props;
+    const {loading, data: greeting} = greetingState
 
-    console.log("Alert", delayedGreeting);
-
-    if (initial && !waiting) {
+    if (!loading && !greeting) {
         return (<></>);
-    } else if (!initial && waiting) {
+    } else if (loading && !greeting) {
         return (
             <Alert variant="light">
                 <Spinner animation="border"/>
             </Alert>
         );
     } else {
+        const {message} = greeting
         return (
             <Alert variant="light">{message}</Alert>
         );

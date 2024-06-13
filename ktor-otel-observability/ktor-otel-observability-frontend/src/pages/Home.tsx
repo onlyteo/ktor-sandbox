@@ -1,11 +1,24 @@
-import React, {FC, ReactElement, useState} from "react";
+import React, {FC, ReactElement, useCallback, useReducer} from "react";
 import {Col, Container, Row} from "react-bootstrap";
-import {GreetingAlert} from "../fragments/GreetingAlert";
-import {GreetingForm} from "../fragments/GreetingForm";
-import {initialDelayedGreeting} from "../types";
+import {GreetingAlert, GreetingForm} from "../fragments";
+import {greetingReducer, initialGreetingState} from "../state/reducers";
+import {POST} from "../state/client";
+import {Greeting, Person} from "../types";
 
 export const Home: FC = (): ReactElement => {
-    const [pendingGreeting, setPendingGreeting] = useState(initialDelayedGreeting)
+    const [greetingState, greetingDispatch] = useReducer(greetingReducer, initialGreetingState);
+
+    const getGreeting = useCallback((person: Person) => {
+        greetingDispatch({status: 'LOADING'})
+        POST<Greeting, Person>("/api/greetings", person)
+            .then((response) => {
+                greetingDispatch({status: 'SUCCESS', data: response.data})
+            })
+            .catch(error => {
+                console.log("ERROR", error)
+                greetingDispatch({status: 'FAILED'})
+            });
+    }, [greetingDispatch]);
 
     return (
         <Container>
@@ -19,14 +32,14 @@ export const Home: FC = (): ReactElement => {
                 <Row className="mt-5">
                     <Col></Col>
                     <Col xs={5}>
-                        <GreetingForm delayedGreeting={pendingGreeting} setDelayedGreeting={setPendingGreeting}/>
+                        <GreetingForm greetingState={greetingState} getGreeting={getGreeting}/>
                     </Col>
                     <Col></Col>
                 </Row>
                 <Row className="mt-4">
                     <Col></Col>
                     <Col xs={5}>
-                        <GreetingAlert delayedGreeting={pendingGreeting}/>
+                        <GreetingAlert greetingState={greetingState}/>
                     </Col>
                     <Col></Col>
                 </Row>

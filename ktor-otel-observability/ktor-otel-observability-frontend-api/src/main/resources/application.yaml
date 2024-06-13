@@ -1,7 +1,9 @@
 ### APP ###
 app:
-  backend:
-    url: "http://localhost:8081/api/greetings"
+  # Integrations
+  integrations:
+    backend:
+      url: "http://localhost:8081/api/greetings"
 
 ### KTOR ###
 ktor:
