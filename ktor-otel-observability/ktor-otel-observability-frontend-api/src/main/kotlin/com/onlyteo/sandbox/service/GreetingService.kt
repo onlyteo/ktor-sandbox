@@ -1,21 +1,22 @@
 package com.onlyteo.sandbox.service
 
+import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.Greeting
-import com.onlyteo.sandbox.plugin.restClient
+import com.onlyteo.sandbox.model.Person
+import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.request.get
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 
-class GreetingService(private val url: String) {
+class GreetingService(private val client: HttpClient) {
 
-    private val client = restClient
-
-    suspend fun getGreeting(name: String?): Greeting {
-        val response = client.get(url) {
-            if (!name.isNullOrBlank()) {
-                url {
-                    parameters.append("name", name)
-                }
-            }
+    context(ApplicationContext)
+    suspend fun getGreeting(person: Person): Greeting {
+        val response = client.post(properties.integrations.backend.url) {
+            contentType(ContentType.Application.Json)
+            setBody(person)
         }
         return response.call.body()
     }

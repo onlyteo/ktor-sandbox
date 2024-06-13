@@ -6,7 +6,7 @@ import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 
-fun Route.userRouting() {
+fun Route.userRoutes() {
     authenticate("spring-authorization-server") {
         get("/user") {
             call.respondText("Hello World!")

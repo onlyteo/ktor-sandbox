@@ -1,5 +1,4 @@
 plugins {
-    application
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ktor)
@@ -8,11 +7,14 @@ plugins {
 dependencies {
     implementation(libs.bundles.ktor.server)
     implementation(libs.bundles.ktor.serialization)
-    implementation(libs.bundles.webjars)
+    implementation(libs.bundles.ktor.webjars)
     implementation(libs.bundles.logback)
-    testImplementation(libs.bundles.ktor.unit.test)
+    implementation(libs.bundles.hoplite)
+    testImplementation(libs.bundles.ktor.test)
+    testImplementation(libs.bundles.kotest)
+    testImplementation(libs.mockk)
 }
 
 application {
-    mainClass.set("io.ktor.server.netty.EngineMain")
+    mainClass.set("com.onlyteo.sandbox.OtelObservabilityBackendApplicationKt")
 }

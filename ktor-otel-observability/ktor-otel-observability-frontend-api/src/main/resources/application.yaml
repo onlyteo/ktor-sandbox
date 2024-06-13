@@ -1,14 +1,11 @@
 ### APP ###
 app:
-  greeting-service:
-    url: "http://localhost:8081/api/greeting"
+  backend:
+    url: "http://localhost:8081/api/greetings"
 
 ### KTOR ###
 ktor:
   # Deployment
   deployment:
     port: 8080
-  # Application
-  application:
-    modules:
-      - com.onlyteo.sandbox.ApplicationKt.module
+    host: 0.0.0.0

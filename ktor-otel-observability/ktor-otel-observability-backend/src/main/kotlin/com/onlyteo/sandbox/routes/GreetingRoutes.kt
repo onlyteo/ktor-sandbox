@@ -1,14 +1,16 @@
 package com.onlyteo.sandbox.routes
 
-import com.onlyteo.sandbox.model.Greeting
+import com.onlyteo.sandbox.model.Person
+import com.onlyteo.sandbox.model.toGreeting
 import io.ktor.server.application.call
+import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
-import io.ktor.server.routing.get
+import io.ktor.server.routing.post
 
-fun Route.greetingRouting() {
-    get("/api/greeting") {
-        val name = call.parameters["name"] ?: "Nobody"
-        call.respond(Greeting("Hello $name!"))
+fun Route.greetingRoutes() {
+    post("/api/greetings") {
+        val person = call.receive<Person>()
+        call.respond(person.toGreeting())
     }
 }

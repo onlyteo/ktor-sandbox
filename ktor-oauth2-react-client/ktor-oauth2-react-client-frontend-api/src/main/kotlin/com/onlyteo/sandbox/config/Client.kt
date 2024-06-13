@@ -5,7 +5,7 @@ import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.jackson.jackson
 
-fun buildHttpClient() = HttpClient(CIO) {
+fun buildRestClient() = HttpClient(CIO) {
     install(ContentNegotiation) {
         jackson {
             configureJackson()

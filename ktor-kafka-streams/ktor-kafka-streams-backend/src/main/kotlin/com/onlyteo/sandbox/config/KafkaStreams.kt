@@ -4,6 +4,7 @@ import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.context.LoggingContext
 import com.onlyteo.sandbox.model.Greeting
 import com.onlyteo.sandbox.model.Person
+import com.onlyteo.sandbox.model.toGreeting
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.StreamsBuilder
 import org.apache.kafka.streams.Topology
@@ -37,9 +38,7 @@ fun buildKafkaStreamsTopology(): Topology = StreamsBuilder().apply {
     stream(properties.sourceTopic, Consumed.with(Serdes.String(), buildJsonSerde<Person>()))
         .peek { _, person -> logger.info("Received person \"${person.name}\" on Kafka topic \"${properties.sourceTopic}\"") }
         .process(buildPersonProcessorSupplier(), Named.`as`(properties.processor), properties.stateStore)
-        .mapValues { person ->
-            return@mapValues Greeting("Hello ${person.name}!")
-        }
+        .mapValues { person -> person.toGreeting() }
         .peek { _, greeting -> logger.info("Sending greeting \"${greeting.message}\" to Kafka topic \"${properties.targetTopic}\"") }
         .to(properties.targetTopic, Produced.with(Serdes.String(), buildJsonSerde<Greeting>()))
 }.build()

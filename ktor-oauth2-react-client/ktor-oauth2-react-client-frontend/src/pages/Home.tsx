@@ -13,7 +13,7 @@ export const Home: FC = (): ReactElement => {
                 <Row>
                     <Col>
                         <h2 className="emphasized-text">Welcome to this Ktor example!</h2>
-                        <p>This example shows a Kafka Streams event driven architecture</p>
+                        <p>This example shows applications protected by OAuth2 Client login</p>
                     </Col>
                 </Row>
                 <Row className="mt-5">

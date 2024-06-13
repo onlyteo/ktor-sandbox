@@ -9,7 +9,7 @@ data class ApplicationProperties(
     val security: SecurityProperties
 )
 
-data class IntegrationsProperties(val greetingService: IntegrationProperties)
+data class IntegrationsProperties(val backend: IntegrationProperties)
 
 data class IntegrationProperties(val url: String)
 

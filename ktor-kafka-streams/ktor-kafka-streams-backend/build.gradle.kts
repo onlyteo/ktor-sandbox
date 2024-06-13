@@ -7,13 +7,13 @@ plugins {
 dependencies {
     implementation(libs.bundles.ktor.server)
     implementation(libs.bundles.ktor.serialization)
+    implementation(libs.bundles.ktor.webjars)
     implementation(libs.bundles.logback)
     implementation(libs.bundles.hoplite)
-    implementation(libs.bundles.ktor.webjars)
     implementation(libs.bundles.kafka)
     testImplementation(libs.bundles.ktor.test)
-    testImplementation(platform(libs.junit.bom))
-    testImplementation(libs.bundles.junit)
+    testImplementation(libs.bundles.kotest)
+    testImplementation(libs.mockk)
 }
 
 application {
