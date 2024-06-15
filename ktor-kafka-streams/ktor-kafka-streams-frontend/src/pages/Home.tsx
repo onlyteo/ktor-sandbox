@@ -1,10 +1,13 @@
-import React, {FC, ReactElement, useEffect, useState} from "react";
+import React, {FC, ReactElement, useCallback, useEffect, useReducer, useState} from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import useWebSocket, {ReadyState} from 'react-use-websocket';
 import {GreetingAlert, GreetingForm} from "../fragments";
-import {Greeting, initialDelayedGreeting} from "../types";
+import {Greeting, initialDelayedGreeting, Person} from "../types";
+import {POST} from "../state/client";
+import {greetingReducer, initialGreetingState} from "../state/reducers";
 
 export const Home: FC = (): ReactElement => {
+    const [greetingState, greetingDispatch] = useReducer(greetingReducer, initialGreetingState);
     const [delayedGreeting, setDelayedGreeting] = useState(initialDelayedGreeting)
     const {lastJsonMessage, readyState} = useWebSocket<Greeting>("ws://localhost:8080/ws/greetings", {
         onOpen: (event) => {
@@ -33,6 +36,18 @@ export const Home: FC = (): ReactElement => {
         }
     }, [delayedGreeting, setDelayedGreeting, lastJsonMessage]);
 
+    const getGreeting = useCallback((person: Person) => {
+        greetingDispatch({status: 'LOADING'})
+        POST<Greeting, Person>("/api/greetings", person)
+            .then((response) => {
+                greetingDispatch({status: 'SUCCESS', data: response.data})
+            })
+            .catch(error => {
+                console.log("ERROR", error)
+                greetingDispatch({status: 'FAILED'})
+            });
+    }, [greetingDispatch]);
+
     return (
         <Container>
             <div className="description-box px-3 py-5 rounded-3">
@@ -45,7 +60,9 @@ export const Home: FC = (): ReactElement => {
                 <Row className="mt-5">
                     <Col></Col>
                     <Col xs={5}>
-                        <GreetingForm delayedGreeting={delayedGreeting} setDelayedGreeting={setDelayedGreeting}/>
+                        <GreetingForm delayedGreeting={delayedGreeting}
+                                      setDelayedGreeting={setDelayedGreeting}
+                                      getGreeting={getGreeting}/>
                     </Col>
                     <Col></Col>
                 </Row>

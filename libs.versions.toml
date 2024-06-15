@@ -17,6 +17,8 @@ webjars-fontawesome = "6.4.2"
 junit = "5.10.2"
 kotest = "5.9.0"
 mockk = "1.13.11"
+google-cloud-jib = "3.4.3"
+git-properties = "2.4.2"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -25,6 +27,8 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependencies = { id = "io.spring.dependency-management", version.ref = "spring-dependencies" }
+google-cloud-jib = { id = "com.google.cloud.tools.jib", version.ref = "google-cloud-jib" }
+git-properties = { id = "com.gorylenko.gradle-git-properties", version.ref = "git-properties" }
 
 [libraries]
 # Kotlin

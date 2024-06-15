@@ -1,13 +1,6 @@
 import React, {ChangeEvent, FC, FormEvent, ReactElement, useCallback, useState} from "react";
-import {Greeting, Person, State,} from "../types";
+import {Greeting, initialFormData, Person, State,} from "../types";
 import {Button, Form} from "react-bootstrap";
-
-interface FormData {
-    name: string,
-    enableSubmit: boolean
-}
-
-const initialFormData: FormData = {name: "", enableSubmit: false}
 
 export interface GreetingFormProps {
     greetingState: State<Greeting>,
@@ -38,8 +31,7 @@ export const GreetingForm: FC<GreetingFormProps> = (props: GreetingFormProps): R
                               onChange={onChange}/>
             </Form.Group>
             <div className="mt-3 d-grid d-flex justify-content-end">
-                <Button type="submit" variant="primary"
-                        disabled={!formData.enableSubmit}>Submit</Button>
+                <Button type="submit" variant="primary" disabled={!formData.enableSubmit}>Submit</Button>
             </div>
         </Form>
     );

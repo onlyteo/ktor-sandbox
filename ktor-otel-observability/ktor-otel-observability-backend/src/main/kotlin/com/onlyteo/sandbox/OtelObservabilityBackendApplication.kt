@@ -1,18 +1,22 @@
 package com.onlyteo.sandbox
 
 import com.onlyteo.sandbox.config.loadProperties
+import com.onlyteo.sandbox.context.LoggingContext
+import com.onlyteo.sandbox.plugin.configureMetrics
 import com.onlyteo.sandbox.plugin.configureRouting
 import com.onlyteo.sandbox.plugin.configureSerialization
 import com.onlyteo.sandbox.plugin.configureWebjars
-import com.onlyteo.sandbox.properties.KTOR_PROPERTIES_FILE
 import com.onlyteo.sandbox.properties.KtorPropertiesHolder
+import com.onlyteo.sandbox.service.GreetingService
 import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
+import io.micrometer.prometheus.PrometheusConfig
+import io.micrometer.prometheus.PrometheusMeterRegistry
 
 fun main() {
-    val propertiesHolder = loadProperties<KtorPropertiesHolder>(KTOR_PROPERTIES_FILE)
+    val ktorProperties = loadProperties<KtorPropertiesHolder>().ktor
 
-    with(propertiesHolder.ktor.deployment) {
+    with(ktorProperties.deployment) {
         embeddedServer(
             io.ktor.server.netty.Netty,
             port = port,
@@ -23,7 +27,13 @@ fun main() {
 }
 
 fun Application.module() {
-    configureSerialization()
-    configureWebjars()
-    configureRouting()
+    with(LoggingContext()) {
+        val prometheusMeterRegistry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
+        val greetingService = GreetingService()
+
+        configureSerialization()
+        configureWebjars()
+        configureMetrics(prometheusMeterRegistry)
+        configureRouting(prometheusMeterRegistry, greetingService)
+    }
 }

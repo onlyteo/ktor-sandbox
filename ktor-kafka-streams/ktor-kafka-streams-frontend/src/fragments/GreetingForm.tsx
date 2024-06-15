@@ -1,58 +1,27 @@
-import React, {ChangeEvent, FC, FormEvent, ReactElement, useCallback, useEffect, useReducer, useState} from "react";
-import {
-    DelayedGreeting,
-    initialDelayedGreeting,
-    Person,
-    receivedDelayedGreeting,
-    waitingDelayedGreeting
-} from "../types";
+import React, {ChangeEvent, FC, FormEvent, ReactElement, useCallback, useState} from "react";
+import {DelayedGreeting, initialFormData, Person} from "../types";
 import {Button, Form} from "react-bootstrap";
-import {POST} from "../state/client";
-import {greetingReducer, initialGreetingState} from "../state/reducers";
-
-interface FormData {
-    name: string
-}
-
-const initialFormData: FormData = {name: ""}
 
 export interface GreetingFormProps {
     delayedGreeting: DelayedGreeting,
-    setDelayedGreeting: React.Dispatch<React.SetStateAction<DelayedGreeting>>
+    getGreeting: (person: Person) => void
 }
 
 export const GreetingForm: FC<GreetingFormProps> = (props: GreetingFormProps): ReactElement => {
-    const {delayedGreeting, setDelayedGreeting} = props;
-    const [greetingState, greetingDispatch] = useReducer(greetingReducer, initialGreetingState);
+    const {delayedGreeting, getGreeting} = props;
     const [formData, setFormData] = useState(initialFormData)
 
-    useEffect(() => {
-        if (delayedGreeting.waiting && !greetingState.loading) {
-            setDelayedGreeting({...receivedDelayedGreeting, message: delayedGreeting.message})
-        }
-    }, [delayedGreeting, setDelayedGreeting, greetingState]);
-
     const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        if (delayedGreeting.received) {
-            setDelayedGreeting(initialDelayedGreeting)
-        }
-        setFormData({name: e.target.value});
-    }, [delayedGreeting, setDelayedGreeting]);
+        const {value: name} = e.target
+        const enableSubmit = !delayedGreeting.waiting && name.trim().length > 0
+        setFormData({name, enableSubmit});
+    }, [delayedGreeting]);
 
     const onSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        getGreeting({name: formData.name})
         setFormData(initialFormData)
-        greetingDispatch({status: 'LOADING'})
-        POST<void, Person>("/api/greetings", {name: formData.name})
-            .then(() => {
-                setDelayedGreeting(waitingDelayedGreeting)
-                greetingDispatch({status: 'SUCCESS'})
-            })
-            .catch(error => {
-                console.log("ERROR", error)
-                greetingDispatch({status: 'FAILED'})
-            });
-    }, [setDelayedGreeting, greetingDispatch, formData, setFormData]);
+    }, [formData, setFormData]);
 
     return (
         <Form onSubmit={onSubmit}>
@@ -62,8 +31,7 @@ export const GreetingForm: FC<GreetingFormProps> = (props: GreetingFormProps): R
                               onChange={onChange}/>
             </Form.Group>
             <div className="mt-3 d-grid d-flex justify-content-end">
-                <Button type="submit" variant="primary"
-                        disabled={delayedGreeting.waiting || formData.name.trim().length < 1}>Submit</Button>
+                <Button type="submit" variant="primary" disabled={!formData.enableSubmit}>Submit</Button>
             </div>
         </Form>
     );

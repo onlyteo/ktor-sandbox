@@ -22,6 +22,11 @@
     "react-hooks",
     "@typescript-eslint"
   ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "rules": {
     //add customize rules here as per your project's needs
   }

@@ -9,7 +9,7 @@ class GreetingService {
 
     context(LoggingContext)
     fun getGreeting(person: Person): Greeting {
-        logger.info("Returning greeting to {}", person.name)
+        logger.info("Returning greeting to \"{}\"", person.name)
         return person.toGreeting()
     }
 }

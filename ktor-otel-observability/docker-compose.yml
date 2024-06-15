@@ -1,0 +1,37 @@
+### SERVICES ###
+services:
+  # Frontend
+  sandbox.ktor-otel-observability-frontend:
+    image: sandbox.ktor-otel-observability-frontend:latest
+    container_name: sandbox.ktor-otel-observability-frontend
+    ports:
+      - "3000:80"
+    networks:
+      - sandbox.apps
+      - sandbox.grafana
+  # Frontend API
+  sandbox.ktor-otel-observability-frontend-api:
+    image: sandbox.ktor-otel-observability-frontend-api:latest
+    container_name: sandbox.ktor-otel-observability-frontend-api
+    ports:
+      - "8080:8080"
+    networks:
+      - sandbox.apps
+      - sandbox.grafana
+  # Backend
+  sandbox.ktor-otel-observability-backend:
+    image: sandbox.ktor-otel-observability-backend:latest
+    container_name: sandbox.ktor-otel-observability-backend
+    ports:
+      - "8081:8080"
+    networks:
+      - sandbox.apps
+      - sandbox.grafana
+
+### NETWORKS ###
+networks:
+  sandbox.apps:
+    name: sandbox.apps
+  sandbox.grafana:
+    name: sandbox.grafana
+    external: true

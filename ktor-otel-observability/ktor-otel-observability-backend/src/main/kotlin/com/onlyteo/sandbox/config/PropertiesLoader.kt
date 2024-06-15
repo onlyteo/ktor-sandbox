@@ -2,10 +2,20 @@ package com.onlyteo.sandbox.config
 
 import com.sksamuel.hoplite.ConfigLoaderBuilder
 import com.sksamuel.hoplite.addResourceSource
+import com.sksamuel.hoplite.env.Environment
 
-inline fun <reified T : Any> loadProperties(file: String): T {
+fun currentEnvironment(): Environment {
+    val developmentFlag = System.getProperty("io.ktor.development")
+    if (developmentFlag == "true") {
+        return Environment.development
+    }
+    return Environment.fromEnvVar("KTOR_ENV", Environment.development)
+}
+
+inline fun <reified T : Any> loadProperties(): T {
+    val environment = currentEnvironment()
     return ConfigLoaderBuilder.default()
-        .addResourceSource("/${file.removePrefix("/")}")
+        .addResourceSource("/application-${environment.name}.yaml")
         .build()
         .loadConfigOrThrow<T>()
 }

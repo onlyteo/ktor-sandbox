@@ -17,5 +17,5 @@ dependencies {
 }
 
 application {
-    mainClass.set("com.onlyteo.sandbox.KafkaStreamsBackendApplicationKt")
+    mainClass = "com.onlyteo.sandbox.KafkaStreamsBackendApplicationKt"
 }

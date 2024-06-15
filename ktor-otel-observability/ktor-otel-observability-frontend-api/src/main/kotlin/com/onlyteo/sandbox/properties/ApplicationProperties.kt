@@ -1,7 +1,5 @@
 package com.onlyteo.sandbox.properties
 
-const val APPLICATION_PROPERTIES_FILE = "/application.yaml"
-
 data class ApplicationPropertiesHolder(
     val app: ApplicationProperties
 )
@@ -10,6 +8,10 @@ data class ApplicationProperties(
     val integrations: IntegrationsProperties,
 )
 
-data class IntegrationsProperties(val backend: IntegrationProperties)
+data class IntegrationsProperties(
+    val backend: IntegrationProperties
+)
 
-data class IntegrationProperties(val url: String)
+data class IntegrationProperties(
+    val url: String
+)

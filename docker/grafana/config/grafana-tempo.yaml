@@ -12,18 +12,18 @@ query_frontend:
 
 distributor:
   receivers:                           # this configuration will listen on all ports and protocols that tempo is capable of.
-    jaeger:                            # the receives all come from the OpenTelemetry collector.  more configuration information can
-      protocols:                       # be found there: https://github.com/open-telemetry/opentelemetry-collector/tree/main/receiver
-        thrift_http:                   #
-        grpc:                          # for a production deployment you should only enable the receivers you need!
-        thrift_binary:
-        thrift_compact:
-    zipkin:
+    #jaeger:                            # the receives all come from the OpenTelemetry collector.  more configuration information can
+    #  protocols:                       # be found there: https://github.com/open-telemetry/opentelemetry-collector/tree/main/receiver
+    #    thrift_http:                   #
+    #    grpc:                          # for a production deployment you should only enable the receivers you need!
+    #    thrift_binary:
+    #    thrift_compact:
+    #zipkin:
     otlp:
       protocols:
         http:
         grpc:
-    opencensus:
+    #opencensus:
 
 ingester:
   max_block_duration: 5m               # cut the headblock when this much time passes. this is being set for demo purposes and should probably be left alone normally
@@ -40,7 +40,7 @@ metrics_generator:
   storage:
     path: /var/tempo/generator/wal
     remote_write:
-      - url: http://sandbox.prometheus:9090/api/v1/write
+      - url: "http://sandbox.prometheus:9090/api/v1/write"
         send_exemplars: true
   traces_storage:
     path: /var/tempo/generator/traces
@@ -49,7 +49,7 @@ storage:
   trace:
     backend: local                     # backend configuration to use
     wal:
-      path: /var/tempo/wal             # where to store the the wal locally
+      path: /var/tempo/wal             # where to store the wal locally
     local:
       path: /var/tempo/blocks
 

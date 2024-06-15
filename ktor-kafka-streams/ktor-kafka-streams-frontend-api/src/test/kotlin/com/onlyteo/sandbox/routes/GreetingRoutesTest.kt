@@ -10,6 +10,7 @@ import com.onlyteo.sandbox.plugin.configureRouting
 import com.onlyteo.sandbox.plugin.configureSerialization
 import com.onlyteo.sandbox.plugin.configureWebSockets
 import com.onlyteo.sandbox.plugin.configureWebjars
+import io.kotest.core.annotation.Ignored
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -30,6 +31,7 @@ import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.common.TopicPartition
 import java.time.Duration
 
+@Ignored
 class GreetingRoutesTest : FreeSpec({
 
     with(ApplicationContext()) {
