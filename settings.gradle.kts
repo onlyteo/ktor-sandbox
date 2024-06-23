@@ -22,15 +22,15 @@ dependencyResolutionManagement {
 
 rootProject.name = "ktor-sandbox"
 
-include(":ktor-oauth2-react-client:ktor-oauth2-react-client-frontend")
-include(":ktor-oauth2-react-client:ktor-oauth2-react-client-frontend-api")
-include(":ktor-oauth2-react-client:ktor-oauth2-react-client-backend")
-include(":ktor-oauth2-react-client:ktor-oauth2-react-client-authorization-server")
+include(":ktor-oauth2-react-client:frontend")
+include(":ktor-oauth2-react-client:frontend-api")
+include(":ktor-oauth2-react-client:backend")
+include(":ktor-oauth2-react-client:authorization-server")
 
-include(":ktor-kafka-streams:ktor-kafka-streams-frontend")
-include(":ktor-kafka-streams:ktor-kafka-streams-frontend-api")
-include(":ktor-kafka-streams:ktor-kafka-streams-backend")
+include(":ktor-kafka-cqrs:frontend")
+include(":ktor-kafka-cqrs:frontend-api")
+include(":ktor-kafka-cqrs:backend")
 
-include(":ktor-otel-observability:ktor-otel-observability-frontend")
-include(":ktor-otel-observability:ktor-otel-observability-frontend-api")
-include(":ktor-otel-observability:ktor-otel-observability-backend")
+include(":ktor-otel-observability:frontend")
+include(":ktor-otel-observability:frontend-api")
+include(":ktor-otel-observability:backend")
