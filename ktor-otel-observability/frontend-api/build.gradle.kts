@@ -3,6 +3,8 @@ import java.time.Instant
 val jvmMajorVersion: String by project
 val jvmVersion = JavaVersion.toVersion(jvmMajorVersion)
 val agents by configurations.creating
+val opentelemetryJavaAgent =
+    "${libs.opentelemetry.java.agent.get().name}-${libs.opentelemetry.java.agent.get().version}.jar"
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
@@ -23,6 +25,7 @@ dependencies {
     testImplementation(libs.bundles.ktor.test)
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.mockk)
+
     agents(libs.opentelemetry.java.agent)
 }
 
@@ -49,8 +52,14 @@ tasks.register<Copy>("copyAgents") {
     into("${layout.buildDirectory.get()}/agents")
 }
 
-tasks.named("assemble") {
-    finalizedBy("copyAgents")
+tasks.jib.configure {
+    dependsOn("copyAgents")
+}
+tasks.jibDockerBuild.configure {
+    dependsOn("copyAgents")
+}
+tasks.jibBuildTar.configure {
+    dependsOn("copyAgents")
 }
 
 jib {
@@ -58,23 +67,15 @@ jib {
         image = "eclipse-temurin:${jvmVersion}-jre-alpine"
     }
     to {
-        image = "sandbox.${project.name}:latest"
+        image = "sandbox.ktor-otel-observability-${project.name}:latest"
     }
     container {
+        appRoot = "/app" // Define app root dir to be able to use it later on
         mainClass = application.mainClass.get()
         jvmFlags = listOf(
             "-Xms256m",
             "-Xmx512m",
-            "-javaagent:/app/agents/opentelemetry-javaagent-${libs.versions.opentelemetry.instrumentation}.jar"
-        )
-        environment = mapOf(
-            "KTOR_ENV" to "production",
-            "OTEL_EXPORTER_OTLP_ENDPOINT" to "http://sandbox.otel-collector:4317",
-            "OTEL_EXPORTER_OTLP_PROTOCOL" to "grpc",
-            "OTEL_EXPORTER_OTLP_INSECURE" to "true",
-            "OTEL_METRICS_EXPORTER" to "none",
-            "OTEL_LOGS_EXPORTER" to "none",
-            "OTEL_SERVICE_NAME" to "sandbox.${project.name}"
+            "-javaagent:${jib.container.appRoot}/agents/${opentelemetryJavaAgent}"
         )
         ports = listOf("8080")
         creationTime.set(Instant.now().toString())

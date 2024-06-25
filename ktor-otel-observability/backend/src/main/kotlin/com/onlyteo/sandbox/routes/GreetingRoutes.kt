@@ -8,11 +8,8 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
 import io.opentelemetry.api.trace.Span
-import io.opentelemetry.instrumentation.annotations.WithSpan
 
-@WithSpan("greeting.route")
 fun Route.greetingRoutes(greetingService: GreetingService) {
-
     post("/api/greetings") {
         val person = call.receive<Person>()
         Span.current().setAttribute("person.name", person.name)

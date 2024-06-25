@@ -13,6 +13,8 @@ services:
       - "3030:3000"
     volumes:
       - ./config/grafana-datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - ./config/grafana-dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml
+      - ./config/dashboards:/usr/share/grafana/dashboards
       - sandbox.grafana-data:/var/lib/grafana
       - sandbox.grafana-logs:/var/log/grafana
     networks:

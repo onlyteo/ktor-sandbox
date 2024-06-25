@@ -13,6 +13,15 @@ services:
   sandbox.ktor-otel-observability-frontend-api:
     image: sandbox.ktor-otel-observability-frontend-api:latest
     container_name: sandbox.ktor-otel-observability-frontend-api
+    environment:
+      - KTOR_ENV=production
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://sandbox.otel-collector:4317
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+      - OTEL_METRICS_EXPORTER=none
+      - OTEL_LOGS_EXPORTER=none
+      - OTEL_SERVICE_NAME=sandbox.ktor-otel-observability-frontend-api
     ports:
       - "8080:8080"
     networks:
@@ -22,6 +31,15 @@ services:
   sandbox.ktor-otel-observability-backend:
     image: sandbox.ktor-otel-observability-backend:latest
     container_name: sandbox.ktor-otel-observability-backend
+    environment:
+      - KTOR_ENV=production
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://sandbox.otel-collector:4317
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+      - OTEL_METRICS_EXPORTER=none
+      - OTEL_LOGS_EXPORTER=none
+      - OTEL_SERVICE_NAME=sandbox.ktor-otel-observability-backend
     ports:
       - "8081:8080"
     networks:

@@ -12,17 +12,17 @@ exporters:
       insecure: true
   debug:
     verbosity: detailed
-processors:
-  filter:
-    error_mode: ignore
-    traces:
-      span:
-        - IsMatch(attributes["url.path"], "/metrics")
+#processors:
+#  filter:
+#    error_mode: ignore
+#    traces:
+#      span:
+#        - IsMatch(attributes["url.path"], "/metrics")
 service:
   pipelines:
     traces:
       receivers: [ otlp ]
-      processors: [ filter ]
+#      processors: [ filter ]
       exporters: [ otlp ]
   #  metrics:
   #    receivers: [otlp]
