@@ -7,6 +7,9 @@ jackson = "2.17.1"
 logback = "1.5.6"
 logstash-logback = "7.4"
 micrometer = "1.12.5"
+opentelemetry = "1.39.0"
+opentelemetry-instrumentation = "2.4.0"
+opentelemetry-instrumentation-ktor = "2.4.0-alpha"
 hoplite = "2.7.5"
 kafka = "3.7.0"
 webjars-jquery = "3.7.0"
@@ -17,6 +20,8 @@ webjars-fontawesome = "6.4.2"
 junit = "5.10.2"
 kotest = "5.9.0"
 mockk = "1.13.11"
+google-cloud-jib = "3.4.3"
+git-properties = "2.4.2"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -25,6 +30,8 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependencies = { id = "io.spring.dependency-management", version.ref = "spring-dependencies" }
+google-cloud-jib = { id = "com.google.cloud.tools.jib", version.ref = "google-cloud-jib" }
+git-properties = { id = "com.gorylenko.gradle-git-properties", version.ref = "git-properties" }
 
 [libraries]
 # Kotlin
@@ -33,9 +40,12 @@ kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit" }
 ktor-server-core = { module = "io.ktor:ktor-server-core" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty" }
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation" }
+ktor-server-request-validation = { module = "io.ktor:ktor-server-request-validation" }
+ktor-server-status-pages = { module = "io.ktor:ktor-server-status-pages" }
 ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml" }
 ktor-server-webjars = { module = "io.ktor:ktor-server-webjars" }
 ktor-server-micrometer = { module = "io.ktor:ktor-server-metrics-micrometer" }
+ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging" }
 ktor-server-sessions = { module = "io.ktor:ktor-server-sessions" }
 ktor-server-auth = { module = "io.ktor:ktor-server-auth" }
 ktor-server-websockets = { module = "io.ktor:ktor-server-websockets" }
@@ -53,6 +63,7 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 # Spring Boot
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-boot-starter-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-thymeleaf = { module = "org.springframework.boot:spring-boot-starter-thymeleaf" }
 # Spring Security
 spring-security-oauth2-authorization-server = { module = "org.springframework.security:spring-security-oauth2-authorization-server" }
@@ -63,6 +74,11 @@ logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "lo
 logstash-logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash-logback" }
 # Micrometer
 micrometer-prometheus-registry = { module = "io.micrometer:micrometer-registry-prometheus", version.ref = "micrometer" }
+# OpenTelemetry
+opentelemetry-kotlin = { module = "io.opentelemetry:opentelemetry-extension-kotlin", version.ref = "opentelemetry" }
+opentelemetry-instrumentation-ktor = { module = "io.opentelemetry.instrumentation:opentelemetry-ktor-2.0", version.ref = "opentelemetry-instrumentation-ktor" }
+opentelemetry-instrumentation-annotations = { module = "io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations", version.ref = "opentelemetry-instrumentation" }
+opentelemetry-java-agent = { module = "io.opentelemetry.javaagent:opentelemetry-javaagent", version.ref = "opentelemetry-instrumentation" }
 # Hoplite
 hoplite-yaml = { module = "com.sksamuel.hoplite:hoplite-yaml", version.ref = "hoplite" }
 # H2
@@ -96,7 +112,9 @@ ktor-server = [
     "ktor-server-core",
     "ktor-server-netty",
     "ktor-server-config-yaml",
-    "ktor-server-content-negotiation"
+    "ktor-server-content-negotiation",
+    "ktor-server-request-validation",
+    "ktor-server-status-pages"
 ]
 ktor-client = [
     "ktor-client-core",
@@ -108,6 +126,11 @@ ktor-serialization = [
     "ktor-serialization-jackson",
     "jackson-datatype-jsr310"
 ]
+ktor-logging = [
+    "ktor-server-call-logging",
+    "logback-classic",
+    "logstash-logback-encoder"
+]
 logback = [
     "logback-classic",
     "logstash-logback-encoder"
@@ -115,6 +138,10 @@ logback = [
 ktor-micrometer = [
     "ktor-server-micrometer",
     "micrometer-prometheus-registry"
+]
+ktor-opentelemetry = [
+    "opentelemetry-kotlin",
+    "opentelemetry-instrumentation-annotations",
 ]
 hoplite = [
     "hoplite-yaml"
