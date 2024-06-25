@@ -3,7 +3,6 @@ package com.onlyteo.sandbox.routes
 import com.onlyteo.sandbox.config.buildObjectMapper
 import com.onlyteo.sandbox.config.configureJackson
 import com.onlyteo.sandbox.context.ApplicationContext
-import com.onlyteo.sandbox.context.LoggingContext
 import com.onlyteo.sandbox.model.Greeting
 import com.onlyteo.sandbox.model.Person
 import com.onlyteo.sandbox.plugin.configureRouting
@@ -35,52 +34,50 @@ import java.time.Duration
 class GreetingRoutesTest : FreeSpec({
 
     with(ApplicationContext()) {
-        with(LoggingContext()) {
-            with(TestContext()) {
+        with(TestContext()) {
 
-                "Test suite for WebSockets" - {
-                    val personKafkaProducerMock = mockk<KafkaProducer<String, Person>>()
-                    val greetingKafkaConsumerMock = mockk<KafkaConsumer<String, Greeting>>()
+            "Test suite for WebSockets" - {
+                val personKafkaProducerMock = mockk<KafkaProducer<String, Person>>()
+                val greetingKafkaConsumerMock = mockk<KafkaConsumer<String, Greeting>>()
 
-                    testApplication {
-                        application {
-                            configureSerialization()
-                            configureWebjars()
-                            configureWebSockets()
-                            configureRouting(personKafkaProducerMock, greetingKafkaConsumerMock)
+                testApplication {
+                    application {
+                        configureSerialization()
+                        configureWebjars()
+                        configureWebSockets()
+                        configureRouting(personKafkaProducerMock, greetingKafkaConsumerMock)
+                    }
+
+                    val webSocketClient = createClient {
+                        install(ContentNegotiation) {
+                            jackson {
+                                configureJackson()
+                            }
                         }
+                        install(WebSockets) {
+                            contentConverter = JacksonWebsocketContentConverter(buildObjectMapper)
+                        }
+                    }
 
-                        val webSocketClient = createClient {
-                            install(ContentNegotiation) {
-                                jackson {
-                                    configureJackson()
+                    "Should send message to WebSocket" {
+                        val record = ConsumerRecord("greetings", 1, 1, "John", Greeting("Hello John!"))
+                        val records = listOf(record)
+                        val recordsPerPartition = mapOf(TopicPartition("greetings", 1) to records)
+                        val consumerRecords = ConsumerRecords(recordsPerPartition)
+                        every { greetingKafkaConsumerMock.poll(any<Duration>()) } returns consumerRecords
+
+                        val frames = emptyList<Frame>()
+
+                        runBlocking {
+                            webSocketClient.webSocket("/ws/greetings") {
+                                incoming.consumeEach {
+                                    frames + it
                                 }
                             }
-                            install(WebSockets) {
-                                contentConverter = JacksonWebsocketContentConverter(buildObjectMapper)
-                            }
                         }
 
-                        "Should send message to WebSocket" {
-                            val record = ConsumerRecord("greetings", 1, 1, "John", Greeting("Hello John!"))
-                            val records = listOf(record)
-                            val recordsPerPartition = mapOf(TopicPartition("greetings", 1) to records)
-                            val consumerRecords = ConsumerRecords(recordsPerPartition)
-                            every { greetingKafkaConsumerMock.poll(any<Duration>()) } returns consumerRecords
-
-                            val frames = emptyList<Frame>()
-
-                            runBlocking {
-                                webSocketClient.webSocket("/ws/greetings") {
-                                    incoming.consumeEach {
-                                        frames + it
-                                    }
-                                }
-                            }
-
-                            frames.isEmpty() shouldBe false
-                            frames.size shouldBe 1
-                        }
+                        frames.isEmpty() shouldBe false
+                        frames.size shouldBe 1
                     }
                 }
             }

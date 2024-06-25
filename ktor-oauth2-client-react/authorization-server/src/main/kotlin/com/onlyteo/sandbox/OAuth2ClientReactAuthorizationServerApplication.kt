@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class KtorOAuth2ReactClientAuthorizationServerApplication
+class OAuth2ClientReactAuthorizationServerApplication
 
 fun main(args: Array<String>) {
-    runApplication<KtorOAuth2ReactClientAuthorizationServerApplication>(*args)
+    runApplication<OAuth2ClientReactAuthorizationServerApplication>(*args)
 }

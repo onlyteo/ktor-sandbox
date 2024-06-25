@@ -4,7 +4,6 @@ import com.onlyteo.sandbox.config.buildRequestCache
 import com.onlyteo.sandbox.config.buildRestClient
 import com.onlyteo.sandbox.config.loadProperties
 import com.onlyteo.sandbox.context.ApplicationContext
-import com.onlyteo.sandbox.context.LoggingContext
 import com.onlyteo.sandbox.plugin.configAuthentication
 import com.onlyteo.sandbox.plugin.configureRouting
 import com.onlyteo.sandbox.plugin.configureSerialization
@@ -31,14 +30,12 @@ fun main() {
 
 fun Application.module() {
     with(ApplicationContext()) {
-        with(LoggingContext()) {
-            val httpClient = buildRestClient()
-            val requestCache = buildRequestCache()
-            val greetingService = GreetingService()
-            configureSerialization()
-            configAuthentication(httpClient, requestCache)
-            configureRouting(requestCache, greetingService)
-            configureWebjars()
-        }
+        val httpClient = buildRestClient()
+        val requestCache = buildRequestCache()
+        val greetingService = GreetingService()
+        configureSerialization()
+        configAuthentication(httpClient, requestCache)
+        configureRouting(requestCache, greetingService)
+        configureWebjars()
     }
 }

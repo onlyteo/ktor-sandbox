@@ -12,7 +12,7 @@ app:
 spring:
   # Application
   application:
-    name: ktor-oauth2-react-client-authorization-server
+    name: ktor-oauth2-client-react-authorization-server
   # Profiles
   profiles:
     active: local
