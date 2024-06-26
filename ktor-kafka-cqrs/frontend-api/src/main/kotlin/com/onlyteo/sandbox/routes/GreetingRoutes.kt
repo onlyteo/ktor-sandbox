@@ -11,19 +11,22 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
 import io.ktor.server.websocket.sendSerialized
 import io.ktor.server.websocket.webSocket
-import org.apache.kafka.clients.consumer.KafkaConsumer
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.delay
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
-import java.time.Duration
+import java.util.concurrent.atomic.AtomicBoolean
+
 
 context(ApplicationContext)
 fun Route.greetingRouting(
     personKafkaProducer: KafkaProducer<String, Person>,
-    greetingKafkaConsumer: KafkaConsumer<String, Greeting>
+    greetingChannel: Channel<Greeting>
 ) {
     val producerProperties = properties.kafka.producer
-    val consumerProperties = properties.kafka.consumer
     val logger = buildLogger
+    val semaphore = AtomicBoolean(true)
 
     post("/api/greetings") {
         val person = call.receive<Person>()
@@ -33,24 +36,19 @@ fun Route.greetingRouting(
     }
 
     webSocket("/ws/greetings") {
-        logger.info("WebSocket session subscribing to topic \"{}\"", consumerProperties.sourceTopic)
         try {
-            greetingKafkaConsumer.subscribe(listOf(consumerProperties.sourceTopic))
-            while (true) {
-                greetingKafkaConsumer.poll(Duration.ofMillis(500))
-                    .forEach { record ->
-                        val greeting = record.value()
-                        logger.info(
-                            "Received greeting \"{}\" on topic \"{}\"",
-                            greeting.message,
-                            consumerProperties.sourceTopic
-                        )
-                        logger.info("Sending greeting \"{}\" to websocket \"/ws/greetings\"", greeting.message)
-                        sendSerialized(greeting)
-                    }
+            logger.info("Opening websocket session")
+            while (semaphore.get()) {
+                greetingChannel.consumeEach { greeting ->
+                    logger.info("Sending greeting \"{}\" to websocket \"/ws/greetings\"", greeting.message)
+                    sendSerialized(greeting)
+                }
+                delay(1000)
             }
+        } catch (ex: Exception) {
+            logger.error("Error while processing greeting", ex)
         } finally {
-            logger.info("Kafka consumer finished polling")
+            logger.info("Closing websocket session")
         }
     }
 }

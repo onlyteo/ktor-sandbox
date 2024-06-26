@@ -21,7 +21,7 @@ export const GreetingForm: FC<GreetingFormProps> = (props: GreetingFormProps): R
         e.preventDefault();
         getGreeting({name: formData.name})
         setFormData(initialFormData)
-    }, [formData, setFormData]);
+    }, [formData, setFormData, getGreeting]);
 
     return (
         <Form onSubmit={onSubmit}>

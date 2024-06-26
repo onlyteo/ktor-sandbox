@@ -1,20 +1,17 @@
 import React, {FC, ReactElement, useCallback, useEffect, useReducer, useState} from "react";
 import {Col, Container, Row} from "react-bootstrap";
-import useWebSocket, {ReadyState} from 'react-use-websocket';
+import useWebSocket from 'react-use-websocket';
 import {GreetingAlert, GreetingForm} from "../fragments";
-import {Greeting, initialDelayedGreeting, Person} from "../types";
+import {Greeting, initialDelayedGreeting, Person, receivedDelayedGreeting} from "../types";
 import {POST} from "../state/client";
 import {greetingReducer, initialGreetingState} from "../state/reducers";
 
 export const Home: FC = (): ReactElement => {
     const [greetingState, greetingDispatch] = useReducer(greetingReducer, initialGreetingState);
     const [delayedGreeting, setDelayedGreeting] = useState(initialDelayedGreeting)
-    const {lastJsonMessage, readyState} = useWebSocket<Greeting>("ws://localhost:8080/ws/greetings", {
+    const {lastJsonMessage} = useWebSocket<Greeting>("ws://localhost:8080/ws/greetings", {
         onOpen: (event) => {
             console.log("WebSocket connection opened", event);
-        },
-        onMessage: (event) => {
-            console.log("WebSocket received message", event);
         },
         onError: (event) => {
             console.log("WebSocket connection error", event);
@@ -26,15 +23,15 @@ export const Home: FC = (): ReactElement => {
     });
 
     useEffect(() => {
-        console.log("WebSocket connection state", ReadyState[readyState]);
-    }, [readyState]);
+        console.log("Greeting state", greetingState);
+    }, [greetingState]);
 
     useEffect(() => {
-        console.log("WebSocket message", lastJsonMessage);
+        console.log("Last message", lastJsonMessage);
         if (lastJsonMessage) {
-            setDelayedGreeting({...delayedGreeting, message: lastJsonMessage.message})
+            setDelayedGreeting({...receivedDelayedGreeting, message: lastJsonMessage.message});
         }
-    }, [delayedGreeting, setDelayedGreeting, lastJsonMessage]);
+    }, [lastJsonMessage, setDelayedGreeting]);
 
     const getGreeting = useCallback((person: Person) => {
         greetingDispatch({status: 'LOADING'})
@@ -54,14 +51,13 @@ export const Home: FC = (): ReactElement => {
                 <Row>
                     <Col>
                         <h2 className="emphasized-text">Welcome to this Ktor example!</h2>
-                        <p>This example shows a Kafka Streams event driven architecture</p>
+                        <p>This example shows a Kafka CQSR architecture</p>
                     </Col>
                 </Row>
                 <Row className="mt-5">
                     <Col></Col>
                     <Col xs={5}>
                         <GreetingForm delayedGreeting={delayedGreeting}
-                                      setDelayedGreeting={setDelayedGreeting}
                                       getGreeting={getGreeting}/>
                     </Col>
                     <Col></Col>

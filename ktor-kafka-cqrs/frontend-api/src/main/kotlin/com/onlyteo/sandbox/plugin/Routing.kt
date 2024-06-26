@@ -9,17 +9,17 @@ import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.routing.IgnoreTrailingSlash
 import io.ktor.server.routing.routing
-import org.apache.kafka.clients.consumer.KafkaConsumer
+import kotlinx.coroutines.channels.Channel
 import org.apache.kafka.clients.producer.KafkaProducer
 
 context(ApplicationContext)
 fun Application.configureRouting(
     personKafkaProducer: KafkaProducer<String, Person>,
-    greetingKafkaConsumer: KafkaConsumer<String, Greeting>
+    greetingChannel: Channel<Greeting>
 ) {
     install(IgnoreTrailingSlash)
     routing {
         staticRouting()
-        greetingRouting(personKafkaProducer, greetingKafkaConsumer)
+        greetingRouting(personKafkaProducer, greetingChannel)
     }
 }
