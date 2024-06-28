@@ -43,7 +43,7 @@ fun Route.greetingRouting(
                     logger.info("Sending greeting \"{}\" to websocket \"/ws/greetings\"", greeting.message)
                     sendSerialized(greeting)
                 }
-                delay(1000)
+                delay(500)
             }
         } catch (ex: Exception) {
             logger.error("Error while processing greeting", ex)

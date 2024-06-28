@@ -22,6 +22,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "ktor-sandbox"
 
+include(":ktor-crud-exposed:frontend")
+include(":ktor-crud-exposed:backend")
+
 include(":ktor-oauth2-client-react:frontend")
 include(":ktor-oauth2-client-react:frontend-api")
 include(":ktor-oauth2-client-react:backend")

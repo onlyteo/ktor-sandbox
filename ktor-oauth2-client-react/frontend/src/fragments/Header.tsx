@@ -20,7 +20,7 @@ export const Header: FC = (): ReactElement => {
                 <Navbar.Brand className="mx-4" href="/">
                     <h1>
                         <FontAwesomeIcon className="navbar-logo emphasized-text" icon="screwdriver-wrench"/><span
-                        className="navbar-title ms-3">Sandbox</span>
+                        className="navbar-title ms-3">Ktor Sandbox</span>
                     </h1>
                 </Navbar.Brand>
             </Navbar>
