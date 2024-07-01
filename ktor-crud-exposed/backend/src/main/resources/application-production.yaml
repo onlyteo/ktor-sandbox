@@ -1,8 +1,18 @@
+### APP ###
+app:
+  # Data source
+  data-source:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:sandbox;MODE=PostgreSQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  # H2
+  h2:
+    console:
+      enabled: true
+      port: 8082
+
 ### KTOR ###
 ktor:
   # Development
   development: false
-  # Deployment
-  deployment:
-    port: 8080
-    host: 0.0.0.0

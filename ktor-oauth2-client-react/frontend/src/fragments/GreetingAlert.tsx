@@ -21,7 +21,7 @@ export const GreetingAlert: FC<GreetingAlertProps> = (props: GreetingAlertProps)
     } else {
         const {message} = greeting
         return (
-            <Alert variant="light">{message}</Alert>
+            <Alert variant="success">{message}</Alert>
         );
     }
 };

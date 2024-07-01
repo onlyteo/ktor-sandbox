@@ -22,10 +22,10 @@ class KafkaStreamsPluginConfig {
 
 val KafkaStreamsPlugin: ApplicationPlugin<KafkaStreamsPluginConfig> =
     createApplicationPlugin("KafkaStreams", ::KafkaStreamsPluginConfig) {
-        val properties = requireNotNull(pluginConfig.streamsProperties) { "Kafka streams properties must not be null" }
-        val topology = requireNotNull(pluginConfig.streamsTopology) { "Kafka streams topology must not be null" }
+        val properties = checkNotNull(pluginConfig.streamsProperties) { "Kafka streams properties must not be null" }
+        val topology = checkNotNull(pluginConfig.streamsTopology) { "Kafka streams topology must not be null" }
         val exceptionHandler =
-            requireNotNull(pluginConfig.streamsExceptionHandler) { "Kafka streams exception handler must not be null" }
+            checkNotNull(pluginConfig.streamsExceptionHandler) { "Kafka streams exception handler must not be null" }
 
         val kafkaStreams = KafkaStreams(topology, StreamsConfig(properties))
         kafkaStreams.setUncaughtExceptionHandler(exceptionHandler)

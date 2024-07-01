@@ -6,9 +6,17 @@ import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
+import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 
 fun Route.greetingRoutes(greetingService: GreetingService) {
+
+    get("/api/greetings") {
+        val name = requireNotNull(call.parameters["name"]) { "Missing name parameter" }
+        val greetings = greetingService.findGreetings(name)
+        call.respond(greetings)
+    }
+
     post("/api/greetings") {
         val person = call.receive<Person>()
         val greeting = greetingService.getGreeting(person)
