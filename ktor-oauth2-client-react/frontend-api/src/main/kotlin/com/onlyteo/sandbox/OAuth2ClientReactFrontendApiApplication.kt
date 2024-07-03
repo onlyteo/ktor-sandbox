@@ -1,5 +1,6 @@
 package com.onlyteo.sandbox
 
+import com.onlyteo.sandbox.config.ExceptionHandler
 import com.onlyteo.sandbox.config.buildRequestCache
 import com.onlyteo.sandbox.config.buildRestClient
 import com.onlyteo.sandbox.config.loadProperties
@@ -35,6 +36,7 @@ fun Application.module() {
     val applicationProperties = loadProperties<ApplicationPropertiesHolder>().app
 
     with(ApplicationContext(applicationProperties)) {
+        val exceptionHandler = ExceptionHandler()
         val httpClient = buildRestClient()
         val requestCache = buildRequestCache()
         val greetingService = GreetingService()
@@ -43,7 +45,7 @@ fun Application.module() {
         configureValidation()
         configureLogging()
         configureWebjars()
-        configureErrorHandling()
+        configureErrorHandling(exceptionHandler)
         configAuthentication(httpClient, requestCache)
         configureRouting(requestCache, greetingService)
     }

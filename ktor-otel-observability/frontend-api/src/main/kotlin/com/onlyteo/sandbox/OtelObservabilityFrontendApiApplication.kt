@@ -1,5 +1,6 @@
 package com.onlyteo.sandbox
 
+import com.onlyteo.sandbox.config.ExceptionHandler
 import com.onlyteo.sandbox.config.buildRestClient
 import com.onlyteo.sandbox.config.loadProperties
 import com.onlyteo.sandbox.context.ApplicationContext
@@ -36,6 +37,7 @@ fun Application.module() {
     val applicationProperties = loadProperties<ApplicationPropertiesHolder>().app
 
     with(ApplicationContext(applicationProperties)) {
+        val exceptionHandler = ExceptionHandler()
         val prometheusMeterRegistry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
         val httpClient = buildRestClient()
         val greetingService = GreetingService(httpClient)
@@ -44,7 +46,7 @@ fun Application.module() {
         configureValidation()
         configureLogging()
         configureWebjars()
-        configureErrorHandling()
+        configureErrorHandling(exceptionHandler)
         configureMetrics(prometheusMeterRegistry)
         configureRouting(prometheusMeterRegistry, greetingService)
     }

@@ -1,5 +1,6 @@
 package com.onlyteo.sandbox
 
+import com.onlyteo.sandbox.config.ExceptionHandler
 import com.onlyteo.sandbox.config.buildGreetingKafkaConsumer
 import com.onlyteo.sandbox.config.buildPersonKafkaProducer
 import com.onlyteo.sandbox.config.loadProperties
@@ -37,6 +38,7 @@ fun Application.module() {
     val applicationProperties = loadProperties<ApplicationPropertiesHolder>().app
 
     with(ApplicationContext(applicationProperties)) {
+        val exceptionHandler = ExceptionHandler()
         val personKafkaProducer = buildPersonKafkaProducer()
         val greetingKafkaConsumer = buildGreetingKafkaConsumer()
         val greetingChannel = Channel<Greeting>()
@@ -45,7 +47,7 @@ fun Application.module() {
         configureValidation()
         configureLogging()
         configureWebjars()
-        configureErrorHandling()
+        configureErrorHandling(exceptionHandler)
         configureWebSockets()
         configureRouting(personKafkaProducer, greetingChannel)
         configureKafka(personKafkaProducer, greetingKafkaConsumer, greetingChannel)

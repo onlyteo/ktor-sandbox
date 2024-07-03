@@ -1,5 +1,6 @@
 package com.onlyteo.sandbox
 
+import com.onlyteo.sandbox.config.ExceptionHandler
 import com.onlyteo.sandbox.config.loadProperties
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.plugin.configureErrorHandling
@@ -32,6 +33,7 @@ fun Application.module() {
     val applicationProperties = loadProperties<ApplicationPropertiesHolder>().app
 
     with(ApplicationContext(applicationProperties)) {
+        val exceptionHandler = ExceptionHandler()
         val prefixRepository = PrefixRepository(properties.resources.prefixesFile)
         val greetingService = GreetingService(prefixRepository)
 
@@ -39,7 +41,7 @@ fun Application.module() {
         configureValidation()
         configureLogging()
         configureWebjars()
-        configureErrorHandling()
+        configureErrorHandling(exceptionHandler)
         configureRouting(greetingService)
     }
 }
