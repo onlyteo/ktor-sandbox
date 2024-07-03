@@ -10,6 +10,7 @@ dependencies {
     implementation(libs.bundles.ktor.webjars)
     implementation(libs.bundles.logback)
     implementation(libs.bundles.hoplite)
+    implementation(libs.jackson.dataformat.csv)
     implementation(libs.bundles.kafka)
     testImplementation(libs.bundles.ktor.test)
     testImplementation(libs.bundles.kotest)

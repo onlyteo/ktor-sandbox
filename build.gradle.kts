@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.spring.boot) apply false
     alias(libs.plugins.spring.dependencies) apply false
     alias(libs.plugins.google.cloud.jib) apply false
+    alias(libs.plugins.jooq.codegen) apply false
     alias(libs.plugins.git.properties) apply false
 }
 

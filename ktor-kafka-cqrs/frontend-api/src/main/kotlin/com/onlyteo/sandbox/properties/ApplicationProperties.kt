@@ -3,8 +3,6 @@ package com.onlyteo.sandbox.properties
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerConfig
 
-const val APPLICATION_PROPERTIES_FILE = "/application.yaml"
-
 data class ApplicationPropertiesHolder(
     val app: ApplicationProperties
 )

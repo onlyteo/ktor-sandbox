@@ -9,6 +9,7 @@ dependencies {
     implementation(libs.ktor.server.websockets)
     implementation(libs.bundles.ktor.serialization)
     implementation(libs.bundles.ktor.client)
+    implementation(libs.bundles.ktor.logging)
     implementation(libs.ktor.client.websockets)
     implementation(libs.bundles.logback)
     implementation(libs.bundles.hoplite)

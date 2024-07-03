@@ -23,7 +23,7 @@ dependencies {
 }
 
 application {
-    mainClass = "com.onlyteo.sandbox.OtelObservabilityBackendApplicationKt"
+    mainClass = "com.onlyteo.sandbox.CrudExposedBackendApplicationKt"
 }
 
 java {

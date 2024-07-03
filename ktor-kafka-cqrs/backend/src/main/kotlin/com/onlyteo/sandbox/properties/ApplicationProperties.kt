@@ -4,15 +4,18 @@ import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.StreamsConfig
 import java.time.Duration
 
-const val APPLICATION_PROPERTIES_FILE = "/application.yaml"
-
 data class ApplicationPropertiesHolder(
     val app: ApplicationProperties
 )
 
 data class ApplicationProperties(
     val id: String,
+    val resources: ResourcesProperties,
     val kafka: KafkaProperties
+)
+
+data class ResourcesProperties(
+    val prefixesFile: String
 )
 
 data class KafkaProperties(

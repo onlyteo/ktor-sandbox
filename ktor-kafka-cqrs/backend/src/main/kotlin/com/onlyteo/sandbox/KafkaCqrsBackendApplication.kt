@@ -6,16 +6,18 @@ import com.onlyteo.sandbox.plugin.configureKafka
 import com.onlyteo.sandbox.plugin.configureRouting
 import com.onlyteo.sandbox.plugin.configureSerialization
 import com.onlyteo.sandbox.plugin.configureWebjars
-import com.onlyteo.sandbox.properties.KTOR_PROPERTIES_FILE
+import com.onlyteo.sandbox.properties.ApplicationPropertiesHolder
 import com.onlyteo.sandbox.properties.KtorPropertiesHolder
+import com.onlyteo.sandbox.repository.PrefixRepository
+import com.onlyteo.sandbox.service.GreetingService
 import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 
 fun main() {
-    val propertiesHolder = loadProperties<KtorPropertiesHolder>(KTOR_PROPERTIES_FILE)
+    val ktorProperties = loadProperties<KtorPropertiesHolder>().ktor
 
-    with(propertiesHolder.ktor.deployment) {
+    with(ktorProperties.deployment) {
         embeddedServer(
             Netty,
             port = port,
@@ -26,10 +28,15 @@ fun main() {
 }
 
 fun Application.module() {
-    with(ApplicationContext()) {
+    val applicationProperties = loadProperties<ApplicationPropertiesHolder>().app
+
+    with(ApplicationContext(applicationProperties)) {
+        val prefixRepository = PrefixRepository(properties.resources.prefixesFile)
+        val greetingService = GreetingService(prefixRepository)
+
         configureSerialization()
         configureWebjars()
         configureRouting()
-        configureKafka()
+        configureKafka(greetingService)
     }
 }

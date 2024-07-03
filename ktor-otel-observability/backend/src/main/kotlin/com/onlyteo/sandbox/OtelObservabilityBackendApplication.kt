@@ -1,11 +1,17 @@
 package com.onlyteo.sandbox
 
 import com.onlyteo.sandbox.config.loadProperties
+import com.onlyteo.sandbox.context.ApplicationContext
+import com.onlyteo.sandbox.plugin.configureErrorHandling
+import com.onlyteo.sandbox.plugin.configureLogging
 import com.onlyteo.sandbox.plugin.configureMetrics
 import com.onlyteo.sandbox.plugin.configureRouting
 import com.onlyteo.sandbox.plugin.configureSerialization
+import com.onlyteo.sandbox.plugin.configureValidation
 import com.onlyteo.sandbox.plugin.configureWebjars
+import com.onlyteo.sandbox.properties.ApplicationPropertiesHolder
 import com.onlyteo.sandbox.properties.KtorPropertiesHolder
+import com.onlyteo.sandbox.repository.PrefixRepository
 import com.onlyteo.sandbox.service.GreetingService
 import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
@@ -26,11 +32,19 @@ fun main() {
 }
 
 fun Application.module() {
-    val prometheusMeterRegistry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
-    val greetingService = GreetingService()
+    val applicationProperties = loadProperties<ApplicationPropertiesHolder>().app
 
-    configureSerialization()
-    configureWebjars()
-    configureMetrics(prometheusMeterRegistry)
-    configureRouting(prometheusMeterRegistry, greetingService)
+    with(ApplicationContext(applicationProperties)) {
+        val prometheusMeterRegistry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
+        val prefixRepository = PrefixRepository(properties.resources.prefixesFile)
+        val greetingService = GreetingService(prefixRepository)
+
+        configureSerialization()
+        configureValidation()
+        configureLogging()
+        configureWebjars()
+        configureErrorHandling()
+        configureMetrics(prometheusMeterRegistry)
+        configureRouting(prometheusMeterRegistry, greetingService)
+    }
 }

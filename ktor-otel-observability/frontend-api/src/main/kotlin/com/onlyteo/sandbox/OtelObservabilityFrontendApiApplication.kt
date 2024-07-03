@@ -3,10 +3,12 @@ package com.onlyteo.sandbox
 import com.onlyteo.sandbox.config.buildRestClient
 import com.onlyteo.sandbox.config.loadProperties
 import com.onlyteo.sandbox.context.ApplicationContext
+import com.onlyteo.sandbox.plugin.configureErrorHandling
 import com.onlyteo.sandbox.plugin.configureLogging
 import com.onlyteo.sandbox.plugin.configureMetrics
 import com.onlyteo.sandbox.plugin.configureRouting
 import com.onlyteo.sandbox.plugin.configureSerialization
+import com.onlyteo.sandbox.plugin.configureValidation
 import com.onlyteo.sandbox.plugin.configureWebjars
 import com.onlyteo.sandbox.properties.ApplicationPropertiesHolder
 import com.onlyteo.sandbox.properties.KtorPropertiesHolder
@@ -39,8 +41,10 @@ fun Application.module() {
         val greetingService = GreetingService(httpClient)
 
         configureSerialization()
-        configureWebjars()
+        configureValidation()
         configureLogging()
+        configureWebjars()
+        configureErrorHandling()
         configureMetrics(prometheusMeterRegistry)
         configureRouting(prometheusMeterRegistry, greetingService)
     }

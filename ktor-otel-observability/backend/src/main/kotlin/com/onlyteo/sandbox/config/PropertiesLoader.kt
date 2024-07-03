@@ -15,6 +15,7 @@ fun currentEnvironment(): Environment {
 inline fun <reified T : Any> loadProperties(): T {
     val environment = currentEnvironment()
     return ConfigLoaderBuilder.default()
+        .addResourceSource("/application.yaml")
         .addResourceSource("/application-${environment.name}.yaml")
         .build()
         .loadConfigOrThrow<T>()

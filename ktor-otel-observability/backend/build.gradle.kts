@@ -22,6 +22,7 @@ dependencies {
     implementation(libs.bundles.ktor.opentelemetry)
     implementation(libs.bundles.logback)
     implementation(libs.bundles.hoplite)
+    implementation(libs.jackson.dataformat.csv)
     testImplementation(libs.bundles.ktor.test)
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.mockk)

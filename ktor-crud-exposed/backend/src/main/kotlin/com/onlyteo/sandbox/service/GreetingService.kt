@@ -2,39 +2,32 @@ package com.onlyteo.sandbox.service
 
 import com.onlyteo.sandbox.config.buildLogger
 import com.onlyteo.sandbox.model.Greeting
-import com.onlyteo.sandbox.model.GreetingEntity
 import com.onlyteo.sandbox.model.Person
-import com.onlyteo.sandbox.model.PersonEntity
-import com.onlyteo.sandbox.model.PersonsTable
 import com.onlyteo.sandbox.model.toGreeting
-import org.jetbrains.exposed.dao.with
-import org.jetbrains.exposed.sql.transactions.transaction
+import com.onlyteo.sandbox.reposiitory.GreetingRepository
+import com.onlyteo.sandbox.reposiitory.PersonRepository
+import com.onlyteo.sandbox.reposiitory.PrefixRepository
 
-class GreetingService(private val prefixService: PrefixService) {
+class GreetingService(
+    private val prefixRepository: PrefixRepository,
+    private val personRepository: PersonRepository,
+    private val greetingRepository: GreetingRepository
+) {
 
     private val logger = buildLogger
 
-    fun getGreeting(person: Person): Greeting = transaction {
-        val personEntity = PersonEntity
-            .find { PersonsTable.name eq person.name }
-            .firstOrNull() ?: PersonEntity.new {
-            this.name = person.name
-        }
-        val prefix = prefixService.getPrefix()
+    fun getGreeting(person: Person): Greeting {
+        val personEntity = personRepository.findPerson(person.name) ?: personRepository.insertPerson(person.name)
+        val prefix = prefixRepository.getPrefix()
         val message = "${prefix.greeting} ${personEntity.name}!"
-        val greetingEntity = GreetingEntity.new {
-            this.message = message
-            this.person = personEntity
-        }
+        val greetingEntity = greetingRepository.insertGreeting(message, personEntity)
         logger.info("Returning greeting to \"{}\"", personEntity.name)
-        greetingEntity.toGreeting()
+        return greetingEntity.toGreeting()
     }
 
-    fun findGreetings(name: String): List<Greeting> = transaction {
-        val personEntity = PersonEntity
-            .find { PersonsTable.name eq name }
-            .with(PersonEntity::greetings)
-            .firstOrNull()
-        personEntity?.greetings?.map { Greeting(it.message) } ?: listOf()
+    fun findGreetings(name: String): List<Greeting> {
+        val greetingEntities = greetingRepository.findGreetings(name)
+        logger.info("Returning all greetings for \"{}\"", name)
+        return greetingEntities.map { it.toGreeting() }
     }
 }
