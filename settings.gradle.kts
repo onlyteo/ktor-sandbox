@@ -25,6 +25,9 @@ rootProject.name = "ktor-sandbox"
 include(":ktor-crud-exposed:frontend")
 include(":ktor-crud-exposed:backend")
 
+include(":ktor-crud-ktorm:frontend")
+include(":ktor-crud-ktorm:backend")
+
 include(":ktor-crud-jooq:frontend")
 include(":ktor-crud-jooq:backend")
 

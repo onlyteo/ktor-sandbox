@@ -15,7 +15,7 @@ dependencies {
     implementation(libs.bundles.hoplite)
     implementation(libs.jackson.dataformat.csv)
     implementation(libs.bundles.h2.database.support)
-    implementation(libs.bundles.jetbrains.exposed.dao)
+    implementation(libs.bundles.ktorm)
     testImplementation(libs.bundles.ktor.test)
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.mockk)

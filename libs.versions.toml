@@ -14,6 +14,7 @@ opentelemetry-instrumentation-ktor = "2.4.0-alpha"
 hoplite = "2.7.5"
 jetbrains-exposed = "0.52.0"
 jooq = "3.19.10"
+ktorm = "4.0.0"
 flyway = "10.15.0"
 h2database = "2.2.224"
 zaxxer-hikari-cp = "5.1.0"
@@ -96,6 +97,9 @@ hoplite-yaml = { module = "com.sksamuel.hoplite:hoplite-yaml", version.ref = "ho
 # Exposed
 jetbrains-exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "jetbrains-exposed" }
 jetbrains-exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "jetbrains-exposed" }
+# Ktorm
+ktorm-core = { module = "org.ktorm:ktorm-core", version.ref = "ktorm" }
+ktorm-support-postgresql = { module = "org.ktorm:ktorm-support-postgresql", version.ref = "ktorm" }
 # JOOQ
 jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
 jooq-meta-extensions = { module = "org.jooq:jooq-meta-extensions", version.ref = "jooq" }
@@ -189,6 +193,10 @@ webjars = [
 jetbrains-exposed-dao = [
     "jetbrains-exposed-jdbc",
     "jetbrains-exposed-dao"
+]
+ktorm = [
+    "ktorm-core",
+    "ktorm-support-postgresql"
 ]
 h2-database-support = [
     "zaxxer-hikari-cp",
