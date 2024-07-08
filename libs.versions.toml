@@ -46,6 +46,7 @@ git-properties = { id = "com.gorylenko.gradle-git-properties", version.ref = "gi
 ### LIBRARIES ###
 [libraries]
 # Kotlin
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit" }
 # Ktor server
 ktor-server-core = { module = "io.ktor:ktor-server-core" }

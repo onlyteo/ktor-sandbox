@@ -7,8 +7,8 @@ Most examples implement a "hello world" style logic that returns a greeting mess
 * A user inputs the name "John" and clicks "Submit"
 * The system generates a greeting "Hello John!" back to the user
 
-The examples typically consists of a "frontend" and a "backend" application. If the frontend is a JavaScript
-application then there is often also a "frontend API" application.
+The examples typically consists of a `Frontend` and a `Backend` application. If the frontend is a JavaScript
+application then there is often also a `Frontend API` application.
 
 ```mermaid
 graph TD
@@ -34,6 +34,8 @@ graph TD
 Read details about the examples in their respective project roots.
 
 * [CRUD Exposed](./ktor-crud-exposed)
-* [OAuth2 Client React](./ktor-oauth2-client-react)
+* [CRUD Ktorm](./ktor-crud-ktorm)
+* [CRUD JOOQ](./ktor-crud-jooq)
+* [OAuth2 Token Relay](./ktor-oauth2-token-relay)
 * [OTEL Observability](./ktor-otel-observability)
 * [Kafka CQRS](./ktor-kafka-cqrs)

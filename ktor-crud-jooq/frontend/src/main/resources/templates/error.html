@@ -20,27 +20,27 @@
                 <td class="ps-3" th:text="${timestamp}"></td>
             </tr>
             <tr>
-                <th th:text="#{error.page.error}"></th>
+                <th th:text="#{error.page.table.error}"></th>
                 <td class="ps-3" th:text="${error}"></td>
             </tr>
             <tr>
-                <th th:text="#{error.page.status}"></th>
+                <th th:text="#{error.page.table.status}"></th>
                 <td class="ps-3" th:text="${status}"></td>
             </tr>
             <tr>
-                <th th:text="#{error.page.path}"></th>
+                <th th:text="#{error.page.table.path}"></th>
                 <td class="ps-3" th:text="${path}"></td>
             </tr>
             <tr th:if="${message != null}">
-                <th th:text="#{error.page.message}"></th>
+                <th th:text="#{error.page.table.message}"></th>
                 <td class="ps-3" th:text="${message}"></td>
             </tr>
             <tr th:if="${exception != null}">
-                <th th:text="#{error.page.exception}"></th>
+                <th th:text="#{error.page.table.exception}"></th>
                 <td class="ps-3" th:text="${exception}"></td>
             </tr>
             <tr th:if="${trace != null}">
-                <th th:text="#{error.page.trace}"></th>
+                <th th:text="#{error.page.table.trace}"></th>
                 <td class="ps-3">
                     <pre th:text="${trace}"></pre>
                 </td>
