@@ -1,5 +1,7 @@
-package com.onlyteo.sandbox.config
+package com.onlyteo.sandbox.topology
 
+import com.onlyteo.sandbox.config.buildJsonSerde
+import com.onlyteo.sandbox.config.buildLogger
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.Greeting
 import com.onlyteo.sandbox.model.Person
@@ -24,7 +26,7 @@ import java.time.Duration
 import java.time.Instant
 
 context(ApplicationContext)
-fun buildKafkaStreamsTopology(greetingService: GreetingService): Topology = StreamsBuilder().apply {
+fun buildKafkaTopology(greetingService: GreetingService): Topology = StreamsBuilder().apply {
 
     val properties = properties.kafka.streams
     val logger = buildLogger

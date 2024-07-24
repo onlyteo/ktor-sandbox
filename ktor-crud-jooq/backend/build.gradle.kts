@@ -82,3 +82,7 @@ jooq {
         }
     }
 }
+
+tasks.compileKotlin.configure {
+    dependsOn(tasks.jooqCodegen)
+}

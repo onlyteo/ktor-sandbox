@@ -34,17 +34,67 @@ services:
       BOOTSTRAP_SERVER: sandbox.kafka:29092
       CREATE_TOPICS: persons,greetings
     volumes:
-      - ./config/kafka_init.sh:/kafka_init.sh
+      - ./resources/kafka_init.sh:/kafka_init.sh
     networks:
       - sandbox.kafka
     command: /kafka_init.sh
 
+  # Schema Registry
+  sandbox.schema-registry:
+    image: confluentinc/cp-schema-registry:latest
+    container_name: sandbox.schema-registry
+    depends_on:
+      - sandbox.kafka
+    ports:
+      - "9081:8081"
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: sandbox.schema-registry
+      SCHEMA_REGISTRY_LISTENERS: http://sandbox.schema-registry:8081
+      SCHEMA_REGISTRY_KAFKASTORE_SECURITY_PROTOCOL: PLAINTEXT
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: sandbox.kafka:29092
+    #  SCHEMA_REGISTRY_DEBUG: "true"
+    networks:
+      - sandbox.kafka
+
+  # Kafka UI
+  sandbox.kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: sandbox.kafka-ui
+    depends_on:
+      - sandbox.kafka
+    ports:
+      - "9080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: sandbox
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: sandbox.kafka:29092
+      KAFKA_CLUSTERS_0_METRICS_PORT: 9992
+      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://sandbox.schema-registry:8081
+      DYNAMIC_CONFIG_ENABLED: "true"
+      # LOGGING_LEVEL_ROOT: 'DEBUG'
+    networks:
+      - sandbox.kafka
+
+  # Kafka REST
+#  sandbox.kafka-rest:
+#    image: confluentinc/cp-kafka-rest:latest
+#    container_name: sandbox.kafka-rest
+#    depends_on:
+#      - sandbox.kafka
+#    ports:
+#      - "9082:8082"
+#    environment:
+#      KAFKA_REST_HOST_NAME: sandbox.kafka-rest
+#      KAFKA_REST_BOOTSTRAP_SERVERS: sandbox.kafka:9092
+#      KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
+#    networks:
+#      - sandbox.kafka
+
 ### VOLUMES ###
 volumes:
-  sandbox.kafka-data:
-    name: sandbox.kafka-data
   sandbox.kafka-secrets:
     name: sandbox.kafka-secrets
+  sandbox.kafka-data:
+    name: sandbox.kafka-data
 
 ### NETWORKS ###
 networks:

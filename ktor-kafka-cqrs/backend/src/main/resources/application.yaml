@@ -1,14 +1,14 @@
 ### APP ###
 app:
   # ID
-  id: ktor-kafka-streams-backend
+  id: ktor-kafka-cqrs-backend
   # Resources
   resources:
     prefixes-file: /data/prefixes.csv
   # Kafka
   kafka:
     streams:
-      id: ktor-kafka-streams-backend-streams
+      id: ktor-kafka-cqrs-backend-streams
       brokers:
         - "localhost:9092"
       sourceTopic: persons
