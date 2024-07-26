@@ -31,6 +31,10 @@ subprojects {
     }
 
     tasks {
+        withType<JavaCompile> {
+
+        }
+
         withType<KotlinCompile> {
             kotlinOptions {
                 jvmTarget = jvmVersion.toString()

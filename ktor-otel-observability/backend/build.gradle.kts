@@ -40,7 +40,7 @@ java {
     }
 }
 
-tasks.withType(Jar::class) {
+tasks.withType<Jar> {
     manifest {
         attributes["Main-Class"] = application.mainClass.get()
         attributes["Implementation-Title"] = project.name
