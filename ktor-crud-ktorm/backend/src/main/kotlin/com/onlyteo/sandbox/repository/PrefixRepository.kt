@@ -1,4 +1,4 @@
-package com.onlyteo.sandbox.reposiitory
+package com.onlyteo.sandbox.repository
 
 import com.onlyteo.sandbox.config.readCsvFile
 import com.onlyteo.sandbox.model.Prefix

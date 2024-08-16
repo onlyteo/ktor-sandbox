@@ -1,4 +1,4 @@
-package com.onlyteo.sandbox.reposiitory
+package com.onlyteo.sandbox.repository
 
 import com.onlyteo.sandbox.model.GreetingEntity
 import com.onlyteo.sandbox.model.PersonEntity

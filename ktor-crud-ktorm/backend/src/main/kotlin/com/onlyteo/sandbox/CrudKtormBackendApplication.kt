@@ -12,9 +12,9 @@ import com.onlyteo.sandbox.plugin.configureValidation
 import com.onlyteo.sandbox.plugin.configureWebjars
 import com.onlyteo.sandbox.properties.ApplicationPropertiesHolder
 import com.onlyteo.sandbox.properties.KtorPropertiesHolder
-import com.onlyteo.sandbox.reposiitory.GreetingRepository
-import com.onlyteo.sandbox.reposiitory.PersonRepository
-import com.onlyteo.sandbox.reposiitory.PrefixRepository
+import com.onlyteo.sandbox.repository.GreetingRepository
+import com.onlyteo.sandbox.repository.PersonRepository
+import com.onlyteo.sandbox.repository.PrefixRepository
 import com.onlyteo.sandbox.service.GreetingService
 import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer

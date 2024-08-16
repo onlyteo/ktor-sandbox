@@ -4,9 +4,9 @@ import com.onlyteo.sandbox.config.buildLogger
 import com.onlyteo.sandbox.model.Greeting
 import com.onlyteo.sandbox.model.Person
 import com.onlyteo.sandbox.model.toGreeting
-import com.onlyteo.sandbox.reposiitory.GreetingRepository
-import com.onlyteo.sandbox.reposiitory.PersonRepository
-import com.onlyteo.sandbox.reposiitory.PrefixRepository
+import com.onlyteo.sandbox.repository.GreetingRepository
+import com.onlyteo.sandbox.repository.PersonRepository
+import com.onlyteo.sandbox.repository.PrefixRepository
 
 class GreetingService(
     private val prefixRepository: PrefixRepository,
