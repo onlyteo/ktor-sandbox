@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class OAuth2ClientReactAuthorizationServerApplication
+class OAuth2TokenRelayAuthorizationServerApplication
 
 fun main(args: Array<String>) {
-    runApplication<OAuth2ClientReactAuthorizationServerApplication>(*args)
+    runApplication<OAuth2TokenRelayAuthorizationServerApplication>(*args)
 }

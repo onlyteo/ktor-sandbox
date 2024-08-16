@@ -17,6 +17,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "ktor-sandbox"
 
+include(":ktor-rest-api:frontend")
+include(":ktor-rest-api:frontend-api")
+include(":ktor-rest-api:backend")
+
 include(":ktor-crud-exposed:frontend")
 include(":ktor-crud-exposed:backend")
 
