@@ -21,8 +21,11 @@ include(":ktor-rest-api:frontend")
 include(":ktor-rest-api:frontend-api")
 include(":ktor-rest-api:backend")
 
-include(":ktor-crud-exposed:frontend")
-include(":ktor-crud-exposed:backend")
+include(":ktor-crud-exposed-jdbc:frontend")
+include(":ktor-crud-exposed-jdbc:backend")
+
+include(":ktor-crud-exposed-dao:frontend")
+include(":ktor-crud-exposed-dao:backend")
 
 include(":ktor-crud-ktorm:frontend")
 include(":ktor-crud-ktorm:backend")

@@ -1,3 +1,3 @@
 # Ktor OTEL Observability
 
-This example shows an observability enabled architecture using Ktor applications, with Open Telemetry and Micrometer.
+This example shows an observability enabled architecture with Open Telemetry and Micrometer.

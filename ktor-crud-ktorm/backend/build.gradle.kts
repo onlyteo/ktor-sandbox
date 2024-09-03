@@ -15,14 +15,14 @@ dependencies {
     implementation(libs.bundles.hoplite)
     implementation(libs.jackson.dataformat.csv)
     implementation(libs.bundles.h2.database.support)
-    implementation(libs.bundles.ktorm)
+    implementation(libs.ktorm.support.postgresql)
     testImplementation(libs.bundles.ktor.test)
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.mockk)
 }
 
 application {
-    mainClass = "com.onlyteo.sandbox.CrudExposedBackendApplicationKt"
+    mainClass = "com.onlyteo.sandbox.CrudKtormBackendApplicationKt"
 }
 
 java {

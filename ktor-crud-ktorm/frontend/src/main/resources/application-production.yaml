@@ -3,7 +3,7 @@ app:
   # Integrations
   integrations:
     backend:
-      url: "http://sandbox.ktor-otel-observability-backend:8080"
+      url: "${APP_INTEGRATIONS_BACKEND_URL}"
 
 ### KTOR ###
 ktor:

@@ -18,5 +18,5 @@ dependencies {
 }
 
 application {
-    mainClass = "com.onlyteo.sandbox.OAuth2ReactClientFrontendApiApplicationKt"
+    mainClass = "com.onlyteo.sandbox.RestApiFrontendApiApplicationKt"
 }

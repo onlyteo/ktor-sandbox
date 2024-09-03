@@ -3,7 +3,7 @@ app:
   # Integrations
   integrations:
     backend:
-      url: "http://localhost:8081/api/greetings"
+      url: "http://localhost:8081"
   # Security
   security:
     oauth2:

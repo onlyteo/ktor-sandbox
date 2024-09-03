@@ -1,9 +1,9 @@
 ### VERSIONS ###
 [versions]
-kotlin = "1.9.23"
-ktor = "2.3.11"
-spring-boot = "3.2.5"
-spring-dependencies = "1.1.4"
+kotlin = "2.0.20"
+ktor = "2.3.12"
+spring-boot = "3.3.3"
+spring-dependencies = "1.1.6"
 jackson = "2.17.1"
 logback = "1.5.6"
 logstash-logback = "7.4"
@@ -99,7 +99,6 @@ hoplite-yaml = { module = "com.sksamuel.hoplite:hoplite-yaml", version.ref = "ho
 jetbrains-exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "jetbrains-exposed" }
 jetbrains-exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "jetbrains-exposed" }
 # Ktorm
-ktorm-core = { module = "org.ktorm:ktorm-core", version.ref = "ktorm" }
 ktorm-support-postgresql = { module = "org.ktorm:ktorm-support-postgresql", version.ref = "ktorm" }
 # JOOQ
 jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
@@ -190,14 +189,6 @@ webjars = [
     "webjars-popper",
     "webjars-locator",
     "webjars-fontawesome"
-]
-jetbrains-exposed-dao = [
-    "jetbrains-exposed-jdbc",
-    "jetbrains-exposed-dao"
-]
-ktorm = [
-    "ktorm-core",
-    "ktorm-support-postgresql"
 ]
 h2-database-support = [
     "zaxxer-hikari-cp",

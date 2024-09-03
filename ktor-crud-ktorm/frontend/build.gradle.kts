@@ -20,7 +20,7 @@ dependencies {
 }
 
 application {
-    mainClass = "com.onlyteo.sandbox.CrudExposedFrontendApplicationKt"
+    mainClass = "com.onlyteo.sandbox.CrudKtormFrontendApplicationKt"
 }
 
 java {

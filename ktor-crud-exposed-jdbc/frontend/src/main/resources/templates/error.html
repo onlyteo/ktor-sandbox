@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{site.title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" type="text/css" th:href="@{~/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{~/webjars/font-awesome/css/all.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{~/assets/css/style.css}"/>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<main class="container" role="main">
+    <div class="description-box px-3 py-5 rounded-3">
+        <h2 class="emphasized-text" th:text="#{error.page.title}"></h2>
+        <table>
+            <tr>
+                <th th:text="#{error.page.table.timestamp}"></th>
+                <td class="ps-3" th:text="${timestamp}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{error.page.table.error}"></th>
+                <td class="ps-3" th:text="${error}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{error.page.table.status}"></th>
+                <td class="ps-3" th:text="${status}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{error.page.table.path}"></th>
+                <td class="ps-3" th:text="${path}"></td>
+            </tr>
+            <tr th:if="${message != null}">
+                <th th:text="#{error.page.table.message}"></th>
+                <td class="ps-3" th:text="${message}"></td>
+            </tr>
+            <tr th:if="${exception != null}">
+                <th th:text="#{error.page.table.exception}"></th>
+                <td class="ps-3" th:text="${exception}"></td>
+            </tr>
+            <tr th:if="${trace != null}">
+                <th th:text="#{error.page.table.trace}"></th>
+                <td class="ps-3">
+                    <pre th:text="${trace}"></pre>
+                </td>
+            </tr>
+        </table>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<script type="text/javascript" th:src="@{~/webjars/jquery/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{~/webjars/popper.js/umd/popper.js}"></script>
+<script type="text/javascript" th:src="@{~/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>
