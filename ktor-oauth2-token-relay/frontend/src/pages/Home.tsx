@@ -26,7 +26,8 @@ export const Home: FC = (): ReactElement => {
                 <Row>
                     <Col>
                         <h2 className="emphasized-text">Welcome to this Ktor example!</h2>
-                        <p>This example shows OpenTelemetry and Micrometer observability</p>
+                        <p>This example shows how to secure a React frontend and Ktor REST API using OAuth2 Token
+                            Relay</p>
                     </Col>
                 </Row>
                 <Row className="mt-5">

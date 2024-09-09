@@ -1,8 +1,8 @@
 # Ktor Sandbox
 
-[![Kotlin](https://img.shields.io/badge/kotlin-1.9.24-8d53f9.svg?logo=kotlin&logoColor=8d53f9)](http://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/kotlin-2.0.20-8d53f9.svg?logo=kotlin&logoColor=8d53f9)](http://kotlinlang.org)
+[![Ktor](https://img.shields.io/badge/ktor-2.3.12-8d53f9.svg?logo=ktor&logoColor=8d53f9)](https://ktor.io)
 [![TypeScript](https://img.shields.io/badge/typescript-5.2.2-3178c6.svg?logo=typescript&logoColor=3178c6)](https://www.typescriptlang.org)
-[![Ktor](https://img.shields.io/badge/ktor-2.3.11-8d53f9.svg?logo=ktor&logoColor=8d53f9)](https://ktor.io)
 [![React](https://img.shields.io/badge/react-18.3.1-58c4dc.svg?logo=react&logoColor=58c4dc)](https://react.dev)
 [![Gradle](https://img.shields.io/badge/gradle-stable-209bc4.svg?logo=gradle&logoColor=209bc4)](https://gradle.org)
 [![Gradle](https://img.shields.io/badge/node.js-stable-417e38.svg?logo=nodedotjs&logoColor=417e38)](https://nodejs.org)
@@ -15,7 +15,9 @@ All examples are written in [Kotlin](https://kotlinlang.org) and built using [Gr
 ## Examples
 Read details about the examples in their respective project roots.
 
-* [CRUD Exposed](./ktor-crud-exposed)
+* [REST API](./ktor-rest-api)
+* [CRUD Exposed JDBC](./ktor-crud-exposed-jdbc)
+* [CRUD Exposed DAO](./ktor-crud-exposed-dao)
 * [CRUD Ktorm](./ktor-crud-ktorm)
 * [CRUD JOOQ](./ktor-crud-jooq)
 * [OAuth2 Token Relay](./ktor-oauth2-token-relay) - WIP

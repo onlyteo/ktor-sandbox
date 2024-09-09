@@ -18,7 +18,3 @@ dependencies {
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.junit)
 }
-
-application {
-    mainClass = "com.onlyteo.sandbox.OAuth2ReactClientBackendApplicationKt"
-}
