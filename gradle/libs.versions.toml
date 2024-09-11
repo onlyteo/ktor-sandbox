@@ -61,6 +61,7 @@ ktor-server-micrometer = { module = "io.ktor:ktor-server-metrics-micrometer" }
 ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging" }
 ktor-server-sessions = { module = "io.ktor:ktor-server-sessions" }
 ktor-server-auth = { module = "io.ktor:ktor-server-auth" }
+ktor-server-auth-jwt = { module = "io.ktor:ktor-server-auth-jwt" }
 ktor-server-websockets = { module = "io.ktor:ktor-server-websockets" }
 ktor-server-tests = { module = "io.ktor:ktor-server-tests" }
 ktor-server-test-host = { module = "io.ktor:ktor-server-test-host" }
@@ -202,6 +203,10 @@ kafka = [
 ktor-authentication = [
     "ktor-server-sessions",
     "ktor-server-auth"
+]
+ktor-authentication-jwt = [
+    "ktor-server-auth",
+    "ktor-server-auth-jwt"
 ]
 ktor-test = [
     "ktor-server-tests",

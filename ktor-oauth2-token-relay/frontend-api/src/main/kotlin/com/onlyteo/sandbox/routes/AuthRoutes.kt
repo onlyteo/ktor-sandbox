@@ -15,7 +15,7 @@ import io.ktor.server.sessions.set
 
 context(ApplicationContext)
 fun Route.authRouting(requestCache: RequestCache<String, String>) {
-    authenticate(properties.security.oauth2.provider.name) {
+    authenticate(properties.security.oauth2.name) {
         get("/login") {
             // Redirects for authentication
         }

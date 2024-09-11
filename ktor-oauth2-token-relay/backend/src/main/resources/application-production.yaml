@@ -1,3 +1,13 @@
+### APP ###
+app:
+  # Security
+  security:
+    oauth2:
+      name: oauth2
+      provider:
+        issuer: ${APP_SECURITY_OAUTH2_PROVIDER_ISSUER}
+        jwk-url: ${APP_SECURITY_OAUTH2_PROVIDER_URL}/oauth2/jwks
+
 ### KTOR ###
 ktor:
   # Development

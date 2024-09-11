@@ -9,7 +9,7 @@ dependencies {
     implementation(libs.bundles.ktor.serialization)
     implementation(libs.bundles.ktor.client)
     implementation(libs.bundles.ktor.logging)
-    implementation(libs.bundles.ktor.authentication)
+    implementation(libs.bundles.ktor.authentication.jwt)
     implementation(libs.bundles.logback)
     implementation(libs.bundles.hoplite)
     implementation(libs.jackson.dataformat.csv)
@@ -17,4 +17,8 @@ dependencies {
     testImplementation(libs.bundles.ktor.test)
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.junit)
+}
+
+application {
+    mainClass = "com.onlyteo.sandbox.OAuth2TokenRelayBackendApplicationKt"
 }

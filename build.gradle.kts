@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val jvmMajorVersion: String by project
@@ -36,8 +37,8 @@ subprojects {
         }
 
         withType<KotlinCompile> {
-            kotlinOptions {
-                jvmTarget = jvmVersion.toString()
+            compilerOptions {
+                jvmTarget.set(JvmTarget.fromTarget(jvmVersion.toString()))
                 freeCompilerArgs = listOf("-Xjsr305=strict", "-Xcontext-receivers")
             }
         }

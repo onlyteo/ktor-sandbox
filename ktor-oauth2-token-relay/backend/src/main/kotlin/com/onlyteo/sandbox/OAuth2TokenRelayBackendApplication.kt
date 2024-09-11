@@ -2,7 +2,7 @@ package com.onlyteo.sandbox
 
 import com.onlyteo.sandbox.config.ExceptionHandler
 import com.onlyteo.sandbox.config.loadProperties
-import com.onlyteo.sandbox.context.ApplicationContext
+import com.onlyteo.sandbox.plugin.configAuthentication
 import com.onlyteo.sandbox.plugin.configureErrorHandling
 import com.onlyteo.sandbox.plugin.configureLogging
 import com.onlyteo.sandbox.plugin.configureRouting
@@ -17,9 +17,9 @@ import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 
 fun main() {
-    val ktorProperties = loadProperties<KtorPropertiesHolder>().ktor
+    val properties = loadProperties<KtorPropertiesHolder>().ktor
 
-    with(ktorProperties.deployment) {
+    with(properties.deployment) {
         embeddedServer(
             io.ktor.server.netty.Netty,
             port = port,
@@ -30,18 +30,17 @@ fun main() {
 }
 
 fun Application.module() {
-    val applicationProperties = loadProperties<ApplicationPropertiesHolder>().app
+    val properties = loadProperties<ApplicationPropertiesHolder>().app
 
-    with(ApplicationContext(applicationProperties)) {
-        val exceptionHandler = ExceptionHandler()
-        val prefixRepository = PrefixRepository(properties.resources.prefixesFile)
-        val greetingService = GreetingService(prefixRepository)
+    val exceptionHandler = ExceptionHandler()
+    val prefixRepository = PrefixRepository(properties.resources.prefixesFile)
+    val greetingService = GreetingService(prefixRepository)
 
-        configureSerialization()
-        configureValidation()
-        configureLogging()
-        configureWebjars()
-        configureErrorHandling(exceptionHandler)
-        configureRouting(greetingService)
-    }
+    configureSerialization()
+    configureValidation()
+    configureLogging()
+    configureWebjars()
+    configureErrorHandling(exceptionHandler)
+    configAuthentication(properties)
+    configureRouting(properties, greetingService)
 }

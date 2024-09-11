@@ -15,7 +15,7 @@ spring:
     name: ktor-oauth2-token-relay-authorization-server
   # Profiles
   profiles:
-    active: local
+    active: development
   # Messages
   messages:
     basename: locale/messages

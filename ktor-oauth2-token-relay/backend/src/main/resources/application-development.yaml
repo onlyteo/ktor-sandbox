@@ -1,3 +1,13 @@
+### APP ###
+app:
+  # Security
+  security:
+    oauth2:
+      name: oauth2
+      provider:
+        issuer: http://localhost:8888
+        jwk-url: http://localhost:8888/oauth2/jwks
+
 ### KTOR ###
 ktor:
   # Development
