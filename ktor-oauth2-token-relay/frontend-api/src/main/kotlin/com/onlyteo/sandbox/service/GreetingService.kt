@@ -1,24 +1,26 @@
 package com.onlyteo.sandbox.service
 
 import com.onlyteo.sandbox.config.buildLogger
-import com.onlyteo.sandbox.config.buildRestClient
-import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.Greeting
 import com.onlyteo.sandbox.model.Person
-import io.ktor.client.*
+import com.onlyteo.sandbox.model.UserSession
+import com.onlyteo.sandbox.properties.ApplicationProperties
+import io.ktor.client.HttpClient
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 
-class GreetingService(private val httpClient: HttpClient = buildRestClient()) {
-
+class GreetingService(
+    private val properties: ApplicationProperties,
+    private val httpClient: HttpClient
+) {
     private val logger = buildLogger
 
-    context(ApplicationContext)
-    suspend fun getGreeting(person: Person): Greeting {
+    suspend fun getGreeting(session: UserSession, person: Person): Greeting {
         logger.info("Fetching greeting for \"{}\"", person.name)
         val url = "${properties.integrations.backend.url}/api/greetings"
         val response = httpClient.post(url) {
+            bearerAuth(session.token!!)
             contentType(ContentType.Application.Json)
             setBody(person)
         }

@@ -1,8 +1,5 @@
 package com.onlyteo.sandbox
 
-import com.onlyteo.sandbox.config.ExceptionHandler
-import com.onlyteo.sandbox.config.buildRequestCache
-import com.onlyteo.sandbox.config.buildRestClient
 import com.onlyteo.sandbox.config.loadProperties
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.plugin.configAuthentication
@@ -12,9 +9,7 @@ import com.onlyteo.sandbox.plugin.configureRouting
 import com.onlyteo.sandbox.plugin.configureSerialization
 import com.onlyteo.sandbox.plugin.configureValidation
 import com.onlyteo.sandbox.plugin.configureWebjars
-import com.onlyteo.sandbox.properties.ApplicationPropertiesHolder
 import com.onlyteo.sandbox.properties.KtorPropertiesHolder
-import com.onlyteo.sandbox.service.GreetingService
 import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -33,20 +28,13 @@ fun main() {
 }
 
 fun Application.module() {
-    val applicationProperties = loadProperties<ApplicationPropertiesHolder>().app
+    val context = ApplicationContext()
 
-    with(ApplicationContext(applicationProperties)) {
-        val exceptionHandler = ExceptionHandler()
-        val httpClient = buildRestClient()
-        val requestCache = buildRequestCache()
-        val greetingService = GreetingService()
-
-        configureSerialization()
-        configureValidation()
-        configureLogging()
-        configureWebjars()
-        configAuthentication(httpClient, requestCache)
-        configureErrorHandling(exceptionHandler)
-        configureRouting(requestCache, greetingService)
-    }
+    configureLogging()
+    configureWebjars()
+    configureErrorHandling()
+    configureSerialization()
+    configureValidation()
+    configAuthentication(context)
+    configureRouting(context)
 }

@@ -11,7 +11,15 @@ data class IntegrationsProperties(val backend: IntegrationProperties)
 
 data class IntegrationProperties(val url: String)
 
-data class SecurityProperties(val oauth2: SecurityOAuth2Properties)
+data class SecurityProperties(
+    val session: SecuritySessionProperties,
+    val oauth2: SecurityOAuth2Properties
+)
+
+data class SecuritySessionProperties(
+    val name: String,
+    val cookieName: String
+)
 
 data class SecurityOAuth2Properties(
     val name: String,

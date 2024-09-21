@@ -1,6 +1,7 @@
 package com.onlyteo.sandbox.model
 
+import io.ktor.server.auth.Principal
+
 data class UserSession(
-    val state: String,
-    val token: String
-)
+    val token: String?
+) : Principal

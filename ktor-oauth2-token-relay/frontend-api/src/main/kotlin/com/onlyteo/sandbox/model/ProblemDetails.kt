@@ -10,10 +10,10 @@ data class ProblemDetails(
     val type: String,
     val status: Int,
     val title: String,
-    val detail: String,
+    val detail: String?,
     val instance: String
 ) {
-    constructor(httpStatusCode: HttpStatusCode, detail: String, instance: String) : this(
+    constructor(httpStatusCode: HttpStatusCode, detail: String?, instance: String) : this(
         type = "about:blank",
         status = httpStatusCode.value,
         title = httpStatusCode.description,

@@ -6,6 +6,9 @@ app:
       url: "http://localhost:8081"
   # Security
   security:
+    session:
+      name: session
+      cookie-name: SANDBOX_SESSION
     oauth2:
       name: oauth2
       callback-url: "http://localhost:8080/callback"

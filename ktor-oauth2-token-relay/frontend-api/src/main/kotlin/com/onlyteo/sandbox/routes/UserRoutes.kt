@@ -7,11 +7,12 @@ import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 
-context(ApplicationContext)
-fun Route.userRoutes() {
-    authenticate(properties.security.oauth2.name) {
-        get("/user") {
-            call.respondText("Hello World!")
+fun Route.userRoutes(context: ApplicationContext) {
+    with(context) {
+        authenticate(properties.security.session.name, properties.security.oauth2.name) {
+            get("/user") {
+                call.respondText("Hello World!")
+            }
         }
     }
 }
