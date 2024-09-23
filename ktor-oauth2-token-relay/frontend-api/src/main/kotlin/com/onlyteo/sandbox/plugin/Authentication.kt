@@ -1,7 +1,10 @@
 package com.onlyteo.sandbox.plugin
 
+import com.auth0.jwt.JWT
+import com.onlyteo.sandbox.config.buildSecurityLogger
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.UserSession
+import com.onlyteo.sandbox.model.asAccessToken
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
@@ -16,42 +19,62 @@ import io.ktor.server.response.header
 import io.ktor.server.response.respond
 import io.ktor.server.sessions.Sessions
 import io.ktor.server.sessions.cookie
+import java.time.Instant
+
+private val securityLogger = buildSecurityLogger
 
 fun Application.configAuthentication(context: ApplicationContext) {
     with(context) {
-        install(Sessions) {
-            cookie<UserSession>(properties.security.session.cookieName)
-        }
-        install(Authentication) {
-            session<UserSession>(properties.security.session.name) {
-                validate { session ->
-                    session.token?.let { session } // TODO Handle session and token expiration
-                }
-                challenge {
-                    call.response.header(HttpHeaders.Location, "/login")
-                    call.respond(HttpStatusCode.Unauthorized)
-                }
+        with(properties.security) {
+            install(Sessions) {
+                cookie<UserSession>(session.cookieName)
             }
-            oauth(properties.security.oauth2.name) {
-                client = httpClient
-                providerLookup = {
-                    OAuthServerSettings.OAuth2ServerSettings(
-                        name = properties.security.oauth2.provider.name,
-                        authorizeUrl = properties.security.oauth2.provider.authorizeUrl,
-                        accessTokenUrl = properties.security.oauth2.provider.tokenUrl,
-                        requestMethod = HttpMethod.Post,
-                        accessTokenRequiresBasicAuth = true,
-                        clientId = properties.security.oauth2.provider.clientId,
-                        clientSecret = properties.security.oauth2.provider.clientSecret,
-                        defaultScopes = properties.security.oauth2.provider.scopes,
-                        onStateCreated = { call, state ->
-                            val redirect = referrerAwareRedirectResolver()
-                            requestCache.put(state, redirect)
+            install(Authentication) {
+                session<UserSession>(session.name) {
+                    validate { currentSession ->
+                        val sessionExpiry = Instant.ofEpochMilli(currentSession.expiresAt)
+                        val accessTokenExpiry = Instant.ofEpochMilli(currentSession.accessToken.expiresAt)
+                        if (Instant.now().isAfter(sessionExpiry)) {
+                            securityLogger.debug("Session expired")
+                            null
+                        } else if (Instant.now().isAfter(accessTokenExpiry)) {
+                            securityLogger.debug("Access token expired")
+                            val oauth2TokenResponse = authService.getOAuth2Token(currentSession.refreshToken)
+                            val (accessToken, refreshToken, _, expiresIn) = oauth2TokenResponse
+                            val accessTokenObject = JWT.decode(accessToken).asAccessToken()
+                            val expiresAt = Instant.now().plusSeconds(expiresIn).toEpochMilli()
+                            UserSession(accessTokenObject, refreshToken, expiresAt)
+                        } else {
+                            securityLogger.debug("Session verified")
+                            currentSession
                         }
-                    )
+                    }
+                    challenge {
+                        call.response.header(HttpHeaders.Location, "/login")
+                        call.respond(HttpStatusCode.Unauthorized)
+                    }
                 }
-                urlProvider = {
-                    properties.security.oauth2.callbackUrl
+                oauth(oauth2.name) {
+                    client = httpClient
+                    providerLookup = {
+                        OAuthServerSettings.OAuth2ServerSettings(
+                            name = oauth2.provider.name,
+                            authorizeUrl = oauth2.provider.authorizeUrl,
+                            accessTokenUrl = oauth2.provider.tokenUrl,
+                            requestMethod = HttpMethod.Post,
+                            accessTokenRequiresBasicAuth = true,
+                            clientId = oauth2.provider.clientId,
+                            clientSecret = oauth2.provider.clientSecret,
+                            defaultScopes = oauth2.provider.scopes,
+                            onStateCreated = { call, state ->
+                                val redirect = referrerAwareRedirectResolver()
+                                requestCache.put(state, redirect)
+                            }
+                        )
+                    }
+                    urlProvider = {
+                        oauth2.callbackUrl
+                    }
                 }
             }
         }

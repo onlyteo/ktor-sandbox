@@ -14,12 +14,14 @@ import io.ktor.server.sessions.sessions
 
 fun Route.greetingRoutes(context: ApplicationContext) {
     with(context) {
-        authenticate(properties.security.session.name, properties.security.oauth2.name) {
-            post("/api/greetings") {
-                val session = call.sessions.get<UserSession>()!!
-                val person = call.receive<Person>()
-                val greeting = greetingService.getGreeting(session, person)
-                call.respond(greeting)
+        with(properties.security) {
+            authenticate(session.name, oauth2.name) {
+                post("/api/greetings") {
+                    val session = call.sessions.get<UserSession>()!!
+                    val person = call.receive<Person>()
+                    val greeting = greetingService.getGreeting(session, person)
+                    call.respond(greeting)
+                }
             }
         }
     }

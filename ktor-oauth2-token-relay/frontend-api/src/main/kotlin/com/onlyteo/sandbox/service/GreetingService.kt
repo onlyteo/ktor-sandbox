@@ -18,12 +18,14 @@ class GreetingService(
 
     suspend fun getGreeting(session: UserSession, person: Person): Greeting {
         logger.info("Fetching greeting for \"{}\"", person.name)
-        val url = "${properties.integrations.backend.url}/api/greetings"
-        val response = httpClient.post(url) {
-            bearerAuth(session.token!!)
-            contentType(ContentType.Application.Json)
-            setBody(person)
+        with(properties.integrations) {
+            val url = "${backend.url}/api/greetings"
+            val response = httpClient.post(url) {
+                bearerAuth(session.accessToken.token)
+                contentType(ContentType.Application.Json)
+                setBody(person)
+            }
+            return response.call.body()
         }
-        return response.call.body()
     }
 }
