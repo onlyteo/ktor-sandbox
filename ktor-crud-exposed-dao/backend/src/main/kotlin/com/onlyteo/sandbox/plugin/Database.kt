@@ -8,18 +8,19 @@ import com.onlyteo.sandbox.plugin.database.H2Plugin
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 
-context(ApplicationContext)
-fun Application.configureDatabase() {
-    val hikariDataSource = hikariDataSource()
+fun Application.configureDatabase(context: ApplicationContext) {
+    with(context) {
+        val hikariDataSource = hikariDataSource(context)
 
-    install(DataSourcePlugin) {
-        dataSource = hikariDataSource
-    }
-    install(FlywayPlugin) {
-        dataSource = hikariDataSource
-    }
-    install(H2Plugin) {
-        enabled = properties.h2.console.enabled
-        port = properties.h2.console.port
+        install(DataSourcePlugin) {
+            dataSource = hikariDataSource
+        }
+        install(FlywayPlugin) {
+            dataSource = hikariDataSource
+        }
+        install(H2Plugin) {
+            enabled = properties.h2.console.enabled
+            port = properties.h2.console.port
+        }
     }
 }

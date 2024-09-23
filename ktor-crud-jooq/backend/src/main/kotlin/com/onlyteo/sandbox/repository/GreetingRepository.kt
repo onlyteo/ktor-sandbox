@@ -7,13 +7,13 @@ import org.jooq.DSLContext
 import java.util.concurrent.atomic.AtomicReference
 
 class GreetingRepository(
-    private val context: DSLContext
+    private val dslContext: DSLContext
 ) {
     private val g = GREETINGS
     private val p = PERSONS
 
     fun findGreetings(name: String): List<GreetingsRecord> {
-        with(context) {
+        with(dslContext) {
             return select()
                 .from(g).join(p)
                 .on(p.ID.eq(g.PERSON_ID))
@@ -26,7 +26,7 @@ class GreetingRepository(
 
     fun insertGreeting(message: String, personId: Int): GreetingsRecord {
         val atomicRecord = AtomicReference<GreetingsRecord>()
-        context.transaction { outer ->
+        dslContext.transaction { outer ->
             val outerTx = outer.dsl()
             outerTx.insertInto(GREETINGS, GREETINGS.MESSAGE, GREETINGS.PERSON_ID)
                 .values(message, personId)

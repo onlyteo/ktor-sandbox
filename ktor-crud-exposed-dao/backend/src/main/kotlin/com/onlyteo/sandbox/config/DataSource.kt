@@ -5,9 +5,8 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import javax.sql.DataSource
 
-context(ApplicationContext)
-fun hikariDataSource(): DataSource {
-    with(properties.dataSource) {
+fun hikariDataSource(context: ApplicationContext): DataSource {
+    with(context.properties.dataSource) {
         val config = HikariConfig()
         config.driverClassName = driverClassName
         config.jdbcUrl = url

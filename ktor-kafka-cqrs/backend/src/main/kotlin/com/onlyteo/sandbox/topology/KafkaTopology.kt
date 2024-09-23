@@ -5,7 +5,6 @@ import com.onlyteo.sandbox.config.buildLogger
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.Greeting
 import com.onlyteo.sandbox.model.Person
-import com.onlyteo.sandbox.service.GreetingService
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.StreamsBuilder
 import org.apache.kafka.streams.Topology
@@ -25,10 +24,9 @@ import org.apache.kafka.streams.state.ValueAndTimestamp
 import java.time.Duration
 import java.time.Instant
 
-context(ApplicationContext)
-fun buildKafkaTopology(greetingService: GreetingService): Topology = StreamsBuilder().apply {
-
-    val properties = properties.kafka.streams
+fun buildKafkaTopology(context: ApplicationContext): Topology = StreamsBuilder().apply {
+    val properties = context.properties.kafka.streams
+    val greetingService = context.greetingService
     val logger = buildLogger
 
     addStateStore(
@@ -41,7 +39,7 @@ fun buildKafkaTopology(greetingService: GreetingService): Topology = StreamsBuil
 
     stream(properties.sourceTopic, Consumed.with(Serdes.String(), buildJsonSerde<Person>()))
         .peek { _, person -> logger.info("Received person \"${person.name}\" on Kafka topic \"${properties.sourceTopic}\"") }
-        .process(buildPersonProcessorSupplier(), Named.`as`(properties.processor), properties.stateStore)
+        .process(buildPersonProcessorSupplier(context), Named.`as`(properties.processor), properties.stateStore)
         .mapValues { person -> greetingService.getGreeting(person) }
         .peek { _, greeting -> logger.info("Sending greeting \"${greeting.message}\" to Kafka topic \"${properties.targetTopic}\"") }
         .to(properties.targetTopic, Produced.with(Serdes.String(), buildJsonSerde<Greeting>()))
@@ -70,18 +68,17 @@ private fun buildPersonPunctuator(
     }
 }
 
-context(ApplicationContext)
-private fun buildPersonProcessorSupplier() = ProcessorSupplier { buildPersonProcessor() }
+private fun buildPersonProcessorSupplier(context: ApplicationContext) =
+    ProcessorSupplier { buildPersonProcessor(context) }
 
-context(ApplicationContext)
-private fun buildPersonProcessor() = object : Processor<String, Person, String, Person> {
+private fun buildPersonProcessor(context: ApplicationContext) = object : Processor<String, Person, String, Person> {
 
     private val logger = buildLogger
     private lateinit var processorContext: ProcessorContext<String, Person>
     private lateinit var keyValueStore: TimestampedKeyValueStore<String, Person>
 
     override fun init(processorContext: ProcessorContext<String, Person>?) {
-        val streamsProperties = properties.kafka.streams
+        val streamsProperties = context.properties.kafka.streams
         this.processorContext = checkNotNull(processorContext) { "ProcessorContext cannot be null" }
         this.keyValueStore = checkNotNull(processorContext.getStateStore(streamsProperties.stateStore)) {
             "No StateStore named ${streamsProperties.stateStore} found"

@@ -2,24 +2,17 @@ package com.onlyteo.sandbox.plugin
 
 import com.onlyteo.sandbox.config.buildLogger
 import com.onlyteo.sandbox.context.ApplicationContext
-import com.onlyteo.sandbox.model.Greeting
-import com.onlyteo.sandbox.model.Person
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationStarted
 import io.ktor.server.application.ApplicationStopping
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
-import org.apache.kafka.clients.consumer.KafkaConsumer
-import org.apache.kafka.clients.producer.KafkaProducer
 import java.time.Duration
 
-context(ApplicationContext)
-fun Application.configureKafka(
-    personKafkaProducer: KafkaProducer<String, Person>,
-    greetingKafkaConsumer: KafkaConsumer<String, Greeting>,
-    greetingChannel: Channel<Greeting>
-) {
-    val consumerProperties = properties.kafka.consumer
+fun Application.configureKafka(context: ApplicationContext) {
+    val consumerProperties = context.properties.kafka.consumer
+    val greetingKafkaConsumer = context.greetingKafkaConsumer
+    val personKafkaProducer = context.personKafkaProducer
+    val greetingChannel = context.greetingChannel
     val logger = buildLogger
 
     environment.monitor.subscribe(ApplicationStarted) {

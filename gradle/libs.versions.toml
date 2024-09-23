@@ -1,6 +1,7 @@
 ### VERSIONS ###
 [versions]
 kotlin = "2.0.20"
+kotlinx-datetime = "0.6.1"
 ktor = "2.3.12"
 spring-boot = "3.3.3"
 spring-dependencies = "1.1.6"
@@ -48,6 +49,7 @@ git-properties = { id = "com.gorylenko.gradle-git-properties", version.ref = "gi
 # Kotlin
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 # Ktor server
 ktor-server-core = { module = "io.ktor:ktor-server-core" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty" }
@@ -200,9 +202,9 @@ kafka = [
     "kafka-clients",
     "kafka-streams"
 ]
-ktor-authentication = [
-    "ktor-server-sessions",
-    "ktor-server-auth"
+ktor-authentication-sessions = [
+    "ktor-server-auth",
+    "ktor-server-sessions"
 ]
 ktor-authentication-jwt = [
     "ktor-server-auth",

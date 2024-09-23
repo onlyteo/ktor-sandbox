@@ -1,9 +1,9 @@
 package com.onlyteo.sandbox.service
 
 import com.onlyteo.sandbox.config.buildLogger
-import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.Greeting
 import com.onlyteo.sandbox.model.Person
+import com.onlyteo.sandbox.properties.ApplicationProperties
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.post
@@ -13,11 +13,12 @@ import io.ktor.http.contentType
 import io.opentelemetry.api.trace.Span
 import io.opentelemetry.instrumentation.annotations.WithSpan
 
-class GreetingService(private val client: HttpClient) {
-
+class GreetingService(
+    private val properties: ApplicationProperties,
+    private val client: HttpClient
+) {
     private val logger = buildLogger
 
-    context(ApplicationContext)
     @WithSpan("greeting.service")
     suspend fun getGreeting(person: Person): Greeting {
         try {

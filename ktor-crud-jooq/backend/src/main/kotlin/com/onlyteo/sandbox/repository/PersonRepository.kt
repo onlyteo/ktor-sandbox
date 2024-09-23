@@ -6,12 +6,12 @@ import org.jooq.DSLContext
 import java.util.concurrent.atomic.AtomicReference
 
 class PersonRepository(
-    private val context: DSLContext
+    private val dslContext: DSLContext
 ) {
     private val p = PERSONS
 
     fun findPerson(name: String): PersonsRecord? {
-        with(context) {
+        with(dslContext) {
             return selectFrom(p)
                 .where(p.NAME.eq(name))
                 .fetchOne()
@@ -20,7 +20,7 @@ class PersonRepository(
 
     fun insertPerson(name: String): PersonsRecord {
         val atomicRecord = AtomicReference<PersonsRecord>()
-        context.transaction { outer ->
+        dslContext.transaction { outer ->
             val outerTx = outer.dsl()
             outerTx.insertInto(p, p.NAME)
                 .values(name)
