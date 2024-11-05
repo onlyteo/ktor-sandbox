@@ -1,35 +1,35 @@
 ### VERSIONS ###
 [versions]
-kotlin = "2.0.20"
-kotlinx-datetime = "0.6.1"
-ktor = "2.3.12"
+kotlin = "2.0.21"
+ktor = "3.0.1"
 spring-boot = "3.3.3"
 spring-dependencies = "1.1.6"
-jackson = "2.17.1"
-logback = "1.5.6"
-logstash-logback = "7.4"
-micrometer = "1.12.5"
-opentelemetry = "1.39.0"
-opentelemetry-instrumentation = "2.4.0"
-opentelemetry-instrumentation-ktor = "2.4.0-alpha"
-hoplite = "2.7.5"
-jetbrains-exposed = "0.52.0"
-jooq = "3.19.10"
-ktorm = "4.0.0"
-flyway = "10.15.0"
-h2database = "2.2.224"
-zaxxer-hikari-cp = "5.1.0"
-kafka = "3.7.0"
-webjars-jquery = "3.7.0"
-webjars-bootstrap = "5.3.1"
+jackson = "2.18.1"
+logback = "1.5.12"
+logstash-logback = "8.0"
+micrometer = "1.13.6"
+opentelemetry = "1.43.0"
+opentelemetry-instrumentation = "2.9.0"
+opentelemetry-instrumentation-ktor = "2.9.0-alpha"
+hoplite = "2.8.2"
+jetbrains-exposed = "0.56.0"
+jooq = "3.19.15"
+ktorm = "4.1.1"
+flyway = "10.20.1"
+h2database = "2.3.232"
+zaxxer-hikari-cp = "6.0.0"
+postgresql-driver = "42.7.4"
+kafka = "3.8.1"
+webjars-jquery = "3.7.1"
+webjars-bootstrap = "5.3.3"
 webjars-popper = "2.11.7"
-webjars-locator = "0.47"
-webjars-fontawesome = "6.4.2"
+webjars-locator = "0.52"
+webjars-fontawesome = "6.5.2"
 thymeleaf-layout-dialect = "3.3.0"
-junit = "5.10.2"
-kotest = "5.9.0"
-mockk = "1.13.11"
-google-cloud-jib = "3.4.3"
+junit = "5.11.3"
+kotest = "5.9.1"
+mockk = "1.13.13"
+google-cloud-jib = "3.4.4"
 git-properties = "2.4.2"
 
 ### PLUGINS ###
@@ -49,7 +49,6 @@ git-properties = { id = "com.gorylenko.gradle-git-properties", version.ref = "gi
 # Kotlin
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit" }
-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 # Ktor server
 ktor-server-core = { module = "io.ktor:ktor-server-core" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty" }
@@ -65,7 +64,6 @@ ktor-server-sessions = { module = "io.ktor:ktor-server-sessions" }
 ktor-server-auth = { module = "io.ktor:ktor-server-auth" }
 ktor-server-auth-jwt = { module = "io.ktor:ktor-server-auth-jwt" }
 ktor-server-websockets = { module = "io.ktor:ktor-server-websockets" }
-ktor-server-tests = { module = "io.ktor:ktor-server-tests" }
 ktor-server-test-host = { module = "io.ktor:ktor-server-test-host" }
 # Ktor client
 ktor-client-core = { module = "io.ktor:ktor-client-core" }
@@ -110,6 +108,7 @@ jooq-meta-extensions = { module = "org.jooq:jooq-meta-extensions", version.ref =
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 h2-database = { module = "com.h2database:h2", version.ref = "h2database" }
 zaxxer-hikari-cp = { module = "com.zaxxer:HikariCP", version.ref = "zaxxer-hikari-cp" }
+postgresql-driver = { module = "org.postgresql:postgresql", version.ref = "postgresql-driver" }
 # Kafka
 kafka-clients = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
 kafka-streams = { module = "org.apache.kafka:kafka-streams", version.ref = "kafka" }
@@ -209,10 +208,6 @@ ktor-authentication-sessions = [
 ktor-authentication-jwt = [
     "ktor-server-auth",
     "ktor-server-auth-jwt"
-]
-ktor-test = [
-    "ktor-server-tests",
-    "ktor-server-test-host"
 ]
 junit = [
     "kotlin-test-junit",

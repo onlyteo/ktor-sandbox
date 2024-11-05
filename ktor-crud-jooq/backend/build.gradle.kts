@@ -17,7 +17,7 @@ dependencies {
     implementation(libs.jackson.dataformat.csv)
     implementation(libs.bundles.h2.database.support)
     implementation(libs.jooq)
-    testImplementation(libs.bundles.ktor.test)
+    testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.mockk)
 

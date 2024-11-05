@@ -4,11 +4,11 @@ import com.onlyteo.sandbox.config.buildLogger
 import com.onlyteo.sandbox.model.OAuth2TokenResponse
 import com.onlyteo.sandbox.properties.ApplicationProperties
 import io.ktor.client.HttpClient
-import io.ktor.client.call.*
-import io.ktor.client.request.*
+import io.ktor.client.call.body
+import io.ktor.client.request.basicAuth
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.forms.submitForm
-import io.ktor.http.*
+import io.ktor.http.isSuccess
 import io.ktor.server.auth.OAuth2RequestParameters
 import java.io.IOException
 

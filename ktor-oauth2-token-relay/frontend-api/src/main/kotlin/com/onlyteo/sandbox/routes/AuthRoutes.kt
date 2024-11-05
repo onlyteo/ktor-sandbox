@@ -5,7 +5,6 @@ import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.UserSession
 import com.onlyteo.sandbox.model.asUserSession
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.call
 import io.ktor.server.auth.OAuthAccessTokenResponse
 import io.ktor.server.auth.authenticate
 import io.ktor.server.auth.principal

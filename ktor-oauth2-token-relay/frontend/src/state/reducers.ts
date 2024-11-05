@@ -8,6 +8,11 @@ export const greetingReducer = (state: State<Greeting>, action: Action<Greeting>
     const {status, data} = action;
 
     switch (status) {
+        case 'LOADING':
+            return {
+                loading: true,
+                data
+            }
         case 'SUCCESS':
             return {
                 loading: false,
@@ -21,7 +26,7 @@ export const greetingReducer = (state: State<Greeting>, action: Action<Greeting>
         default:
             return state
     }
-};
+}
 
 export const userInitialState: State<User> = {
     loading: true,
@@ -31,6 +36,11 @@ export const userInitialState: State<User> = {
 export const userReducer = (state: State<User>, action: Action<User>): State<User> => {
     const {status, data} = action;
     switch (status) {
+        case 'LOADING':
+            return {
+                loading: true,
+                data
+            }
         case 'SUCCESS':
             return {
                 loading: false,
@@ -45,4 +55,4 @@ export const userReducer = (state: State<User>, action: Action<User>): State<Use
         default:
             return state
     }
-};
+}

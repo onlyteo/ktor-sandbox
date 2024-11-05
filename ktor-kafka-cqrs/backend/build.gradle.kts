@@ -12,7 +12,7 @@ dependencies {
     implementation(libs.bundles.hoplite)
     implementation(libs.jackson.dataformat.csv)
     implementation(libs.bundles.kafka)
-    testImplementation(libs.bundles.ktor.test)
+    testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.mockk)
 }

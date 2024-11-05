@@ -20,7 +20,7 @@ Read details about the examples in their respective project roots.
 * [CRUD Exposed DAO](./ktor-crud-exposed-dao)
 * [CRUD Ktorm](./ktor-crud-ktorm)
 * [CRUD JOOQ](./ktor-crud-jooq)
-* [OAuth2 Token Relay](./ktor-oauth2-token-relay) - WIP
+* [OAuth2 Token Relay](./ktor-oauth2-token-relay)
 * [OTEL Observability](./ktor-otel-observability)
 * [Kafka CQRS](./ktor-kafka-cqrs)
 
@@ -42,10 +42,10 @@ The examples typically consists of a `Frontend` and a `Backend` application.
 
 ```mermaid
 graph TD
-    A[Ktor Frontend]
-    B[Ktor Backend]
+    A[Ktor Frontend]:::ktor
+    B[Ktor Backend]:::ktor
 
-    A:::ktor --> B:::ktor
+    A --> B
     
     classDef react fill: #58c4dc, stroke: #000000, color: #000000
     classDef ktor fill: #8d53f9, stroke: #000000, color: #000000
@@ -55,12 +55,12 @@ If the frontend is a JavaScript application then there is often also a `Frontend
 
 ```mermaid
 graph TD
-    A[React Frontend]
-    B[Ktor Frontend API]
-    C[Ktor Backend]
+    A[React Frontend]:::react
+    B[Ktor Frontend API]:::ktor
+    C[Ktor Backend]:::ktor
     
-    A:::react --> B:::ktor
-    B:::ktor --> C:::ktor
+    A --> B
+    B --> C
     
     classDef react fill: #58c4dc, stroke: #000000, color: #000000
     classDef ktor fill: #8d53f9, stroke: #000000, color: #000000

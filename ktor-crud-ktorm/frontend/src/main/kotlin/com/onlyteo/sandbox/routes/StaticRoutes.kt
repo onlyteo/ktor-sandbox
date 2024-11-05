@@ -1,6 +1,5 @@
 package com.onlyteo.sandbox.routes
 
-import io.ktor.server.application.call
 import io.ktor.server.http.content.resolveResource
 import io.ktor.server.http.content.staticResources
 import io.ktor.server.plugins.NotFoundException

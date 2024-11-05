@@ -3,7 +3,7 @@ app:
   # Data source
   data-source:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:sandbox;MODE=PostgreSQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:sandbox
     username: sa
     password:
   # H2

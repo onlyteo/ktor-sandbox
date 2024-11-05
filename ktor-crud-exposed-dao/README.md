@@ -1,6 +1,26 @@
-# Ktor CRUD Exposed
+# Ktor CRUD Exposed DAO
 
 This example shows a CRUD architecture using the Exposed framework.
+
+## Prerequisites
+
+* Java Runtime - e.g. [Temurin JDK](https://adoptium.net), [OpenJDK](https://openjdk.org) or [Oracle JDK](https://www.oracle.com/java)
+* [NodeJS Runtime](https://nodejs.org)
+* [NPM](https://www.npmjs.com) or [Yarn](https://yarnpkg.com)
+* [Docker](https://www.docker.com)
+
+## Run
+
+Start Backend application:
+```bash
+../gradlew :ktor-crud-exposed-dao:backend:run
+```
+
+Start Frontend application:
+
+```bash
+../gradlew :ktor-crud-exposed-dao:frontend:run
+```
 
 ## Architecture
 
@@ -13,12 +33,16 @@ graph TD
     C[(H2 Database)]:::h2
 
     A -- REST --> B
-    subgraph .
     B -- JDBC --> C
-    end
 
     classDef ktor fill: #8d53f9, stroke: #000000, color: #000000
     classDef h2 fill: #f5f242, stroke: #000000, color: #000000
 ```
 
-The `Frontend` application communicates with the `Backend` application using REST.
+### Backend
+
+The Backend is a REST API application based on Ktor.
+
+### Frontend
+
+The Frontend is a web application based on Thymeleaf and Ktor.

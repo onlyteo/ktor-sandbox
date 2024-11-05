@@ -5,7 +5,7 @@ import io.ktor.server.application.ApplicationStarted
 import io.ktor.server.application.createApplicationPlugin
 import io.ktor.server.application.hooks.MonitoringEvent
 import io.ktor.server.application.log
-import io.ktor.util.KtorDsl
+import io.ktor.utils.io.KtorDsl
 import org.flywaydb.core.api.configuration.FluentConfiguration
 import javax.sql.DataSource
 

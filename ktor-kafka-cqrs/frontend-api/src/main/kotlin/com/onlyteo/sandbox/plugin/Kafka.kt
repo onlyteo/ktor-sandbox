@@ -15,7 +15,7 @@ fun Application.configureKafka(context: ApplicationContext) {
     val greetingChannel = context.greetingChannel
     val logger = buildLogger
 
-    environment.monitor.subscribe(ApplicationStarted) {
+    monitor.subscribe(ApplicationStarted) {
         launch {
             try {
                 logger.info("Kafka consumer starting subscription on topic {}", consumerProperties.sourceTopic)
@@ -38,7 +38,7 @@ fun Application.configureKafka(context: ApplicationContext) {
         }
     }
 
-    environment.monitor.subscribe(ApplicationStopping) {
+    monitor.subscribe(ApplicationStopping) {
         personKafkaProducer.close(Duration.ofSeconds(2))
         greetingKafkaConsumer.close(Duration.ofSeconds(2))
     }

@@ -3,7 +3,6 @@ package com.onlyteo.sandbox.routes
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.Person
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.call
 import io.ktor.server.request.receiveParameters
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route

@@ -12,7 +12,7 @@ dependencies {
     implementation(libs.bundles.logback)
     implementation(libs.bundles.hoplite)
     implementation(libs.bundles.ktor.webjars)
-    testImplementation(libs.bundles.ktor.test)
+    testImplementation(libs.ktor.server.test.host)
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.junit)
 }

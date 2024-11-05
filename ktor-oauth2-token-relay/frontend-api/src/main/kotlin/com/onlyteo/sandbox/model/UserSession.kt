@@ -2,7 +2,6 @@ package com.onlyteo.sandbox.model
 
 import com.auth0.jwt.JWT
 import io.ktor.server.auth.OAuthAccessTokenResponse
-import io.ktor.server.auth.Principal
 import kotlinx.serialization.Serializable
 import java.time.Instant
 
@@ -11,7 +10,7 @@ data class UserSession(
     val accessToken: AccessToken,
     val refreshToken: String,
     val expiresAt: Long
-) : Principal
+)
 
 fun OAuthAccessTokenResponse.OAuth2.asUserSession(): UserSession {
     val accessToken = JWT.decode(this.accessToken).asAccessToken()

@@ -15,7 +15,7 @@ dependencies {
     implementation(libs.bundles.hoplite)
     implementation(libs.bundles.ktor.webjars)
     implementation(libs.bundles.kafka)
-    testImplementation(libs.bundles.ktor.test)
+    testImplementation(libs.ktor.server.test.host)
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.mockk)

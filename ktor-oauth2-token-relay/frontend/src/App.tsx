@@ -2,24 +2,35 @@ import React, {FC, ReactElement, useEffect, useReducer} from "react";
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import {Footer, Header} from "./fragments";
 import {Home, NotFound} from "./pages";
-import {User} from "./types";
+import {State, User} from "./types";
 import {GET} from "./state/client";
 import {userInitialState, userReducer} from "./state/reducers";
+import {Spinner} from "react-bootstrap";
 
 interface LayoutProps {
-    user: User
+    userState: State<User>
 }
 
-const Layout: FC<LayoutProps> = (props: LayoutProps): ReactElement => (
-    <>
-        <Header user={props.user}/>
-        <Outlet/>
-        <Footer/>
-    </>
-);
+const Layout: FC<LayoutProps> = (props: LayoutProps): ReactElement => {
+    const {loading, data: user} = props.userState
+
+    if (loading) {
+        console.log("LOADING")
+        return <Spinner animation="border"/>
+    } else {
+        console.log("READY")
+        return (
+            <>
+                <Header user={user}/>
+                <Outlet/>
+                <Footer/>
+            </>
+        );
+    }
+}
 
 const App: FC = (): ReactElement => {
-    const [userState, userDispatch] = useReducer(userReducer, userInitialState);
+    const [userState, userDispatch] = useReducer(userReducer, userInitialState)
 
     useEffect(() => {
         GET<User>("/api/user")
@@ -27,12 +38,12 @@ const App: FC = (): ReactElement => {
             .catch(error => {
                 console.log("ERROR", error)
                 userDispatch({status: 'FAILED'})
-            });
-    }, []);
+            })
+    }, [])
 
     const router = createBrowserRouter([
         {
-            element: <Layout user={userState.data}/>,
+            element: <Layout userState={userState}/>,
             children: [
                 {
                     path: "/",
@@ -44,9 +55,9 @@ const App: FC = (): ReactElement => {
                 }
             ]
         }
-    ]);
+    ])
 
-    return <RouterProvider router={router}/>;
-};
+    return <RouterProvider router={router}/>
+}
 
 export default App;
