@@ -38,9 +38,9 @@ include(":ktor-oauth2-token-relay:frontend-api")
 include(":ktor-oauth2-token-relay:backend")
 include(":ktor-oauth2-token-relay:authorization-server")
 
-include(":ktor-kafka-cqrs:frontend")
-include(":ktor-kafka-cqrs:frontend-api")
-include(":ktor-kafka-cqrs:backend")
+include(":ktor-cqrs-kafka:frontend")
+include(":ktor-cqrs-kafka:frontend-api")
+include(":ktor-cqrs-kafka:backend")
 
 include(":ktor-otel-observability:frontend")
 include(":ktor-otel-observability:frontend-api")
