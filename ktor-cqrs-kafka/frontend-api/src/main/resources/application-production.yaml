@@ -1,0 +1,15 @@
+### APP ###
+app:
+  # Kafka
+  kafka:
+    producer:
+      brokers:
+        - "${APP_KAFKA_BROKERS}"
+    consumer:
+      brokers:
+        - "${APP_KAFKA_BROKERS}"
+
+### KTOR ###
+ktor:
+  # Development
+  development: false

@@ -1,4 +1,4 @@
-package com.onlyteo.sandbox.plugin.database
+package com.onlyteo.sandbox.plugin.custom
 
 import io.ktor.events.EventDefinition
 import io.ktor.server.application.Application

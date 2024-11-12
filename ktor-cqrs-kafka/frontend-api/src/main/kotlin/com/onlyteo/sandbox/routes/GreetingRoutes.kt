@@ -20,7 +20,7 @@ fun Route.greetingRouting(context: ApplicationContext) {
     val personKafkaProducer = context.personKafkaProducer
     val greetingChannel = context.greetingChannel
     val logger = buildLogger
-    val semaphore = AtomicBoolean(true)
+    val websocketsRunning = AtomicBoolean(true)
 
     post("/api/greetings") {
         val person = call.receive<Person>()
@@ -32,7 +32,7 @@ fun Route.greetingRouting(context: ApplicationContext) {
     webSocket("/ws/greetings") {
         try {
             logger.info("Opening websocket session")
-            while (semaphore.get()) {
+            while (websocketsRunning.get()) {
                 greetingChannel.consumeEach { greeting ->
                     logger.info("Sending greeting \"{}\" to websocket \"/ws/greetings\"", greeting.message)
                     sendSerialized(greeting)

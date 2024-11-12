@@ -23,5 +23,5 @@ dependencies {
 }
 
 application {
-    mainClass = "com.onlyteo.sandbox.KafkaStreamsFrontendApiApplicationKt"
+    mainClass = "com.onlyteo.sandbox.KafkaCqrsKafkaFrontendApiApplicationKt"
 }

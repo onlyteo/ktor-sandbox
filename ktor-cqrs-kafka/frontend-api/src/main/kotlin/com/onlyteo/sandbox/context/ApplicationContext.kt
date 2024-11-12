@@ -15,5 +15,5 @@ data class ApplicationContext(
     val properties: ApplicationProperties = loadProperties<ApplicationPropertiesHolder>().app,
     val personKafkaProducer: KafkaProducer<String, Person> = buildPersonKafkaProducer(properties),
     val greetingKafkaConsumer: KafkaConsumer<String, Greeting> = buildGreetingKafkaConsumer(properties),
-    val greetingChannel: Channel<Greeting> = Channel<Greeting>()
+    val greetingChannel: Channel<Greeting> = Channel()
 )

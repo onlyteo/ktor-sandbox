@@ -1,0 +1,15 @@
+### APP ###
+app:
+  # Kafka
+  kafka:
+    producer:
+      brokers:
+        - "localhost:9092"
+    consumer:
+      brokers:
+        - "localhost:9092"
+
+### KTOR ###
+ktor:
+  # Development
+  development: true

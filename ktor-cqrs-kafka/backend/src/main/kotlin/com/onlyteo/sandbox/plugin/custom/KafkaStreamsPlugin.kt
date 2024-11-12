@@ -1,5 +1,7 @@
-package com.onlyteo.sandbox.plugin.kafka
+package com.onlyteo.sandbox.plugin.custom
 
+import io.ktor.events.EventDefinition
+import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationPlugin
 import io.ktor.server.application.ApplicationStarted
 import io.ktor.server.application.ApplicationStopping
@@ -13,6 +15,9 @@ import org.apache.kafka.streams.Topology
 import org.apache.kafka.streams.errors.StreamsUncaughtExceptionHandler
 import java.time.Duration
 
+val KafkaStreamsStarting: EventDefinition<Application> = EventDefinition()
+val KafkaStreamsStopping: EventDefinition<Application> = EventDefinition()
+
 @KtorDsl
 class KafkaStreamsPluginConfig {
     var streamsProperties: Map<String, Any>? = null
@@ -22,21 +27,23 @@ class KafkaStreamsPluginConfig {
 
 val KafkaStreamsPlugin: ApplicationPlugin<KafkaStreamsPluginConfig> =
     createApplicationPlugin("KafkaStreams", ::KafkaStreamsPluginConfig) {
-        val properties = checkNotNull(pluginConfig.streamsProperties) { "Kafka streams properties must not be null" }
-        val topology = checkNotNull(pluginConfig.streamsTopology) { "Kafka streams topology must not be null" }
+        val properties = checkNotNull(pluginConfig.streamsProperties) { "Kafka Streams properties must not be null" }
+        val topology = checkNotNull(pluginConfig.streamsTopology) { "Kafka Streams topology must not be null" }
         val exceptionHandler =
-            checkNotNull(pluginConfig.streamsExceptionHandler) { "Kafka streams exception handler must not be null" }
+            checkNotNull(pluginConfig.streamsExceptionHandler) { "Kafka Streams exception handler must not be null" }
 
         val kafkaStreams = KafkaStreams(topology, StreamsConfig(properties))
         kafkaStreams.setUncaughtExceptionHandler(exceptionHandler)
 
         on(MonitoringEvent(ApplicationStarted)) { application ->
             application.log.info("Starting Kafka Streams")
+            application.monitor.raise(KafkaStreamsStarting, application)
             kafkaStreams.start()
         }
 
         on(MonitoringEvent(ApplicationStopping)) { application ->
             application.log.info("Stopping Kafka Streams")
+            application.monitor.raise(KafkaStreamsStopping, application)
             kafkaStreams.close(Duration.ofSeconds(5))
         }
     }

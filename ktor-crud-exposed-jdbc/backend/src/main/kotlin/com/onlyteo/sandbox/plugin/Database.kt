@@ -2,9 +2,9 @@ package com.onlyteo.sandbox.plugin
 
 import com.onlyteo.sandbox.config.buildHikariDataSource
 import com.onlyteo.sandbox.context.ApplicationContext
-import com.onlyteo.sandbox.plugin.database.DataSourcePlugin
-import com.onlyteo.sandbox.plugin.database.FlywayPlugin
-import com.onlyteo.sandbox.plugin.database.H2Plugin
+import com.onlyteo.sandbox.plugin.custom.DataSourcePlugin
+import com.onlyteo.sandbox.plugin.custom.FlywayPlugin
+import com.onlyteo.sandbox.plugin.custom.H2Plugin
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 
