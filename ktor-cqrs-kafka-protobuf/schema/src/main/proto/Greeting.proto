@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package com.onlyteo.sandbox.model;
+
+message Greeting {
+    string message = 1;
+}

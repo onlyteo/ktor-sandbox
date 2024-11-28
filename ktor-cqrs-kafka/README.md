@@ -60,11 +60,11 @@ graph TD
 
 ### Backend
 
-The Backend is a REST API application based on Ktor.
+The Backend is a Kafka Streams application based on Ktor.
 
 ### Frontend API
 
-The Frontend API is a REST API application based on Ktor.
+The Frontend API is a REST API and Kafka application based on Ktor.
 
 ### Frontend
 

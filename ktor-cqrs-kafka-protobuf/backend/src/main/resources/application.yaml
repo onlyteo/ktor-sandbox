@@ -1,0 +1,26 @@
+### APP ###
+app:
+  # ID
+  id: ktor-kafka-cqrs-backend
+  # Resources
+  resources:
+    prefixes-file: /data/prefixes.csv
+  # Kafka
+  kafka:
+    streams:
+      id: ktor-kafka-cqrs-backend-streams
+      brokers:
+        - "localhost:9092"
+      sourceTopic: persons
+      targetTopic: greetings
+      stateStore: persons
+      processor: personProcessor
+      punctuatorSchedule: PT10S
+      processingDelay: PT60S
+
+### KTOR ###
+ktor:
+  # Deployment
+  deployment:
+    port: 8081
+    host: 0.0.0.0

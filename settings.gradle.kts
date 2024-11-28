@@ -42,6 +42,11 @@ include(":ktor-cqrs-kafka:frontend")
 include(":ktor-cqrs-kafka:frontend-api")
 include(":ktor-cqrs-kafka:backend")
 
+include(":ktor-cqrs-kafka-protobuf:schema")
+include(":ktor-cqrs-kafka-protobuf:frontend")
+include(":ktor-cqrs-kafka-protobuf:frontend-api")
+include(":ktor-cqrs-kafka-protobuf:backend")
+
 include(":ktor-otel-observability:frontend")
 include(":ktor-otel-observability:frontend-api")
 include(":ktor-otel-observability:backend")

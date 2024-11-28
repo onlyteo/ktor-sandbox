@@ -32,7 +32,7 @@ services:
     container_name: sandbox.kafka-init
     environment:
       BOOTSTRAP_SERVER: sandbox.kafka:29092
-      CREATE_TOPICS: persons,greetings
+      CREATE_TOPICS: persons,greetings,persons-avro,greetings-avro,persons-protobuf,greetings-protobuf
     volumes:
       - ./resources/kafka_init.sh:/kafka_init.sh
     networks:

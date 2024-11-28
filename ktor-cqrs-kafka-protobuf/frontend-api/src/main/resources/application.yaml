@@ -1,0 +1,19 @@
+### APP ###
+app:
+  id: ktor-kafka-cqrs-frontend-api
+  # Kafka
+  kafka:
+    producer:
+      clientId: ktor-kafka-cqrs-frontend-api-person-producer
+      targetTopic: persons
+    consumer:
+      clientId: ktor-kafka-cqrs-frontend-api-greeting-consumer
+      groupId: ktor-kafka-cqrs-frontend-api-greeting-consumer-group
+      sourceTopic: greetings
+
+### KTOR ###
+ktor:
+  # Deployment
+  deployment:
+    port: 8080
+    host: 0.0.0.0

@@ -3,8 +3,10 @@ package com.onlyteo.sandbox.config
 import com.onlyteo.sandbox.model.Greeting
 import com.onlyteo.sandbox.model.Person
 import com.onlyteo.sandbox.properties.ApplicationProperties
+import org.apache.kafka.clients.consumer.ConsumerRebalanceListener
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
 
@@ -22,4 +24,9 @@ fun buildGreetingKafkaConsumer(properties: ApplicationProperties): KafkaConsumer
         StringDeserializer(),
         buildJsonDeserializer<Greeting>()
     )
+}
+
+fun buildNoopConsumerRebalanceListener() = object : ConsumerRebalanceListener {
+    override fun onPartitionsRevoked(partitions: MutableCollection<TopicPartition>?) {}
+    override fun onPartitionsAssigned(partitions: MutableCollection<TopicPartition>?) {}
 }

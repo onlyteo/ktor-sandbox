@@ -20,6 +20,10 @@ h2database = "2.3.232"
 zaxxer-hikari-cp = "6.0.0"
 postgresql-driver = "42.7.4"
 kafka = "3.8.1"
+confluent-kafka = "7.7.1"
+protobuf = "0.9.4"
+protobuf-kotlin = "4.28.3"
+avro = "1.12.0"
 webjars-jquery = "3.7.1"
 webjars-bootstrap = "5.3.3"
 webjars-popper = "2.11.7"
@@ -43,6 +47,7 @@ spring-dependencies = { id = "io.spring.dependency-management", version.ref = "s
 google-cloud-jib = { id = "com.google.cloud.tools.jib", version.ref = "google-cloud-jib" }
 jooq-codegen = { id = "org.jooq.jooq-codegen-gradle", version.ref = "jooq" }
 git-properties = { id = "com.gorylenko.gradle-git-properties", version.ref = "git-properties" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobuf" }
 
 ### LIBRARIES ###
 [libraries]
@@ -113,6 +118,14 @@ postgresql-driver = { module = "org.postgresql:postgresql", version.ref = "postg
 kafka-clients = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
 kafka-streams = { module = "org.apache.kafka:kafka-streams", version.ref = "kafka" }
 kafka-streams-test-utils = { module = "org.apache.kafka:kafka-streams-test-utils", version.ref = "kafka" }
+# Protobuf
+protobuf-kotlin = { module = "com.google.protobuf:protobuf-kotlin", version.ref = "protobuf-kotlin" }
+kafka-protobuf-serializer = { module = "io.confluent:kafka-protobuf-serializer", version.ref = "confluent-kafka" }
+kafka-streams-protobuf-serde = { module = "io.confluent:kafka-streams-protobuf-serde", version.ref = "confluent-kafka" }
+# Avro
+avro = { module = "org.apache.avro:avro", version.ref = "avro" }
+kafka-avro-serializer = { module = "io.confluent:kafka-avro-serializer", version.ref = "confluent-kafka" }
+kafka-streams-avro-serde = { module = "io.confluent:kafka-streams-avro-serde", version.ref = "confluent-kafka" }
 # Thymeleaf
 thymeleaf-layout-dialect = { module = "nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect", version.ref = "thymeleaf-layout-dialect" }
 thymeleaf-extras-spring-security = { module = "org.thymeleaf.extras:thymeleaf-extras-springsecurity6" }
@@ -196,10 +209,6 @@ h2-database-support = [
     "zaxxer-hikari-cp",
     "flyway-core",
     "h2-database"
-]
-kafka = [
-    "kafka-clients",
-    "kafka-streams"
 ]
 ktor-authentication-sessions = [
     "ktor-server-auth",
