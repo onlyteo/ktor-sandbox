@@ -4,10 +4,7 @@ This example shows a CRUD architecture using the Ktorm framework.
 
 ## Prerequisites
 
-* Java Runtime - e.g. [Temurin JDK](https://adoptium.net), [OpenJDK](https://openjdk.org) or [Oracle JDK](https://www.oracle.com/java)
-* [NodeJS Runtime](https://nodejs.org)
-* [NPM](https://www.npmjs.com) or [Yarn](https://yarnpkg.com)
-* [Docker](https://www.docker.com)
+* Java Runtime - e.g. [Temurin JDK](https://adoptium.net) or [OpenJDK](https://openjdk.org)
 
 ## Run
 

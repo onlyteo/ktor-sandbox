@@ -4,7 +4,6 @@ import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.Person
 import com.onlyteo.sandbox.model.UserSession
 import io.ktor.server.auth.authenticate
-import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
@@ -15,9 +14,8 @@ fun Route.greetingRoutes(context: ApplicationContext) {
     with(context) {
         with(properties.security) {
             authenticate(session.name, oauth2.name) {
-                post("/api/greetings") {
+                post<Person>("/api/greetings") { person ->
                     val session = call.sessions.get<UserSession>()!!
-                    val person = call.receive<Person>()
                     val greeting = greetingService.getGreeting(session, person)
                     call.respond(greeting)
                 }

@@ -33,7 +33,6 @@ subprojects {
 
     tasks {
         withType<JavaCompile> {
-
         }
 
         withType<KotlinCompile> {

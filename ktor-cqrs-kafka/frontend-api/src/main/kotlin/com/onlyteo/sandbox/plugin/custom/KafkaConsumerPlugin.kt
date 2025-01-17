@@ -33,6 +33,7 @@ class KafkaConsumerPluginConfig<K, V> {
     var closeTimeout: Duration? = Duration.ofSeconds(2)
 }
 
+@Suppress("FunctionName")
 fun <K, V> KafkaConsumerPlugin(): ApplicationPlugin<KafkaConsumerPluginConfig<K, V>> =
     createApplicationPlugin("KafkaConsumer", ::KafkaConsumerPluginConfig) {
         val kafkaConsumer = checkNotNull(pluginConfig.kafkaConsumer) { "Kafka Consumer must not be null" }

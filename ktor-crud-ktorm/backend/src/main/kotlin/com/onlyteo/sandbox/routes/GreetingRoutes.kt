@@ -2,7 +2,6 @@ package com.onlyteo.sandbox.routes
 
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.Person
-import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
@@ -17,8 +16,7 @@ fun Route.greetingRoutes(context: ApplicationContext) {
         call.respond(greetings)
     }
 
-    post("/api/greetings") {
-        val person = call.receive<Person>()
+    post<Person>("/api/greetings") { person ->
         val greeting = greetingService.getGreeting(person)
         call.respond(greeting)
     }

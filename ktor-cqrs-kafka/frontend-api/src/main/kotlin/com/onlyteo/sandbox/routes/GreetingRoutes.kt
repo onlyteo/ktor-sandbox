@@ -4,7 +4,6 @@ import com.onlyteo.sandbox.config.buildLogger
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.Person
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.request.receive
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
 import io.ktor.server.websocket.sendSerialized
@@ -22,8 +21,7 @@ fun Route.greetingRouting(context: ApplicationContext) {
     val logger = buildLogger
     val websocketsRunning = AtomicBoolean(true)
 
-    post("/api/greetings") {
-        val person = call.receive<Person>()
+    post<Person>("/api/greetings") { person ->
         logger.info("Sending person \"{}\" on topic \"{}\"", person.name, producerProperties.targetTopic)
         personKafkaProducer.send(ProducerRecord(producerProperties.targetTopic, person.name, person))
         call.response.status(HttpStatusCode.Accepted)
