@@ -1,0 +1,33 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      kotlin:
+        patterns:
+          - "org.jetbrains.kotlin"
+      ktor:
+        patterns:
+          - "io.ktor"
+      logging:
+        patterns:
+          - "org.slf4j"
+          - "ch.qos.logback"
+      jackson:
+        patterns:
+          - "com.fasterxml.jackson"
+      kafka:
+        patterns:
+          - "org.apache.kafka"
+          - "io.confluent"
+          - "org.apache.avro"
+      opentelemetry:
+        patterns:
+          - "io.opentelemetry"
