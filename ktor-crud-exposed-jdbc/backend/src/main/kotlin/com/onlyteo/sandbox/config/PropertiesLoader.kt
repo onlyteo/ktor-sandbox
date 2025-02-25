@@ -12,11 +12,19 @@ fun currentEnvironment(): Environment {
     return Environment.fromEnvVar("KTOR_ENV", Environment.development)
 }
 
-inline fun <reified T : Any> loadProperties(): T {
+inline fun <reified T : Any> loadApplicationProperties(): T {
     val environment = currentEnvironment()
+    return loadApplicationProperties<T>(environment.name)
+}
+
+inline fun <reified T : Any> loadApplicationProperties(suffix: String): T {
+    return loadProperties<T>("application", suffix)
+}
+
+inline fun <reified T : Any> loadProperties(prefix: String, suffix: String): T {
     return ConfigLoaderBuilder.default()
-        .addResourceSource("/application.yaml")
-        .addResourceSource("/application-${environment.name}.yaml")
+        .addResourceSource("/${prefix}.yaml")
+        .addResourceSource("/${prefix}-${suffix}.yaml")
         .build()
         .loadConfigOrThrow<T>()
 }

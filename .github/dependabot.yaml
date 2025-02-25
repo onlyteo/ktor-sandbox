@@ -23,6 +23,15 @@ updates:
           - "org.apache.kafka"
           - "io.confluent"
           - "org.apache.avro"
+      micrometer:
+        patterns:
+          - "io.micrometer"
       opentelemetry:
         patterns:
           - "io.opentelemetry"
+      webjars:
+        patterns:
+          - "org.webjars"
+      kotest:
+        patterns:
+          - "io.kotest"

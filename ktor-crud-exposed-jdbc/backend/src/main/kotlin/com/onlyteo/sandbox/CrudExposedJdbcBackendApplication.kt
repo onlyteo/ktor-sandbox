@@ -1,6 +1,6 @@
 package com.onlyteo.sandbox
 
-import com.onlyteo.sandbox.config.loadProperties
+import com.onlyteo.sandbox.config.loadApplicationProperties
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.plugin.configureDatabase
 import com.onlyteo.sandbox.plugin.configureErrorHandling
@@ -14,7 +14,7 @@ import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 
 fun main() {
-    val ktorProperties = loadProperties<KtorPropertiesHolder>().ktor
+    val ktorProperties = loadApplicationProperties<KtorPropertiesHolder>().ktor
 
     with(ktorProperties.deployment) {
         embeddedServer(
