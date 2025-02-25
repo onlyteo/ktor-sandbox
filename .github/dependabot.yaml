@@ -18,6 +18,9 @@ updates:
       jackson:
         patterns:
           - "com.fasterxml.jackson"
+      exposed:
+        patterns:
+          - "org.jetbrains.exposed"
       kafka:
         patterns:
           - "org.apache.kafka"
