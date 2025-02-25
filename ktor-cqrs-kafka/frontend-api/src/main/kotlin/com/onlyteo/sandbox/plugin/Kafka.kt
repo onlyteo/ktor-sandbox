@@ -7,6 +7,7 @@ import com.onlyteo.sandbox.plugin.custom.KafkaConsumerPlugin
 import com.onlyteo.sandbox.plugin.custom.KafkaProducerPlugin
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
+import kotlinx.coroutines.runBlocking
 
 fun Application.configureKafka(context: ApplicationContext) {
     val sourceTopic = context.properties.kafka.consumer.sourceTopic
@@ -22,12 +23,14 @@ fun Application.configureKafka(context: ApplicationContext) {
         kafkaConsumer = greetingKafkaConsumer
         kafkaTopics = listOf(sourceTopic)
         consumeFunction = { records ->
-            records
-                .map { it.value() }
-                .forEach { greeting ->
-                    logger.info("Received greeting \"{}\" on topic \"{}\"", greeting.message, sourceTopic)
-                    greetingChannel.send(greeting)
-                }
+            runBlocking {
+                records
+                    .map { it.value() }
+                    .forEach { greeting ->
+                        logger.info("Received greeting \"{}\" on topic \"{}\"", greeting.message, sourceTopic)
+                        greetingChannel.send(greeting)
+                    }
+            }
         }
         errorFunction = { throwable ->
             logger.error("An error occurred while consuming greetings on topic \"${sourceTopic}\"", throwable)
