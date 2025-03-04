@@ -45,3 +45,5 @@ include(":ktor-cqrs-kafka:backend")
 include(":ktor-otel-observability:frontend")
 include(":ktor-otel-observability:frontend-api")
 include(":ktor-otel-observability:backend")
+
+include(":ktor-kafka-streams:backend")

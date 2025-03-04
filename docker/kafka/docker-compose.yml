@@ -35,6 +35,8 @@ services:
       CREATE_TOPICS: persons,greetings
     volumes:
       - ./resources/kafka_init.sh:/kafka_init.sh
+      - sandbox.kafka-init-data:/var/lib/kafka/data
+      - sandbox.kafka-init-secrets:/etc/kafka/secrets
     networks:
       - sandbox.kafka
     command: /kafka_init.sh
@@ -91,10 +93,14 @@ services:
 
 ### VOLUMES ###
 volumes:
-  sandbox.kafka-secrets:
-    name: sandbox.kafka-secrets
   sandbox.kafka-data:
     name: sandbox.kafka-data
+  sandbox.kafka-secrets:
+    name: sandbox.kafka-secrets
+  sandbox.kafka-init-data:
+    name: sandbox.kafka-init-data
+  sandbox.kafka-init-secrets:
+    name: sandbox.kafka-init-secrets
 
 ### NETWORKS ###
 networks:

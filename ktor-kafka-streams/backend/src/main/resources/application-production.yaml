@@ -1,0 +1,15 @@
+### APP ###
+app:
+  # Kafka
+  kafka:
+    streams:
+      id: ${app.id}-v1
+      brokers:
+        - "kafka:9092"
+      sourceTopic: persons
+      targetTopic: greetings
+
+### KTOR ###
+ktor:
+  # Development
+  development: false

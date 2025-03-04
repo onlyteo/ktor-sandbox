@@ -1,0 +1,4 @@
+brokers:
+  - "localhost:9092"
+clientId: ktor-kafka-streams-backend-greetings-v1
+targetTopic: greetings

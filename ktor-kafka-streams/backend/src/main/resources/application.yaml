@@ -1,0 +1,14 @@
+### APP ###
+app:
+  # ID
+  id: ktor-kafka-streams-backend
+  # Resources
+  resources:
+    prefixes-file: /data/prefixes.csv
+
+### KTOR ###
+ktor:
+  # Deployment
+  deployment:
+    port: 8081
+    host: 0.0.0.0
