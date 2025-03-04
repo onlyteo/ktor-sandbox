@@ -1,5 +1,6 @@
 package com.onlyteo.sandbox.runner
 
+import io.ktor.server.application.Application
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -12,9 +13,10 @@ open class ThreadPoolAsyncRunner(
     private val abortFunction: (() -> Unit),
     private val executorService: ExecutorService = Executors.newSingleThreadExecutor(),
     private val taskRef: AtomicReference<Future<*>> = AtomicReference(CompletableFuture<Nothing>())
-) : AsyncRunner<Nothing> {
+) : AsyncRunner<Application> {
     constructor(
-        runFunction: (() -> Unit),
+        taskFunction: (() -> Unit),
+        successFunction: (() -> Unit) = {},
         errorFunction: ((Throwable) -> Unit),
         abortFunction: (() -> Unit),
         executorService: ExecutorService = Executors.newSingleThreadExecutor(),
@@ -24,7 +26,8 @@ open class ThreadPoolAsyncRunner(
         runFunction = {
             while (taskLatch.get()) {
                 try {
-                    runFunction()
+                    taskFunction()
+                    successFunction()
                 } catch (throwable: Throwable) {
                     errorFunction(throwable)
                 }
@@ -38,7 +41,7 @@ open class ThreadPoolAsyncRunner(
         taskRef = taskRef
     )
 
-    override fun run(context: Nothing) {
+    override fun run(context: Application) {
         taskRef.set(executorService.submit {
             runFunction()
         })

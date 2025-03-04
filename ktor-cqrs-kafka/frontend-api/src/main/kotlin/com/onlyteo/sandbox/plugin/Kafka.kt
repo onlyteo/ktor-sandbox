@@ -19,22 +19,24 @@ fun Application.configureKafka(context: ApplicationContext) {
     install(KafkaProducerPlugin) {
         kafkaProducer = personKafkaProducer
     }
-    install(KafkaConsumerPlugin<String, Greeting>()) {
-        kafkaConsumer = greetingKafkaConsumer
-        kafkaTopics = listOf(sourceTopic)
-        consumeFunction = { records ->
-            runBlocking {
-                records
-                    .map { it.value() }
-                    .forEach { greeting ->
-                        logger.info("Received greeting \"{}\" on topic \"{}\"", greeting.message, sourceTopic)
-                        greetingChannel.send(greeting)
-                    }
+    install(KafkaConsumerPlugin) {
+        useCoroutines<String, Greeting> {
+            kafkaTopics = listOf(sourceTopic)
+            kafkaConsumer = greetingKafkaConsumer
+            consumeFunction = { records ->
+                runBlocking {
+                    records
+                        .map { it.value() }
+                        .forEach { greeting ->
+                            logger.info("Received greeting \"{}\" on topic \"{}\"", greeting.message, sourceTopic)
+                            greetingChannel.send(greeting)
+                        }
+                }
             }
-        }
-        errorFunction = { throwable ->
-            logger.error("An error occurred while consuming greetings on topic \"${sourceTopic}\"", throwable)
-            throw throwable
+            errorFunction = { throwable ->
+                logger.error("An error occurred while consuming greetings on topic \"${sourceTopic}\"", throwable)
+                throw throwable
+            }
         }
     }
 }

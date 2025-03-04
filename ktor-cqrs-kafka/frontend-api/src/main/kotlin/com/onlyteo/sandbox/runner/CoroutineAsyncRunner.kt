@@ -1,7 +1,7 @@
 package com.onlyteo.sandbox.runner
 
+import io.ktor.server.application.Application
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -13,9 +13,10 @@ open class CoroutineAsyncRunner(
     private val abortFunction: (() -> Unit),
     private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val taskRef: AtomicReference<Job> = AtomicReference(Job())
-) : AsyncRunner<CoroutineScope> {
+) : AsyncRunner<Application> {
     constructor(
-        runFunction: (() -> Unit),
+        taskFunction: (() -> Unit),
+        successFunction: (() -> Unit) = {},
         errorFunction: ((Throwable) -> Unit),
         abortFunction: (() -> Unit),
         coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
@@ -25,7 +26,8 @@ open class CoroutineAsyncRunner(
         runFunction = {
             while (taskLatch.get()) {
                 try {
-                    runFunction()
+                    taskFunction()
+                    successFunction()
                 } catch (throwable: Throwable) {
                     errorFunction(throwable)
                 }
@@ -39,7 +41,7 @@ open class CoroutineAsyncRunner(
         taskRef = taskRef
     )
 
-    override fun run(context: CoroutineScope) {
+    override fun run(context: Application) {
         taskRef.set(context.launch(coroutineDispatcher) {
             runFunction()
         })

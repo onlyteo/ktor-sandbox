@@ -1,25 +1,53 @@
 package com.onlyteo.sandbox.config
 
-import com.onlyteo.sandbox.model.Greeting
-import com.onlyteo.sandbox.model.Person
-import com.onlyteo.sandbox.properties.ApplicationProperties
+import com.onlyteo.sandbox.properties.KafkaConsumerProperties
+import com.onlyteo.sandbox.properties.KafkaProducerProperties
+import org.apache.kafka.clients.consumer.Consumer
+import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
+import java.time.Duration
+import java.util.concurrent.atomic.AtomicBoolean
 
-fun buildPersonKafkaProducer(properties: ApplicationProperties): KafkaProducer<String, Person> {
+inline fun <reified V> buildJsonKafkaProducer(properties: KafkaProducerProperties): KafkaProducer<String, V> {
     return KafkaProducer(
-        properties.kafka.producer.asMap(),
+        properties.asMap(),
         StringSerializer(),
-        buildJsonSerializer<Person>()
+        buildJsonSerializer<V>()
     )
 }
 
-fun buildGreetingKafkaConsumer(properties: ApplicationProperties): KafkaConsumer<String, Greeting> {
+inline fun <reified V> buildJsonKafkaConsumer(properties: KafkaConsumerProperties): KafkaConsumer<String, V> {
     return KafkaConsumer(
-        properties.kafka.consumer.asMap(),
+        properties.asMap(),
         StringDeserializer(),
-        buildJsonDeserializer<Greeting>()
+        buildJsonDeserializer<V>()
     )
+}
+
+fun <K, V> Consumer<K, V>.consumeRecords(
+    consumeFunction: ((ConsumerRecords<K, V>) -> Unit),
+    pollTimeout: Duration = Duration.ofMillis(500)
+) {
+    consumeFunction(poll(pollTimeout))
+}
+
+fun <K, V> Consumer<K, V>.consumeSequence(
+    close: AtomicBoolean,
+    pollTimeout: Duration = Duration.ofMillis(500),
+    closeTimeout: Duration = Duration.ofMillis(1000)
+): Sequence<ConsumerRecords<K, V>> = generateSequence {
+    if (close.get()) {
+        close(closeTimeout)
+        null
+    } else {
+        poll(pollTimeout)
+    }
+}
+
+fun <K, V> Consumer<K, V>.abort() {
+    unsubscribe()
+    close(Duration.ofSeconds(2))
 }

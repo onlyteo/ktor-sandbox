@@ -1,5 +1,7 @@
 package com.onlyteo.sandbox.plugin.custom
 
+import com.onlyteo.sandbox.config.abort
+import com.onlyteo.sandbox.config.consumeRecords
 import com.onlyteo.sandbox.listener.NoopConsumerRebalanceListener
 import com.onlyteo.sandbox.runner.AsyncRunner
 import com.onlyteo.sandbox.runner.CoroutineAsyncRunner
@@ -13,39 +15,76 @@ import io.ktor.server.application.createApplicationPlugin
 import io.ktor.server.application.hooks.MonitoringEvent
 import io.ktor.server.application.log
 import io.ktor.utils.io.KtorDsl
-import kotlinx.coroutines.CoroutineScope
 import org.apache.kafka.clients.consumer.ConsumerRebalanceListener
 import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.apache.kafka.clients.consumer.KafkaConsumer
-import java.time.Duration
 
 val KafkaConsumerReady: EventDefinition<Application> = EventDefinition()
 val KafkaConsumerStarting: EventDefinition<Application> = EventDefinition()
 val KafkaConsumerStopping: EventDefinition<Application> = EventDefinition()
 
 @KtorDsl
-class KafkaConsumerPluginConfig<K, V> {
+class KafkaConsumerPluginConfig {
     var kafkaTopics: Collection<String>? = null
-    var consumeFunction: ((ConsumerRecords<K, V>) -> Unit)? = null
-    var errorFunction: ((Throwable) -> Unit)? = null
-    var kafkaConsumer: KafkaConsumer<K, V>? = null
+    var kafkaConsumer: KafkaConsumer<*, *>? = null
     var rebalanceListener: ConsumerRebalanceListener? = NoopConsumerRebalanceListener()
+    var asyncRunner: AsyncRunner<Application>? = null
+
+    inline fun <reified K, V> useThreadPool(noinline block: PluginConfig<K, V>.() -> Unit) {
+        val config = PluginConfig<K, V>().apply(block)
+        check(this.kafkaConsumer == null) { "Don't set 'kafkaConsumer' value outside the 'useCoroutines' block" }
+        check(this.asyncRunner == null) { "Don't set 'asyncRunner' value outside the 'useCoroutines' block" }
+        val kafkaConsumer = checkNotNull(config.kafkaConsumer) { "Kafka Consumer is null" }
+        val consumeFunction = checkNotNull(config.consumeFunction) { "Kafka consume function must not be null" }
+        val errorFunction = checkNotNull(config.errorFunction) { "Kafka error function must not be null" }
+        this.kafkaConsumer = kafkaConsumer
+        this.asyncRunner = ThreadPoolAsyncRunner(
+            taskFunction = {
+                kafkaConsumer.consumeRecords(consumeFunction)
+            },
+            errorFunction = errorFunction,
+            abortFunction = kafkaConsumer::abort
+        )
+    }
+
+    inline fun <reified K, V> useCoroutines(noinline block: PluginConfig<K, V>.() -> Unit) {
+        val config = PluginConfig<K, V>().apply(block)
+        check(this.kafkaConsumer == null) { "Don't set 'kafkaConsumer' value outside the 'useCoroutines' block" }
+        check(this.asyncRunner == null) { "Don't set 'asyncRunner' value outside the 'useCoroutines' block" }
+        val kafkaConsumer = checkNotNull(config.kafkaConsumer) { "Kafka Consumer is null" }
+        val consumeFunction = checkNotNull(config.consumeFunction) { "Kafka consume function must not be null" }
+        val errorFunction = checkNotNull(config.errorFunction) { "Kafka error function must not be null" }
+        this.kafkaConsumer = kafkaConsumer
+        this.asyncRunner = CoroutineAsyncRunner(
+            taskFunction = {
+                kafkaConsumer.consumeRecords(consumeFunction)
+            },
+            errorFunction = errorFunction,
+            abortFunction = kafkaConsumer::abort
+        )
+    }
+
+    class PluginConfig<K, V> {
+        var kafkaConsumer: KafkaConsumer<K, V>? = null
+        var consumeFunction: ((ConsumerRecords<K, V>) -> Unit)? = null
+        var errorFunction: ((Throwable) -> Unit)? = null
+    }
 }
 
-@Suppress("FunctionName")
-fun <K, V> KafkaConsumerPlugin(): ApplicationPlugin<KafkaConsumerPluginConfig<K, V>> =
+val KafkaConsumerPlugin: ApplicationPlugin<KafkaConsumerPluginConfig> =
     createApplicationPlugin("KafkaConsumer", ::KafkaConsumerPluginConfig) {
-        val kafkaConsumer = checkNotNull(pluginConfig.kafkaConsumer) { "Kafka Consumer must not be null" }
-        val rebalanceListener =
-            checkNotNull(pluginConfig.rebalanceListener) { "Kafka Consumer rebalance listener must not be null" }
-        val kafkaTopics = checkNotNull(pluginConfig.kafkaTopics) { "Kafka Topics must not be null" }
-        val consumeFunction = checkNotNull(pluginConfig.consumeFunction) { "Kafka consume function must not be null" }
-        val errorFunction = checkNotNull(pluginConfig.errorFunction) { "Kafka error function must not be null" }
-        val asyncRunner = buildCoroutineAsyncRunner(
-            consumeFunction = consumeFunction,
-            errorFunction = errorFunction,
-            kafkaConsumer = kafkaConsumer
-        )
+        val kafkaTopics = checkNotNull(pluginConfig.kafkaTopics) {
+            "Kafka Topics must not be null"
+        }
+        val kafkaConsumer = checkNotNull(pluginConfig.kafkaConsumer) {
+            "Kafka Consumer must not be null"
+        }
+        val rebalanceListener = checkNotNull(pluginConfig.rebalanceListener) {
+            "Kafka Consumer rebalance listener must not be null"
+        }
+        val asyncRunner = checkNotNull(pluginConfig.asyncRunner) {
+            "Kafka Consumer rebalance listener must not be null"
+        }
 
         on(MonitoringEvent(ApplicationStarted)) { application ->
             application.log.info("Kafka Consumer subscribing to topics {}", kafkaTopics)
@@ -65,36 +104,3 @@ fun <K, V> KafkaConsumerPlugin(): ApplicationPlugin<KafkaConsumerPluginConfig<K,
             asyncRunner.run(application)
         }
     }
-
-private fun <K, V> KafkaConsumer<K, V>.consume(handle: ((ConsumerRecords<K, V>) -> Unit)) {
-    handle(poll(Duration.ofMillis(500)))
-}
-
-private fun KafkaConsumer<*, *>.abort() {
-    unsubscribe()
-    close(Duration.ofSeconds(2))
-}
-
-private fun <K, V> buildThreadPoolAsyncRunner(
-    consumeFunction: ((ConsumerRecords<K, V>) -> Unit),
-    errorFunction: ((Throwable) -> Unit),
-    kafkaConsumer: KafkaConsumer<K, V>
-): AsyncRunner<Nothing> = ThreadPoolAsyncRunner(
-    runFunction = {
-        kafkaConsumer.consume(consumeFunction)
-    },
-    errorFunction = errorFunction,
-    abortFunction = kafkaConsumer::abort
-)
-
-private fun <K, V> buildCoroutineAsyncRunner(
-    consumeFunction: ((ConsumerRecords<K, V>) -> Unit),
-    errorFunction: ((Throwable) -> Unit),
-    kafkaConsumer: KafkaConsumer<K, V>
-): AsyncRunner<CoroutineScope> = CoroutineAsyncRunner(
-    runFunction = {
-        kafkaConsumer.consume(consumeFunction)
-    },
-    errorFunction = errorFunction,
-    abortFunction = kafkaConsumer::abort
-)
