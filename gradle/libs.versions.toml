@@ -1,7 +1,7 @@
 ### VERSIONS ###
 [versions]
 kotlin = "2.1.10"
-ktor = "3.0.1"
+ktor = "3.1.1"
 spring-boot = "3.3.3"
 spring-dependencies = "1.1.6"
 jackson = "2.18.3"
