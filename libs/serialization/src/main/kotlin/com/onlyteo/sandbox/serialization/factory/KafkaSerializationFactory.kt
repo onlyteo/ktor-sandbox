@@ -1,8 +1,10 @@
-package com.onlyteo.sandbox.config
+package com.onlyteo.sandbox.serialization.factory
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.onlyteo.sandbox.serialization.factory.buildObjectMapper
 import org.apache.kafka.common.serialization.Deserializer
+import org.apache.kafka.common.serialization.Serde
 import org.apache.kafka.common.serialization.Serializer
 
 inline fun <reified T> buildJsonSerializer(objectMapper: ObjectMapper) = object : Serializer<T> {
@@ -25,4 +27,18 @@ inline fun <reified T> buildJsonDeserializer(objectMapper: ObjectMapper) = objec
 
 inline fun <reified T> buildJsonDeserializer(): Deserializer<T> {
     return buildJsonDeserializer<T>(buildObjectMapper)
+}
+
+inline fun <reified T> buildJsonSerde(objectMapper: ObjectMapper) = object : Serde<T> {
+    override fun serializer(): Serializer<T> {
+        return buildJsonSerializer(objectMapper)
+    }
+
+    override fun deserializer(): Deserializer<T> {
+        return buildJsonDeserializer(objectMapper)
+    }
+}
+
+inline fun <reified T> buildJsonSerde(): Serde<T> {
+    return buildJsonSerde<T>(buildObjectMapper)
 }

@@ -1,10 +1,10 @@
 package com.onlyteo.sandbox.topology
 
-import com.onlyteo.sandbox.config.buildJsonSerde
 import com.onlyteo.sandbox.config.buildLogger
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.Greeting
 import com.onlyteo.sandbox.model.Person
+import com.onlyteo.sandbox.serialization.factory.buildJsonSerde
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.StreamsBuilder
 import org.apache.kafka.streams.Topology

@@ -15,6 +15,7 @@ plugins {
 
 dependencies {
     // Project
+    implementation(project(":libs:serialization"))
     implementation(project(":libs:error-handling"))
     // Ktor
     implementation(libs.bundles.ktor.server)

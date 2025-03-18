@@ -5,6 +5,8 @@ plugins {
 }
 
 dependencies {
+    // Project
+    implementation(project(":libs:serialization"))
     // Ktor
     implementation(libs.bundles.ktor.server)
     implementation(libs.bundles.ktor.serialization)

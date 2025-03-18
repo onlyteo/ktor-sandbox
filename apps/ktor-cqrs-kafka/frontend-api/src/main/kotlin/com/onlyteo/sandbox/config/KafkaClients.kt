@@ -2,6 +2,8 @@ package com.onlyteo.sandbox.config
 
 import com.onlyteo.sandbox.properties.KafkaConsumerProperties
 import com.onlyteo.sandbox.properties.KafkaProducerProperties
+import com.onlyteo.sandbox.serialization.factory.buildJsonDeserializer
+import com.onlyteo.sandbox.serialization.factory.buildJsonSerializer
 import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.apache.kafka.clients.consumer.KafkaConsumer

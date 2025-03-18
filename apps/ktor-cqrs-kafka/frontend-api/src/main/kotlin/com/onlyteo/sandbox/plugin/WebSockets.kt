@@ -1,6 +1,6 @@
 package com.onlyteo.sandbox.plugin
 
-import com.onlyteo.sandbox.config.buildObjectMapper
+import com.onlyteo.sandbox.serialization.factory.buildObjectMapper
 import io.ktor.serialization.jackson.JacksonWebsocketContentConverter
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
