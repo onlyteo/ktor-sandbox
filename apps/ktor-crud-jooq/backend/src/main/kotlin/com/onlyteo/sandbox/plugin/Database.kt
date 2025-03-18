@@ -1,19 +1,19 @@
 package com.onlyteo.sandbox.plugin
 
 import com.onlyteo.sandbox.context.ApplicationContext
-import com.onlyteo.sandbox.plugin.custom.FlywayPlugin
-import com.onlyteo.sandbox.plugin.custom.H2Plugin
+import com.onlyteo.sandbox.database.plugin.FlywayPlugin
+import com.onlyteo.sandbox.database.plugin.H2DatabasePlugin
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 
-fun Application.configureDatabase(context: ApplicationContext) {
-    with(context.properties) {
+fun Application.configureDatabase(applicationContext: ApplicationContext) {
+    with(applicationContext) {
         install(FlywayPlugin) {
-            dataSource = context.dataSource
+            dataSource = hikariDataSource
         }
-        install(H2Plugin) {
-            enabled = h2.console.enabled
-            port = h2.console.port
+        install(H2DatabasePlugin) {
+            enabled = properties.h2.console.enabled
+            port = properties.h2.console.port
         }
     }
 }

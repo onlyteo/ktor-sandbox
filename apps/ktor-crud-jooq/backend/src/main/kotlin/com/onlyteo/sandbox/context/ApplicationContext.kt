@@ -1,7 +1,7 @@
 package com.onlyteo.sandbox.context
 
-import com.onlyteo.sandbox.config.hikariDataSource
 import com.onlyteo.sandbox.config.loadProperties
+import com.onlyteo.sandbox.database.factory.buildHikariDataSource
 import com.onlyteo.sandbox.properties.ApplicationProperties
 import com.onlyteo.sandbox.properties.ApplicationPropertiesHolder
 import com.onlyteo.sandbox.repository.GreetingRepository
@@ -15,8 +15,8 @@ import javax.sql.DataSource
 
 data class ApplicationContext(
     val properties: ApplicationProperties = loadProperties<ApplicationPropertiesHolder>().app,
-    val dataSource: DataSource = hikariDataSource(properties),
-    val dslContext: DSLContext = DSL.using(dataSource, SQLDialect.POSTGRES),
+    val hikariDataSource: DataSource = buildHikariDataSource(properties.dataSource),
+    val dslContext: DSLContext = DSL.using(hikariDataSource, SQLDialect.POSTGRES),
     val prefixRepository: PrefixRepository = PrefixRepository(properties.resources.prefixesFile),
     val personRepository: PersonRepository = PersonRepository(dslContext),
     val greetingRepository: GreetingRepository = GreetingRepository(dslContext),

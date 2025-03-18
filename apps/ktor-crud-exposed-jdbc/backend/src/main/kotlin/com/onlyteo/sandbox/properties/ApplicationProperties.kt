@@ -1,5 +1,8 @@
 package com.onlyteo.sandbox.properties
 
+import com.onlyteo.sandbox.database.properties.DataSourceProperties
+import com.onlyteo.sandbox.database.properties.H2DatabaseProperties
+
 data class ApplicationPropertiesHolder(
     val app: ApplicationProperties
 )
@@ -7,18 +10,9 @@ data class ApplicationPropertiesHolder(
 data class ApplicationProperties(
     val resources: ResourcesProperties,
     val dataSource: DataSourceProperties,
-    val h2: H2Properties
+    val h2: H2DatabaseProperties
 )
 
 data class ResourcesProperties(
     val prefixesFile: String
-)
-
-data class H2Properties(
-    val console: H2ConsoleProperties
-)
-
-data class H2ConsoleProperties(
-    val enabled: Boolean,
-    val port: Int? = -1
 )

@@ -5,10 +5,11 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 
-fun Route.metricsRoutes(context: ApplicationContext) {
-    val prometheusMeterRegistry = context.prometheusMeterRegistry
+fun Route.metricsRoutes(applicationContext: ApplicationContext) {
+    with(applicationContext) {
 
-    get("/metrics") {
-        call.respond(prometheusMeterRegistry.scrape())
+        get("/metrics") {
+            call.respond(prometheusMeterRegistry.scrape())
+        }
     }
 }

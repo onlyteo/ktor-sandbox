@@ -1,5 +1,6 @@
-package com.onlyteo.sandbox.plugin.custom
+package com.onlyteo.sandbox.database.plugin
 
+import com.onlyteo.sandbox.database.database.H2Database
 import io.ktor.server.application.ApplicationPlugin
 import io.ktor.server.application.ApplicationStarted
 import io.ktor.server.application.ApplicationStopping
@@ -7,44 +8,30 @@ import io.ktor.server.application.createApplicationPlugin
 import io.ktor.server.application.hooks.MonitoringEvent
 import io.ktor.server.application.log
 import io.ktor.utils.io.KtorDsl
-import org.h2.tools.Server
 
 
 @KtorDsl
-class H2PluginConfig {
-    var enabled: Boolean? = false
+class H2DatabasePluginConfig {
     var port: Int? = null
+    var enabled: Boolean = true
 }
 
-val H2Plugin: ApplicationPlugin<H2PluginConfig> =
-    createApplicationPlugin("H2Plugin", ::H2PluginConfig) {
-        val enabled = checkNotNull(pluginConfig.enabled) { "Enabled property must not be null" }
+val H2DatabasePlugin: ApplicationPlugin<H2DatabasePluginConfig> =
+    createApplicationPlugin("H2DatabasePlugin", ::H2DatabasePluginConfig) {
+        val enabled = pluginConfig.enabled
 
         if (enabled) {
             val port = checkNotNull(pluginConfig.port) { "Port property must not be null" }
-
-            val h2Server = H2Server(port)
+            val database = H2Database(port)
 
             on(MonitoringEvent(ApplicationStarted)) { application ->
                 application.log.info("Starting H2 Console on port $port")
-                h2Server.start()
+                database.start()
             }
 
             on(MonitoringEvent(ApplicationStopping)) { application ->
                 application.log.info("Stopping H2 Console")
-                h2Server.stop()
+                database.stop()
             }
         }
     }
-
-private class H2Server(private val webServer: Server) {
-    constructor(port: Int) : this(Server.createWebServer("-webPort", "$port", "-tcpAllowOthers"))
-
-    fun start() {
-        webServer.start()
-    }
-
-    fun stop() {
-        webServer.stop()
-    }
-}

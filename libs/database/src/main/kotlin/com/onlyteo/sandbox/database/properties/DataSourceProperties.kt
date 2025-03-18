@@ -1,6 +1,6 @@
-package com.onlyteo.sandbox.properties
+package com.onlyteo.sandbox.database.properties
 
-data class DataSourceProperties(
+class DataSourceProperties(
     val driverClassName: String,
     val url: String,
     val username: String,

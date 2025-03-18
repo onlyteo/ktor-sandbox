@@ -24,25 +24,26 @@ import org.apache.kafka.streams.state.ValueAndTimestamp
 import java.time.Duration
 import java.time.Instant
 
-fun buildKafkaTopology(context: ApplicationContext): Topology = StreamsBuilder().apply {
-    val properties = context.properties.kafka.streams
-    val greetingService = context.greetingService
-    val logger = buildLogger
+fun buildKafkaTopology(applicationContext: ApplicationContext): Topology = StreamsBuilder().apply {
+    with(applicationContext) {
+        val properties = properties.kafka.streams
+        val logger = buildLogger
 
-    addStateStore(
-        Stores.timestampedKeyValueStoreBuilder(
-            Stores.inMemoryKeyValueStore(properties.stateStore),
-            Serdes.String(),
-            buildJsonSerde<Person>()
+        addStateStore(
+            Stores.timestampedKeyValueStoreBuilder(
+                Stores.inMemoryKeyValueStore(properties.stateStore),
+                Serdes.String(),
+                buildJsonSerde<Person>()
+            )
         )
-    )
 
-    stream(properties.sourceTopic, Consumed.with(Serdes.String(), buildJsonSerde<Person>()))
-        .peek { _, person -> logger.info("Received person \"${person.name}\" on Kafka topic \"${properties.sourceTopic}\"") }
-        .process(buildPersonProcessorSupplier(context), Named.`as`(properties.processor), properties.stateStore)
-        .mapValues { person -> greetingService.getGreeting(person) }
-        .peek { _, greeting -> logger.info("Sending greeting \"${greeting.message}\" to Kafka topic \"${properties.targetTopic}\"") }
-        .to(properties.targetTopic, Produced.with(Serdes.String(), buildJsonSerde<Greeting>()))
+        stream(properties.sourceTopic, Consumed.with(Serdes.String(), buildJsonSerde<Person>()))
+            .peek { _, person -> logger.info("Received person \"${person.name}\" on Kafka topic \"${properties.sourceTopic}\"") }
+            .process(buildPersonProcessorSupplier(applicationContext), Named.`as`(properties.processor), properties.stateStore)
+            .mapValues { person -> greetingService.getGreeting(person) }
+            .peek { _, greeting -> logger.info("Sending greeting \"${greeting.message}\" to Kafka topic \"${properties.targetTopic}\"") }
+            .to(properties.targetTopic, Produced.with(Serdes.String(), buildJsonSerde<Greeting>()))
+    }
 }.build()
 
 private fun buildPersonPunctuator(
@@ -68,17 +69,17 @@ private fun buildPersonPunctuator(
     }
 }
 
-private fun buildPersonProcessorSupplier(context: ApplicationContext) =
-    ProcessorSupplier { buildPersonProcessor(context) }
+private fun buildPersonProcessorSupplier(applicationContext: ApplicationContext) =
+    ProcessorSupplier { buildPersonProcessor(applicationContext) }
 
-private fun buildPersonProcessor(context: ApplicationContext) = object : Processor<String, Person, String, Person> {
+private fun buildPersonProcessor(applicationContext: ApplicationContext) = object : Processor<String, Person, String, Person> {
 
     private val logger = buildLogger
     private lateinit var processorContext: ProcessorContext<String, Person>
     private lateinit var keyValueStore: TimestampedKeyValueStore<String, Person>
 
     override fun init(processorContext: ProcessorContext<String, Person>?) {
-        val streamsProperties = context.properties.kafka.streams
+        val streamsProperties = applicationContext.properties.kafka.streams
         this.processorContext = checkNotNull(processorContext) { "ProcessorContext cannot be null" }
         this.keyValueStore = checkNotNull(processorContext.getStateStore(streamsProperties.stateStore)) {
             "No StateStore named ${streamsProperties.stateStore} found"

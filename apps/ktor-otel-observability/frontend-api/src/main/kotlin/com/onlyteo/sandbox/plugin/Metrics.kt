@@ -12,24 +12,26 @@ import io.micrometer.core.instrument.binder.system.UptimeMetrics
 import io.micrometer.core.instrument.distribution.DistributionStatisticConfig
 import java.time.Duration
 
-fun Application.configureMetrics(context: ApplicationContext) {
-    install(MicrometerMetrics) {
-        registry = context.prometheusMeterRegistry
-        meterBinders = listOf(
-            JvmGcMetrics(),
-            JvmMemoryMetrics(),
-            JvmThreadMetrics(),
-            ProcessorMetrics(),
-            UptimeMetrics()
-        )
-        distributionStatisticConfig = DistributionStatisticConfig.Builder()
-            .percentilesHistogram(true)
-            .minimumExpectedValue(Duration.ofMillis(20).toNanos().toDouble())
-            .maximumExpectedValue(Duration.ofMillis(500).toNanos().toDouble())
-            .serviceLevelObjectives(
-                Duration.ofMillis(100).toNanos().toDouble(),
-                Duration.ofMillis(500).toNanos().toDouble()
+fun Application.configureMetrics(applicationContext: ApplicationContext) {
+    with(applicationContext) {
+        install(MicrometerMetrics) {
+            registry = prometheusMeterRegistry
+            meterBinders = listOf(
+                JvmGcMetrics(),
+                JvmMemoryMetrics(),
+                JvmThreadMetrics(),
+                ProcessorMetrics(),
+                UptimeMetrics()
             )
-            .build()
+            distributionStatisticConfig = DistributionStatisticConfig.Builder()
+                .percentilesHistogram(true)
+                .minimumExpectedValue(Duration.ofMillis(20).toNanos().toDouble())
+                .maximumExpectedValue(Duration.ofMillis(500).toNanos().toDouble())
+                .serviceLevelObjectives(
+                    Duration.ofMillis(100).toNanos().toDouble(),
+                    Duration.ofMillis(500).toNanos().toDouble()
+                )
+                .build()
+        }
     }
 }

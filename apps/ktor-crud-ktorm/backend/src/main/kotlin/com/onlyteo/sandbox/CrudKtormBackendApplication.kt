@@ -27,13 +27,13 @@ fun main() {
 }
 
 fun Application.module() {
-    val context = ApplicationContext()
+    val applicationContext = ApplicationContext()
 
     configureSerialization()
     configureValidation()
     configureLogging()
     configureWebjars()
     configureErrorHandling()
-    configureDatabase(context)
-    configureRouting(context)
+    configureDatabase(applicationContext)
+    configureRouting(applicationContext)
 }

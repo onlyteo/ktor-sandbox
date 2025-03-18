@@ -7,12 +7,13 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
 import io.opentelemetry.api.trace.Span
 
-fun Route.greetingRoutes(context: ApplicationContext) {
-    val greetingService = context.greetingService
+fun Route.greetingRoutes(applicationContext: ApplicationContext) {
+    with(applicationContext) {
 
-    post<Person>("/api/greetings") { person ->
-        Span.current().setAttribute("person.name", person.name)
-        val greeting = greetingService.getGreeting(person)
-        call.respond(greeting)
+        post<Person>("/api/greetings") { person ->
+            Span.current().setAttribute("person.name", person.name)
+            val greeting = greetingService.getGreeting(person)
+            call.respond(greeting)
+        }
     }
 }

@@ -10,8 +10,8 @@ import io.ktor.server.routing.post
 import io.ktor.server.sessions.get
 import io.ktor.server.sessions.sessions
 
-fun Route.greetingRoutes(context: ApplicationContext) {
-    with(context) {
+fun Route.greetingRoutes(applicationContext: ApplicationContext) {
+    with(applicationContext) {
         with(properties.security) {
             authenticate(session.name, oauth2.name) {
                 post<Person>("/api/greetings") { person ->

@@ -13,32 +13,32 @@ import kotlinx.coroutines.delay
 import java.util.concurrent.atomic.AtomicBoolean
 
 
-fun Route.greetingRouting(context: ApplicationContext) {
-    val greetingService = context.greetingService
-    val greetingChannel = context.greetingChannel
-    val logger = buildLogger
-    val websocketsRunning = AtomicBoolean(true)
+fun Route.greetingRouting(applicationContext: ApplicationContext) {
+    with(applicationContext) {
+        val logger = buildLogger
+        val websocketsRunning = AtomicBoolean(true)
 
-    post<Person>("/api/greetings") { person ->
-        logger.info("Received person \"{}\" in REST API \"/api/greetings\"", person.name)
-        greetingService.sendMessage(person)
-        call.response.status(HttpStatusCode.Accepted)
-    }
+        post<Person>("/api/greetings") { person ->
+            logger.info("Received person \"{}\" in REST API \"/api/greetings\"", person.name)
+            greetingService.sendMessage(person)
+            call.response.status(HttpStatusCode.Accepted)
+        }
 
-    webSocket("/ws/greetings") {
-        try {
-            logger.info("Opening WebSocket session")
-            while (websocketsRunning.get()) {
-                greetingChannel.consumeEach { greeting ->
-                    logger.info("Sending greeting \"{}\" to WebSocket \"/ws/greetings\"", greeting.message)
-                    sendSerialized(greeting)
+        webSocket("/ws/greetings") {
+            try {
+                logger.info("Opening WebSocket session")
+                while (websocketsRunning.get()) {
+                    greetingChannel.consumeEach { greeting ->
+                        logger.info("Sending greeting \"{}\" to WebSocket \"/ws/greetings\"", greeting.message)
+                        sendSerialized(greeting)
+                    }
+                    delay(500)
                 }
-                delay(500)
+            } catch (ex: Exception) {
+                logger.error("Error while processing greeting", ex)
+            } finally {
+                logger.info("Closing WebSocket session")
             }
-        } catch (ex: Exception) {
-            logger.error("Error while processing greeting", ex)
-        } finally {
-            logger.info("Closing WebSocket session")
         }
     }
 }

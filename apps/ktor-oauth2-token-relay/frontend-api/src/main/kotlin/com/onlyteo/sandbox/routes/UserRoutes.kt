@@ -12,8 +12,8 @@ import io.ktor.server.routing.get
 import io.ktor.server.sessions.get
 import io.ktor.server.sessions.sessions
 
-fun Route.userRoutes(context: ApplicationContext) {
-    with(context) {
+fun Route.userRoutes(applicationContext: ApplicationContext) {
+    with(applicationContext) {
         with(properties.security) {
             authenticate(session.name, oauth2.name) {
                 get("/api/user") {

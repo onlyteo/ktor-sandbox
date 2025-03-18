@@ -18,8 +18,8 @@ import io.ktor.server.sessions.set
 
 private val securityLogger = buildSecurityLogger
 
-fun Route.authRouting(context: ApplicationContext) {
-    with(context) {
+fun Route.authRouting(applicationContext: ApplicationContext) {
+    with(applicationContext) {
         with(properties.security) {
             authenticate(oauth2.name) {
                 get("/login") {

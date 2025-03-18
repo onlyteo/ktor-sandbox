@@ -9,11 +9,11 @@ import io.ktor.server.application.install
 import io.ktor.server.routing.IgnoreTrailingSlash
 import io.ktor.server.routing.routing
 
-fun Application.configureRouting(context: ApplicationContext) {
+fun Application.configureRouting(applicationContext: ApplicationContext) {
     install(IgnoreTrailingSlash)
     routing {
         staticRoutes()
-        metricsRoutes(context)
-        greetingRoutes(context)
+        metricsRoutes(applicationContext)
+        greetingRoutes(applicationContext)
     }
 }

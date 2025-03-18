@@ -1,12 +1,12 @@
-package com.onlyteo.sandbox.config
+package com.onlyteo.sandbox.database.factory
 
-import com.onlyteo.sandbox.properties.ApplicationProperties
+import com.onlyteo.sandbox.database.properties.DataSourceProperties
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import javax.sql.DataSource
 
-fun hikariDataSource(properties: ApplicationProperties): DataSource {
-    with(properties.dataSource) {
+fun buildHikariDataSource(properties: DataSourceProperties): DataSource {
+    with(properties) {
         val config = HikariConfig()
         config.driverClassName = driverClassName
         config.jdbcUrl = url

@@ -23,8 +23,8 @@ import java.time.Instant
 
 private val securityLogger = buildSecurityLogger
 
-fun Application.configAuthentication(context: ApplicationContext) {
-    with(context) {
+fun Application.configAuthentication(applicationContext: ApplicationContext) {
+    with(applicationContext) {
         with(properties.security) {
             install(Sessions) {
                 cookie<UserSession>(session.cookieName)
