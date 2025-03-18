@@ -5,6 +5,8 @@ plugins {
 }
 
 dependencies {
+    // Project
+    implementation(project(":libs:error-handling"))
     // Ktor
     implementation(libs.bundles.ktor.server)
     implementation(libs.bundles.ktor.client)
@@ -14,6 +16,7 @@ dependencies {
     implementation(libs.bundles.ktor.thymeleaf)
     // Other
     implementation(libs.bundles.hoplite)
+    // Test
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.mockk)

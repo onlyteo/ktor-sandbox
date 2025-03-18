@@ -14,15 +14,20 @@ plugins {
 }
 
 dependencies {
+    // Project
+    implementation(project(":libs:error-handling"))
+    // Ktor
     implementation(libs.bundles.ktor.server)
     implementation(libs.bundles.ktor.serialization)
     implementation(libs.bundles.ktor.webjars)
     implementation(libs.bundles.ktor.logging)
     implementation(libs.bundles.ktor.micrometer)
     implementation(libs.bundles.ktor.opentelemetry)
+    // Other
     implementation(libs.bundles.logback)
     implementation(libs.bundles.hoplite)
     implementation(libs.jackson.dataformat.csv)
+    // Test
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.mockk)

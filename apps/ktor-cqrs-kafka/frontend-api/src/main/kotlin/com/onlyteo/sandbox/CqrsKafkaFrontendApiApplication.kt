@@ -29,7 +29,7 @@ fun main() {
 }
 
 fun Application.module() {
-    val context = ApplicationContext()
+    val applicationContext = ApplicationContext()
 
     configureSerialization()
     configureValidation()
@@ -37,6 +37,6 @@ fun Application.module() {
     configureWebjars()
     configureErrorHandling()
     configureWebSockets()
-    configureRouting(context)
-    configureKafka(context)
+    configureRouting(applicationContext)
+    configureKafka(applicationContext)
 }

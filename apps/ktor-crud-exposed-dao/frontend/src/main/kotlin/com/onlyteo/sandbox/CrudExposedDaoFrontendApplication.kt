@@ -27,12 +27,12 @@ fun main() {
 }
 
 fun Application.module() {
-    val context = ApplicationContext()
+    val applicationContext = ApplicationContext()
 
     configureSerialization()
     configureLogging()
     configureWebjars()
     configureThymeleaf()
     configureErrorHandling()
-    configureRouting(context)
+    configureRouting(applicationContext)
 }

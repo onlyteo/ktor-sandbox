@@ -5,6 +5,8 @@ plugins {
 }
 
 dependencies {
+    // Project
+    implementation(project(":libs:error-handling"))
     implementation(project(":libs:database"))
     // Ktor
     implementation(libs.bundles.ktor.server)

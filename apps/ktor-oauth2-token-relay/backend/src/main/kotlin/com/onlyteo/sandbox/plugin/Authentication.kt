@@ -1,7 +1,7 @@
 package com.onlyteo.sandbox.plugin
 
 import com.auth0.jwk.JwkProviderBuilder
-import com.onlyteo.sandbox.properties.ApplicationProperties
+import com.onlyteo.sandbox.context.ApplicationContext
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
@@ -11,11 +11,9 @@ import io.ktor.server.auth.jwt.jwt
 import io.ktor.server.response.respond
 import java.net.URI
 
-fun Application.configAuthentication(
-    properties: ApplicationProperties,
-) {
+fun Application.configAuthentication(applicationContext: ApplicationContext) {
     install(Authentication) {
-        with(properties.security.oauth2) {
+        with(applicationContext.properties.security.oauth2) {
             val jwkUrl = URI.create(provider.jwkUrl).toURL()
             val jwkProvider = JwkProviderBuilder(jwkUrl).build()
 

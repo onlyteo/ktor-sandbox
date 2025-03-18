@@ -25,10 +25,10 @@ fun main() {
 }
 
 fun Application.module() {
-    val context = ApplicationContext()
+    val applicationContext = ApplicationContext()
 
     configureSerialization()
     configureWebjars()
     configureRouting()
-    configureKafka(context)
+    configureKafka(applicationContext)
 }
