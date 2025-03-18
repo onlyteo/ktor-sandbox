@@ -1,9 +1,7 @@
-val jvmMajorVersion: String by project
-val jvmVersion = JavaVersion.toVersion(jvmMajorVersion)
-
 plugins {
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.ktor)
+    kotlin("jvm")
+    id("io.ktor.plugin")
+    application
 }
 
 dependencies {
@@ -21,10 +19,4 @@ dependencies {
 
 application {
     mainClass = "com.onlyteo.sandbox.CrudJooqFrontendApplicationKt"
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(jvmVersion.toString()))
-    }
 }

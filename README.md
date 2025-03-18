@@ -15,14 +15,14 @@ All examples are written in [Kotlin](https://kotlinlang.org) and built using [Gr
 ## Examples
 Read details about the examples in their respective project roots.
 
-* [REST API](./ktor-rest-api)
-* [CRUD Exposed JDBC](./ktor-crud-exposed-jdbc)
-* [CRUD Exposed DAO](./ktor-crud-exposed-dao)
-* [CRUD Ktorm](./ktor-crud-ktorm)
-* [CRUD JOOQ](./ktor-crud-jooq)
-* [OAuth2 Token Relay](./ktor-oauth2-token-relay)
-* [OTEL Observability](./ktor-otel-observability)
-* [Kafka CQRS](./ktor-kafka-cqrs)
+* [REST API](./apps/ktor-rest-api)
+* [CRUD Exposed JDBC](./apps/ktor-crud-exposed-jdbc)
+* [CRUD Exposed DAO](./apps/ktor-crud-exposed-dao)
+* [CRUD Ktorm](./apps/ktor-crud-ktorm)
+* [CRUD JOOQ](./apps/ktor-crud-jooq)
+* [OAuth2 Token Relay](./apps/ktor-oauth2-token-relay)
+* [OTEL Observability](./apps/ktor-otel-observability)
+* [Kafka CQRS](./apps/ktor-cqrs-kafka)
 
 ## Architecture
 [Ktor](https://ktor.io) is a lightweight framework for building applications for the

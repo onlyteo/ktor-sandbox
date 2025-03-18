@@ -1,10 +1,8 @@
-val jvmMajorVersion: String by project
-val jvmVersion = JavaVersion.toVersion(jvmMajorVersion)
-
 plugins {
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.ktor)
-    alias(libs.plugins.jooq.codegen)
+    kotlin("jvm")
+    id("io.ktor.plugin")
+    id("org.jooq.jooq-codegen-gradle")
+    application
 }
 
 dependencies {
@@ -31,12 +29,6 @@ application {
 sourceSets {
     main {
         kotlin.srcDirs("${layout.buildDirectory.get()}/generated/kotlin")
-    }
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(jvmVersion.toString()))
     }
 }
 

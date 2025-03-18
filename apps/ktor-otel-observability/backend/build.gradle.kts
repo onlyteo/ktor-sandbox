@@ -7,10 +7,10 @@ val opentelemetryJavaAgent =
     "${libs.opentelemetry.java.agent.get().name}-${libs.opentelemetry.java.agent.get().version}.jar"
 
 plugins {
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.ktor)
-    alias(libs.plugins.google.cloud.jib)
+    kotlin("jvm")
+    id("io.ktor.plugin")
+    id("com.google.cloud.tools.jib")
+    application
 }
 
 dependencies {
@@ -32,12 +32,6 @@ dependencies {
 
 application {
     mainClass = "com.onlyteo.sandbox.OtelObservabilityBackendApplicationKt"
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(jvmVersion.toString()))
-    }
 }
 
 tasks.withType<Jar> {
