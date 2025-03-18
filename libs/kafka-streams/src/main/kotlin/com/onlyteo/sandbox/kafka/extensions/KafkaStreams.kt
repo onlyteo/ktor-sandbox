@@ -1,4 +1,4 @@
-package com.onlyteo.sandbox.config
+package com.onlyteo.sandbox.kafka.extensions
 
 import org.apache.kafka.streams.kstream.KStream
 import org.apache.kafka.streams.kstream.Named

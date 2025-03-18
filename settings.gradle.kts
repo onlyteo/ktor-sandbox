@@ -32,6 +32,7 @@ plugins {
 }
 
 // LIBS
+include(":libs:async")
 include(":libs:serialization")
 include(":libs:database")
 include(":libs:error-handling")

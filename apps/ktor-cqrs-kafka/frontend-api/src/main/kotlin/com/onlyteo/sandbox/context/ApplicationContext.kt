@@ -1,8 +1,8 @@
 package com.onlyteo.sandbox.context
 
-import com.onlyteo.sandbox.config.buildJsonKafkaConsumer
-import com.onlyteo.sandbox.config.buildJsonKafkaProducer
 import com.onlyteo.sandbox.config.loadProperties
+import com.onlyteo.sandbox.kafka.factory.buildJsonKafkaConsumer
+import com.onlyteo.sandbox.kafka.factory.buildJsonKafkaProducer
 import com.onlyteo.sandbox.model.Greeting
 import com.onlyteo.sandbox.model.Person
 import com.onlyteo.sandbox.properties.ApplicationProperties

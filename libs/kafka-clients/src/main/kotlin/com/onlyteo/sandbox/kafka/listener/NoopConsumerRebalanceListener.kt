@@ -1,4 +1,4 @@
-package com.onlyteo.sandbox.listener
+package com.onlyteo.sandbox.kafka.listener
 
 import org.apache.kafka.clients.consumer.ConsumerRebalanceListener
 import org.apache.kafka.common.TopicPartition

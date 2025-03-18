@@ -6,8 +6,10 @@ plugins {
 
 dependencies {
     // Project
+    implementation(project(":libs:async"))
     implementation(project(":libs:serialization"))
     implementation(project(":libs:error-handling"))
+    implementation(project(":libs:kafka-clients"))
     // Ktor
     implementation(libs.bundles.ktor.server)
     implementation(libs.ktor.server.websockets)

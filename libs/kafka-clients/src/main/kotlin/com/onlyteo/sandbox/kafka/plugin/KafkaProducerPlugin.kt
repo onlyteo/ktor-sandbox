@@ -1,4 +1,4 @@
-package com.onlyteo.sandbox.plugin.custom
+package com.onlyteo.sandbox.kafka.plugin
 
 import io.ktor.server.application.ApplicationPlugin
 import io.ktor.server.application.ApplicationStopping

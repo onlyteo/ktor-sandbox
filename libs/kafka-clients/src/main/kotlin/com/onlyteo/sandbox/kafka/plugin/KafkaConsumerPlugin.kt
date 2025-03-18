@@ -1,11 +1,11 @@
-package com.onlyteo.sandbox.plugin.custom
+package com.onlyteo.sandbox.kafka.plugin
 
-import com.onlyteo.sandbox.config.abort
-import com.onlyteo.sandbox.config.consumeRecords
-import com.onlyteo.sandbox.listener.NoopConsumerRebalanceListener
-import com.onlyteo.sandbox.runner.AsyncRunner
-import com.onlyteo.sandbox.runner.CoroutineAsyncRunner
-import com.onlyteo.sandbox.runner.ThreadPoolAsyncRunner
+import com.onlyteo.sandbox.async.runner.AsyncRunner
+import com.onlyteo.sandbox.async.runner.CoroutineAsyncRunner
+import com.onlyteo.sandbox.async.runner.ThreadPoolAsyncRunner
+import com.onlyteo.sandbox.kafka.extensions.abort
+import com.onlyteo.sandbox.kafka.extensions.consumeRecords
+import com.onlyteo.sandbox.kafka.listener.NoopConsumerRebalanceListener
 import io.ktor.events.EventDefinition
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationPlugin

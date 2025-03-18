@@ -1,5 +1,6 @@
-package com.onlyteo.sandbox.plugin.custom
+package com.onlyteo.sandbox.kafka.plugin
 
+import com.onlyteo.sandbox.kafka.properties.KafkaStreamsProperties
 import io.ktor.events.EventDefinition
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationPlugin
@@ -20,7 +21,7 @@ val KafkaStreamsStopping: EventDefinition<Application> = EventDefinition()
 
 @KtorDsl
 class KafkaStreamsPluginConfig {
-    var streamsProperties: Map<String, Any>? = null
+    var streamsProperties: KafkaStreamsProperties? = null
     var streamsTopology: Topology? = null
     var streamsExceptionHandler: StreamsUncaughtExceptionHandler? = null
 }
@@ -32,7 +33,7 @@ val KafkaStreamsPlugin: ApplicationPlugin<KafkaStreamsPluginConfig> =
         val exceptionHandler =
             checkNotNull(pluginConfig.streamsExceptionHandler) { "Kafka Streams exception handler must not be null" }
 
-        val kafkaStreams = KafkaStreams(topology, StreamsConfig(properties))
+        val kafkaStreams = KafkaStreams(topology, StreamsConfig(properties.asMap()))
         kafkaStreams.setUncaughtExceptionHandler(exceptionHandler)
 
         on(MonitoringEvent(ApplicationStarted)) { application ->

@@ -1,26 +1,26 @@
-package com.onlyteo.sandbox.runner
+package com.onlyteo.sandbox.async.runner
 
 import io.ktor.server.application.Application
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
-import java.util.concurrent.Future
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
 
-open class ThreadPoolAsyncRunner(
+open class CoroutineAsyncRunner(
     private val runFunction: (() -> Unit),
     private val abortFunction: (() -> Unit),
-    private val executorService: ExecutorService = Executors.newSingleThreadExecutor(),
-    private val taskRef: AtomicReference<Future<*>> = AtomicReference(CompletableFuture<Nothing>())
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val taskRef: AtomicReference<Job> = AtomicReference(Job())
 ) : AsyncRunner<Application> {
     constructor(
         taskFunction: (() -> Unit),
         successFunction: (() -> Unit) = {},
         errorFunction: ((Throwable) -> Unit),
         abortFunction: (() -> Unit),
-        executorService: ExecutorService = Executors.newSingleThreadExecutor(),
-        taskRef: AtomicReference<Future<*>> = AtomicReference(CompletableFuture<Nothing>()),
+        coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
+        taskRef: AtomicReference<Job> = AtomicReference(Job()),
         taskLatch: AtomicBoolean = AtomicBoolean(true)
     ) : this(
         runFunction = {
@@ -37,18 +37,18 @@ open class ThreadPoolAsyncRunner(
             taskLatch.set(false)
             abortFunction()
         },
-        executorService = executorService,
+        coroutineDispatcher = coroutineDispatcher,
         taskRef = taskRef
     )
 
     override fun run(context: Application) {
-        taskRef.set(executorService.submit {
+        taskRef.set(context.launch(coroutineDispatcher) {
             runFunction()
         })
     }
 
     override fun abort() {
-        taskRef.get().cancel(true)
+        taskRef.get().cancel()
         abortFunction()
     }
 }

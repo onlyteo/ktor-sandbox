@@ -4,11 +4,7 @@ plugins {
 }
 
 dependencies {
-    compileOnly(project(":libs:async"))
-    compileOnly(project(":libs:serialization"))
     // Ktor
     compileOnly(platform(libs.ktor.bom))
     compileOnly(libs.ktor.server.core)
-    // Kafka
-    compileOnly(libs.kafka.clients)
 }
