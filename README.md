@@ -36,7 +36,7 @@ setup of your application. It has a plugin based configuration model where featu
 corresponding plugin to the application setup. Unlike similar frameworks it does not have an
 [IoC-container](https://martinfowler.com/articles/injection.html) by default. This means it does not support
 traditional Dependency Injection out of the box, though there are plugins to enable Dependency Injection
-functionality (e.g. the [Kion framework](https://insert-koin.io)).
+functionality (e.g. the [Koin framework](https://insert-koin.io)).
 
 The examples typically consists of a `Frontend` and a `Backend` application.
 
