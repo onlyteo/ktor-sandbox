@@ -7,6 +7,7 @@ plugins {
 dependencies {
     // Project
     implementation(project(":libs:async"))
+    implementation(project(":libs:properties"))
     implementation(project(":libs:serialization"))
     implementation(project(":libs:error-handling"))
     implementation(project(":libs:kafka-clients"))

@@ -1,12 +1,12 @@
 package com.onlyteo.sandbox.context
 
-import com.onlyteo.sandbox.config.loadProperties
 import com.onlyteo.sandbox.kafka.factory.buildJsonKafkaConsumer
 import com.onlyteo.sandbox.kafka.factory.buildJsonKafkaProducer
 import com.onlyteo.sandbox.model.Greeting
 import com.onlyteo.sandbox.model.Person
 import com.onlyteo.sandbox.properties.ApplicationProperties
 import com.onlyteo.sandbox.properties.ApplicationPropertiesHolder
+import com.onlyteo.sandbox.properties.loadProperties
 import com.onlyteo.sandbox.service.GreetingService
 import kotlinx.coroutines.channels.Channel
 import org.apache.kafka.clients.consumer.KafkaConsumer

@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
     // Project
+    implementation(project(":libs:properties"))
     implementation(project(":libs:serialization"))
     implementation(project(":libs:error-handling"))
     implementation(project(":libs:database"))

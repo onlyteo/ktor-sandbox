@@ -1,12 +1,12 @@
 package com.onlyteo.sandbox
 
-import com.onlyteo.sandbox.config.loadProperties
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.plugin.configureKafka
 import com.onlyteo.sandbox.plugin.configureRouting
 import com.onlyteo.sandbox.plugin.configureSerialization
 import com.onlyteo.sandbox.plugin.configureWebjars
 import com.onlyteo.sandbox.properties.KtorPropertiesHolder
+import com.onlyteo.sandbox.properties.loadProperties
 import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
