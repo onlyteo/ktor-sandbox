@@ -17,8 +17,8 @@ open class ThreadPoolAsyncRunner(
     constructor(
         taskFunction: (() -> Unit),
         successFunction: (() -> Unit) = {},
-        errorFunction: ((Throwable) -> Unit),
-        abortFunction: (() -> Unit),
+        errorFunction: ((Throwable) -> Unit) = {},
+        abortFunction: (() -> Unit) = {},
         executorService: ExecutorService = Executors.newSingleThreadExecutor(),
         taskRef: AtomicReference<Future<*>> = AtomicReference(CompletableFuture<Nothing>()),
         taskLatch: AtomicBoolean = AtomicBoolean(true)

@@ -17,8 +17,8 @@ open class CoroutineAsyncRunner(
     constructor(
         taskFunction: (() -> Unit),
         successFunction: (() -> Unit) = {},
-        errorFunction: ((Throwable) -> Unit),
-        abortFunction: (() -> Unit),
+        errorFunction: ((Throwable) -> Unit) = {},
+        abortFunction: (() -> Unit) = {},
         coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
         taskRef: AtomicReference<Job> = AtomicReference(Job()),
         taskLatch: AtomicBoolean = AtomicBoolean(true)

@@ -1,4 +1,4 @@
-package com.onlyteo.sandbox.config
+package com.onlyteo.sandbox.files.reader
 
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.dataformat.csv.CsvSchema

@@ -8,6 +8,7 @@ dependencies {
     // Project
     implementation(project(":libs:properties"))
     implementation(project(":libs:serialization"))
+    implementation(project(":libs:file-handling"))
     implementation(project(":libs:error-handling"))
     // Ktor
     implementation(libs.bundles.ktor.server)

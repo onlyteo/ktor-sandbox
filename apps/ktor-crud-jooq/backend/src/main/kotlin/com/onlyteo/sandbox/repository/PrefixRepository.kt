@@ -1,6 +1,6 @@
 package com.onlyteo.sandbox.repository
 
-import com.onlyteo.sandbox.config.readCsvFile
+import com.onlyteo.sandbox.files.reader.readCsvFile
 import com.onlyteo.sandbox.model.Prefix
 import kotlin.random.Random
 
