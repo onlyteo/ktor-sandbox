@@ -1,7 +1,6 @@
 package com.onlyteo.sandbox.plugin
 
 import com.auth0.jwt.JWT
-import com.onlyteo.sandbox.config.buildSecurityLogger
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.UserSession
 import com.onlyteo.sandbox.model.asAccessToken
@@ -19,6 +18,7 @@ import io.ktor.server.response.header
 import io.ktor.server.response.respond
 import io.ktor.server.sessions.Sessions
 import io.ktor.server.sessions.cookie
+import no.onlyteo.sandbox.logging.factory.buildSecurityLogger
 import java.time.Instant
 
 private val securityLogger = buildSecurityLogger

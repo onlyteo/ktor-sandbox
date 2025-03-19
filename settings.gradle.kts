@@ -33,6 +33,7 @@ plugins {
 
 // LIBS
 include(":libs:async")
+include(":libs:logging")
 include(":libs:properties")
 include(":libs:serialization")
 include(":libs:database")

@@ -1,6 +1,5 @@
 package com.onlyteo.sandbox.plugin
 
-import com.onlyteo.sandbox.config.buildApplicationLogger
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.kafka.plugin.KafkaConsumerPlugin
 import com.onlyteo.sandbox.kafka.plugin.KafkaProducerPlugin
@@ -8,6 +7,7 @@ import com.onlyteo.sandbox.model.Greeting
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import kotlinx.coroutines.runBlocking
+import no.onlyteo.sandbox.logging.factory.buildApplicationLogger
 
 fun Application.configureKafka(applicationContext: ApplicationContext) {
     with(applicationContext) {

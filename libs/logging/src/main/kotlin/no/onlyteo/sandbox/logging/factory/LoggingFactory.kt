@@ -1,4 +1,4 @@
-package com.onlyteo.sandbox.config
+package no.onlyteo.sandbox.logging.factory
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

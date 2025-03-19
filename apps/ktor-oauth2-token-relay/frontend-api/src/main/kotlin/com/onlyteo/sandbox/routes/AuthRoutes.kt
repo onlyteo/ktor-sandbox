@@ -1,6 +1,5 @@
 package com.onlyteo.sandbox.routes
 
-import com.onlyteo.sandbox.config.buildSecurityLogger
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.UserSession
 import com.onlyteo.sandbox.model.asUserSession
@@ -15,6 +14,7 @@ import io.ktor.server.routing.get
 import io.ktor.server.sessions.clear
 import io.ktor.server.sessions.sessions
 import io.ktor.server.sessions.set
+import no.onlyteo.sandbox.logging.factory.buildSecurityLogger
 
 private val securityLogger = buildSecurityLogger
 

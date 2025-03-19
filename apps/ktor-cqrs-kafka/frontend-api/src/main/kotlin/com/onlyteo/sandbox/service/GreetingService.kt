@@ -1,8 +1,8 @@
 package com.onlyteo.sandbox.service
 
-import com.onlyteo.sandbox.config.buildLogger
 import com.onlyteo.sandbox.kafka.properties.KafkaProducerProperties
 import com.onlyteo.sandbox.model.Person
+import no.onlyteo.sandbox.logging.factory.buildLogger
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.clients.producer.RecordMetadata

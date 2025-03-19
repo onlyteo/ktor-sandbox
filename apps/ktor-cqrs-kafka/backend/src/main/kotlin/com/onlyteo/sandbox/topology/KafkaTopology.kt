@@ -1,10 +1,11 @@
 package com.onlyteo.sandbox.topology
 
-import com.onlyteo.sandbox.config.buildLogger
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.Greeting
 import com.onlyteo.sandbox.model.Person
 import com.onlyteo.sandbox.serialization.factory.buildJsonSerde
+import no.onlyteo.sandbox.logging.factory.buildApplicationLogger
+import no.onlyteo.sandbox.logging.factory.buildLogger
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.StreamsBuilder
 import org.apache.kafka.streams.Topology
@@ -26,7 +27,7 @@ import java.time.Instant
 fun buildKafkaTopology(applicationContext: ApplicationContext): Topology = StreamsBuilder().apply {
     with(applicationContext) {
         val properties = properties.kafka.streams
-        val logger = buildLogger
+        val logger = buildApplicationLogger
 
         addStateStore(
             Stores.timestampedKeyValueStoreBuilder(
@@ -53,7 +54,6 @@ private fun buildPersonPunctuator(
     processorContext: ProcessorContext<String, Person>,
     keyValueStore: TimestampedKeyValueStore<String, Person>
 ) = object : Punctuator {
-
     private val logger = buildLogger
 
     override fun punctuate(timestamp: Long) {

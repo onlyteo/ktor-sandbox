@@ -1,6 +1,5 @@
 package com.onlyteo.sandbox.service
 
-import com.onlyteo.sandbox.config.buildLogger
 import com.onlyteo.sandbox.model.Greeting
 import com.onlyteo.sandbox.model.Person
 import com.onlyteo.sandbox.properties.ApplicationProperties
@@ -12,6 +11,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.opentelemetry.api.trace.Span
 import io.opentelemetry.instrumentation.annotations.WithSpan
+import no.onlyteo.sandbox.logging.factory.buildLogger
 
 class GreetingService(
     private val properties: ApplicationProperties,

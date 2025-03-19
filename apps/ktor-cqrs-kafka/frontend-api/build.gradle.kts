@@ -7,6 +7,7 @@ plugins {
 dependencies {
     // Project
     implementation(project(":libs:async"))
+    implementation(project(":libs:logging"))
     implementation(project(":libs:properties"))
     implementation(project(":libs:serialization"))
     implementation(project(":libs:error-handling"))
