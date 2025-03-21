@@ -27,10 +27,30 @@ suspend fun ApplicationCall.handleException(cause: Throwable) {
 
 private fun ApplicationCall.resolveProblemDetails(cause: Throwable): ProblemDetails {
     return when (cause) {
-        is BadRequestException -> ProblemDetails(HttpStatusCode.BadRequest, cause.message, request.path())
-        is RequestValidationException -> ProblemDetails(HttpStatusCode.BadRequest, cause.message, request.path())
-        is HttpStatusException -> ProblemDetails(cause.status, cause.message, request.path())
+        is BadRequestException -> ProblemDetails(
+            httpStatusCode = HttpStatusCode.BadRequest,
+            detail = cause.message,
+            instance = request.path()
+        )
+
+        is RequestValidationException -> ProblemDetails(
+            httpStatusCode = HttpStatusCode.BadRequest,
+            detail = cause.message,
+            instance = request.path()
+        )
+
+        is HttpStatusException -> ProblemDetails(
+            httpStatusCode = cause.status,
+            detail = cause.message,
+            instance = request.path()
+        )
+
         is ProblemDetailException -> cause.problemDetails
-        else -> ProblemDetails(HttpStatusCode.InternalServerError, cause.message, request.path())
+
+        else -> ProblemDetails(
+            httpStatusCode = HttpStatusCode.InternalServerError,
+            detail = cause.message,
+            instance = request.path()
+        )
     }
 }

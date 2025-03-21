@@ -5,6 +5,6 @@ plugins {
 
 dependencies {
     // Ktor
-    compileOnly(platform(libs.ktor.bom))
-    compileOnly(libs.ktor.server.core)
+    compileOnly(libs.kotlinx.coroutines.core)
+    compileOnly(libs.logback.classic)
 }

@@ -15,6 +15,7 @@ import io.ktor.server.application.createApplicationPlugin
 import io.ktor.server.application.hooks.MonitoringEvent
 import io.ktor.server.application.log
 import io.ktor.utils.io.KtorDsl
+import kotlinx.coroutines.CoroutineScope
 import org.apache.kafka.clients.consumer.ConsumerRebalanceListener
 import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.apache.kafka.clients.consumer.KafkaConsumer
@@ -28,7 +29,7 @@ class KafkaConsumerPluginConfig {
     var kafkaTopics: Collection<String>? = null
     var kafkaConsumer: KafkaConsumer<*, *>? = null
     var rebalanceListener: ConsumerRebalanceListener? = NoopConsumerRebalanceListener()
-    var asyncRunner: AsyncRunner<Application>? = null
+    var asyncRunner: AsyncRunner<CoroutineScope>? = null
 
     inline fun <reified K, V> useThreadPool(noinline block: PluginConfig<K, V>.() -> Unit) {
         val config = PluginConfig<K, V>().apply(block)

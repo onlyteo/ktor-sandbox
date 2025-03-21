@@ -1,6 +1,6 @@
 package com.onlyteo.sandbox.async.runner
 
-import io.ktor.server.application.Application
+import org.slf4j.LoggerFactory
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -8,12 +8,14 @@ import java.util.concurrent.Future
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
 
-open class ThreadPoolAsyncRunner(
+open class ThreadPoolAsyncRunner<T>(
     private val runFunction: (() -> Unit),
     private val abortFunction: (() -> Unit),
     private val executorService: ExecutorService = Executors.newSingleThreadExecutor(),
     private val taskRef: AtomicReference<Future<*>> = AtomicReference(CompletableFuture<Nothing>())
-) : AsyncRunner<Application> {
+) : AsyncRunner<T> {
+    private val logger = LoggerFactory.getLogger(this.javaClass)
+
     constructor(
         taskFunction: (() -> Unit),
         successFunction: (() -> Unit) = {},
@@ -41,13 +43,15 @@ open class ThreadPoolAsyncRunner(
         taskRef = taskRef
     )
 
-    override fun run(context: Application) {
+    override fun run(context: T) {
+        logger.info("Running thread pool async function")
         taskRef.set(executorService.submit {
             runFunction()
         })
     }
 
     override fun abort() {
+        logger.info("Aborting thread pool async function")
         taskRef.get().cancel(true)
         abortFunction()
     }

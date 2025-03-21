@@ -1,6 +1,6 @@
 package com.onlyteo.sandbox.async.runner
 
-interface AsyncRunner<C> {
-    fun run(context: C)
+interface AsyncRunner<T> {
+    fun run(context: T)
     fun abort()
 }

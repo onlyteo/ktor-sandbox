@@ -21,19 +21,20 @@ val KafkaStreamsStopping: EventDefinition<Application> = EventDefinition()
 
 @KtorDsl
 class KafkaStreamsPluginConfig {
-    var streamsProperties: KafkaStreamsProperties? = null
-    var streamsTopology: Topology? = null
-    var streamsExceptionHandler: StreamsUncaughtExceptionHandler? = null
+    var properties: KafkaStreamsProperties? = null
+    var kafkaTopology: Topology? = null
+    var exceptionHandler: StreamsUncaughtExceptionHandler? = null
 }
 
 val KafkaStreamsPlugin: ApplicationPlugin<KafkaStreamsPluginConfig> =
     createApplicationPlugin("KafkaStreams", ::KafkaStreamsPluginConfig) {
-        val properties = checkNotNull(pluginConfig.streamsProperties) { "Kafka Streams properties must not be null" }
-        val topology = checkNotNull(pluginConfig.streamsTopology) { "Kafka Streams topology must not be null" }
-        val exceptionHandler =
-            checkNotNull(pluginConfig.streamsExceptionHandler) { "Kafka Streams exception handler must not be null" }
+        val properties = checkNotNull(pluginConfig.properties) { "Kafka Streams properties must not be null" }
+        val kafkaTopology = checkNotNull(pluginConfig.kafkaTopology) { "Kafka Streams topology must not be null" }
+        val exceptionHandler = checkNotNull(pluginConfig.exceptionHandler) {
+            "Kafka Streams exception handler must not be null"
+        }
 
-        val kafkaStreams = KafkaStreams(topology, StreamsConfig(properties.asMap()))
+        val kafkaStreams = KafkaStreams(kafkaTopology, StreamsConfig(properties.asMap()))
         kafkaStreams.setUncaughtExceptionHandler(exceptionHandler)
 
         on(MonitoringEvent(ApplicationStarted)) { application ->
