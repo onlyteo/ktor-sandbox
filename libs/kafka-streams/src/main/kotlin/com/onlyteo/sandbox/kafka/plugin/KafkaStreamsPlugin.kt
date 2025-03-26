@@ -16,6 +16,7 @@ import org.apache.kafka.streams.Topology
 import org.apache.kafka.streams.errors.StreamsUncaughtExceptionHandler
 import java.time.Duration
 
+const val KAFKA_STREAMS_PLUGIN_NAME = "KafkaStreamsPlugin"
 val KafkaStreamsStarting: EventDefinition<Application> = EventDefinition()
 val KafkaStreamsStopping: EventDefinition<Application> = EventDefinition()
 
@@ -27,7 +28,8 @@ class KafkaStreamsPluginConfig {
 }
 
 val KafkaStreamsPlugin: ApplicationPlugin<KafkaStreamsPluginConfig> =
-    createApplicationPlugin("KafkaStreams", ::KafkaStreamsPluginConfig) {
+    createApplicationPlugin(KAFKA_STREAMS_PLUGIN_NAME, ::KafkaStreamsPluginConfig) {
+        application.log.info("Installing {}", KAFKA_STREAMS_PLUGIN_NAME)
         val properties = checkNotNull(pluginConfig.properties) { "Kafka Streams properties must not be null" }
         val kafkaTopology = checkNotNull(pluginConfig.kafkaTopology) { "Kafka Streams topology must not be null" }
         val exceptionHandler = checkNotNull(pluginConfig.exceptionHandler) {

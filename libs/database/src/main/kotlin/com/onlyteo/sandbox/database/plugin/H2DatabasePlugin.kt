@@ -9,6 +9,7 @@ import io.ktor.server.application.hooks.MonitoringEvent
 import io.ktor.server.application.log
 import io.ktor.utils.io.KtorDsl
 
+const val H2_DATABASE_PLUGIN_NAME = "H2DatabasePlugin"
 
 @KtorDsl
 class H2DatabasePluginConfig {
@@ -17,7 +18,8 @@ class H2DatabasePluginConfig {
 }
 
 val H2DatabasePlugin: ApplicationPlugin<H2DatabasePluginConfig> =
-    createApplicationPlugin("H2DatabasePlugin", ::H2DatabasePluginConfig) {
+    createApplicationPlugin(H2_DATABASE_PLUGIN_NAME, ::H2DatabasePluginConfig) {
+        application.log.info("Installing {}", H2_DATABASE_PLUGIN_NAME)
         val enabled = pluginConfig.enabled
 
         if (enabled) {

@@ -19,7 +19,7 @@ fun Application.configureKafka(applicationContext: ApplicationContext) {
         }
         install(KafkaConsumerPlugin) {
             useCoroutines<String, Greeting> {
-                kafkaTopics = listOf(sourceTopic)
+                topics = listOf(sourceTopic)
                 kafkaConsumer = greetingKafkaConsumer
                 consumeFunction = { records ->
                     runBlocking {

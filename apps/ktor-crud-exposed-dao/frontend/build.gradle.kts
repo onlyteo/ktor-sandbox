@@ -13,7 +13,7 @@ dependencies {
     // Ktor
     implementation(libs.bundles.ktor.server)
     implementation(libs.bundles.ktor.client)
-    implementation(libs.bundles.ktor.serialization)
+    implementation(libs.bundles.ktor.serialization.jackson)
     implementation(libs.bundles.ktor.logging)
     implementation(libs.bundles.ktor.webjars)
     implementation(libs.bundles.ktor.thymeleaf)

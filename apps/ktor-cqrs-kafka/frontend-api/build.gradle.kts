@@ -15,8 +15,7 @@ dependencies {
     // Ktor
     implementation(libs.bundles.ktor.server)
     implementation(libs.ktor.server.websockets)
-    implementation(libs.bundles.ktor.serialization)
-    implementation(libs.bundles.ktor.client)
+    implementation(libs.bundles.ktor.serialization.jackson)
     implementation(libs.bundles.ktor.logging)
     implementation(libs.ktor.client.websockets)
     // Other

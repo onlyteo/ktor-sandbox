@@ -9,6 +9,7 @@ import io.ktor.utils.io.KtorDsl
 import org.flywaydb.core.api.configuration.FluentConfiguration
 import javax.sql.DataSource
 
+const val FLYWAY_PLUGIN_NAME = "FlywayPlugin"
 
 @KtorDsl
 class FlywayPluginConfig {
@@ -16,7 +17,8 @@ class FlywayPluginConfig {
 }
 
 val FlywayPlugin: ApplicationPlugin<FlywayPluginConfig> =
-    createApplicationPlugin("FlywayPlugin", ::FlywayPluginConfig) {
+    createApplicationPlugin(FLYWAY_PLUGIN_NAME, ::FlywayPluginConfig) {
+        application.log.info("Installing {}", FLYWAY_PLUGIN_NAME)
         val dataSource = checkNotNull(pluginConfig.dataSource) { "Data source must not be null" }
 
         val flyway = FluentConfiguration()

@@ -13,7 +13,7 @@ dependencies {
     implementation(project(":libs:kafka-streams"))
     // Ktor
     implementation(libs.bundles.ktor.server)
-    implementation(libs.bundles.ktor.serialization)
+    implementation(libs.bundles.ktor.serialization.jackson)
     implementation(libs.bundles.ktor.webjars)
     // Other
     implementation(libs.bundles.logback)

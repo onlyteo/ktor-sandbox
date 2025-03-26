@@ -9,51 +9,32 @@ import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
 
-open class CoroutineAsyncRunner(
-    private val runFunction: (() -> Unit),
-    private val abortFunction: (() -> Unit),
+open class CoroutineAsyncRunner<T>(
+    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
     private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
-    private val taskRef: AtomicReference<Job> = AtomicReference(Job())
-) : AsyncRunner<CoroutineScope> {
-    private val logger = LoggerFactory.getLogger(CoroutineAsyncRunner::class.java)
+    private val keepRunning: AtomicBoolean = AtomicBoolean(true)
+) : AsyncRunner<T> {
+    private val logger = LoggerFactory.getLogger(this.javaClass)
+    private val jobRef: AtomicReference<Job> = AtomicReference(Job())
 
-    constructor(
-        taskFunction: (() -> Unit),
-        successFunction: (() -> Unit) = {},
-        errorFunction: ((Throwable) -> Unit) = {},
-        abortFunction: (() -> Unit) = {},
-        coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
-        taskRef: AtomicReference<Job> = AtomicReference(Job()),
-        taskLatch: AtomicBoolean = AtomicBoolean(true)
-    ) : this(
-        runFunction = {
-            while (taskLatch.get()) {
+    override fun run(task: () -> T, onSuccess: (T) -> Unit, onFailure: (Throwable) -> Unit) {
+        logger.info("Running coroutine async function")
+        jobRef.set(coroutineScope.launch(coroutineDispatcher) {
+            while (keepRunning.get()) {
                 try {
-                    taskFunction()
-                    successFunction()
+                    val result = task()
+                    onSuccess(result)
                 } catch (throwable: Throwable) {
-                    errorFunction(throwable)
+                    onFailure(throwable)
                 }
             }
-        },
-        abortFunction = {
-            taskLatch.set(false)
-            abortFunction()
-        },
-        coroutineDispatcher = coroutineDispatcher,
-        taskRef = taskRef
-    )
-
-    override fun run(context: CoroutineScope) {
-        logger.info("Running coroutine async function")
-        taskRef.set(context.launch(coroutineDispatcher) {
-            runFunction()
         })
     }
 
-    override fun abort() {
+    override fun abort(onAbort: () -> Unit) {
         logger.info("Aborting coroutine async function")
-        taskRef.get().cancel()
-        abortFunction()
+        keepRunning.set(false)
+        jobRef.get().cancel()
+        onAbort()
     }
 }

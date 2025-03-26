@@ -15,7 +15,7 @@ class ErrorHandlingPluginConfig {
 
 val ErrorHandlingPlugin: ApplicationPlugin<ErrorHandlingPluginConfig> =
     createApplicationPlugin("ErrorHandlingPlugin", ::ErrorHandlingPluginConfig) {
-        application.log.info("Installerer {}", ERROR_HANDLING_PLUGIN_NAME)
+        application.log.info("Installing {}", ERROR_HANDLING_PLUGIN_NAME)
 
         application.install(StatusPages) {
             exception<Throwable> { call: ApplicationCall, cause: Throwable ->

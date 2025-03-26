@@ -9,50 +9,31 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
 
 open class ThreadPoolAsyncRunner<T>(
-    private val runFunction: (() -> Unit),
-    private val abortFunction: (() -> Unit),
     private val executorService: ExecutorService = Executors.newSingleThreadExecutor(),
-    private val taskRef: AtomicReference<Future<*>> = AtomicReference(CompletableFuture<Nothing>())
+    private val keepRunning: AtomicBoolean = AtomicBoolean(true),
+    private val meyInterruptIfRunning: AtomicBoolean = AtomicBoolean(true)
 ) : AsyncRunner<T> {
     private val logger = LoggerFactory.getLogger(this.javaClass)
+    private val futureRef: AtomicReference<Future<*>> = AtomicReference(CompletableFuture<Nothing>())
 
-    constructor(
-        taskFunction: (() -> Unit),
-        successFunction: (() -> Unit) = {},
-        errorFunction: ((Throwable) -> Unit) = {},
-        abortFunction: (() -> Unit) = {},
-        executorService: ExecutorService = Executors.newSingleThreadExecutor(),
-        taskRef: AtomicReference<Future<*>> = AtomicReference(CompletableFuture<Nothing>()),
-        taskLatch: AtomicBoolean = AtomicBoolean(true)
-    ) : this(
-        runFunction = {
-            while (taskLatch.get()) {
+    override fun run(task: () -> T, onSuccess: (T) -> Unit, onFailure: (Throwable) -> Unit) {
+        logger.info("Running thread pool async function")
+        futureRef.set(executorService.submit {
+            while (keepRunning.get()) {
                 try {
-                    taskFunction()
-                    successFunction()
+                    val result = task()
+                    onSuccess(result)
                 } catch (throwable: Throwable) {
-                    errorFunction(throwable)
+                    onFailure(throwable)
                 }
             }
-        },
-        abortFunction = {
-            taskLatch.set(false)
-            abortFunction()
-        },
-        executorService = executorService,
-        taskRef = taskRef
-    )
-
-    override fun run(context: T) {
-        logger.info("Running thread pool async function")
-        taskRef.set(executorService.submit {
-            runFunction()
         })
     }
 
-    override fun abort() {
+    override fun abort(onAbort: () -> Unit) {
         logger.info("Aborting thread pool async function")
-        taskRef.get().cancel(true)
-        abortFunction()
+        keepRunning.set(false)
+        futureRef.get().cancel(meyInterruptIfRunning.get())
+        onAbort()
     }
 }

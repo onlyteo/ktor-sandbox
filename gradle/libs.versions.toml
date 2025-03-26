@@ -24,6 +24,7 @@ webjars-popper = "2.11.7"
 webjars-locator = "0.52"
 webjars-fontawesome = "6.5.2"
 thymeleaf-layout-dialect = "3.4.0"
+graphql = "8.4.0"
 junit = "5.12.1"
 kotest = "5.9.1"
 mockk = "1.13.17"
@@ -39,6 +40,7 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 # Ktor server
 ktor-bom = { module = "io.ktor:ktor-bom", version.ref = "ktor" }
 ktor-server-core = { module = "io.ktor:ktor-server-core" }
+ktor-server-cors = { module = "io.ktor:ktor-server-cors" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty" }
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation" }
 ktor-server-request-validation = { module = "io.ktor:ktor-server-request-validation" }
@@ -111,6 +113,10 @@ webjars-bootstrap = { module = "org.webjars:bootstrap", version.ref = "webjars-b
 webjars-popper = { module = "org.webjars:popper.js", version.ref = "webjars-popper" }
 webjars-locator = { module = "org.webjars:webjars-locator", version.ref = "webjars-locator" }
 webjars-fontawesome = { module = "org.webjars:font-awesome", version.ref = "webjars-fontawesome" }
+# GraphQL
+graphql-kotlin-ktor-client = { module = "com.expediagroup:graphql-kotlin-ktor-client", version.ref = "graphql" }
+graphql-kotlin-ktor-server = { module = "com.expediagroup:graphql-kotlin-ktor-server", version.ref = "graphql" }
+graphql-kotlin-client-jackson = { module = "com.expediagroup:graphql-kotlin-client-jackson", version.ref = "graphql" }
 # JUnit
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
@@ -140,7 +146,7 @@ ktor-client = [
     "ktor-client-logging",
     "ktor-client-content-negotiation"
 ]
-ktor-serialization = [
+ktor-serialization-jackson = [
     "ktor-serialization-jackson",
     "jackson-datatype-jsr310"
 ]
