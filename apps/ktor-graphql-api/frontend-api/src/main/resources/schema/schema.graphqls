@@ -1,0 +1,22 @@
+scalar String
+
+input Person {
+    name: String!
+}
+
+type Greeting {
+    message: String!
+}
+
+type Query {
+    getGreeting(name: String!): Greeting!
+}
+
+type Mutation {
+    postGreeting(person: Person!): Greeting!
+}
+
+schema {
+    query: Query
+    mutation: Mutation
+}

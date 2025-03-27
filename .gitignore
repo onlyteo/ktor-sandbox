@@ -39,6 +39,9 @@ out/
 ### VS Code ###
 .vscode/
 
+## Kotlin ##
+.kotlin/
+
 ### Node ###
 node_modules/
 dist/

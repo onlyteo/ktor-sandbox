@@ -1,0 +1,2 @@
+schema: "src/main/resources/schema/schema.graphqls"
+documents: "src/main/resources/schema/docs/*.graphqls"

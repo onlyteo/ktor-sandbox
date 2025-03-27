@@ -1,0 +1,11 @@
+### APP ###
+app:
+  # Integrations
+  integrations:
+    backend:
+      url: "${APP_INTEGRATIONS_BACKEND_URL}"
+
+### KTOR ###
+ktor:
+  # Development
+  development: false

@@ -29,6 +29,7 @@ plugins {
     id("com.google.cloud.tools.jib") version "3.4.4" apply false
     id("org.jooq.jooq-codegen-gradle") version "3.20.1" apply false
     id("com.gorylenko.gradle-git-properties") version "2.4.2" apply false
+    id("com.expediagroup.graphql") version "8.4.0" apply false
 }
 
 // LIBS
@@ -71,3 +72,7 @@ include(":apps:ktor-cqrs-kafka:backend")
 include(":apps:ktor-otel-observability:frontend")
 include(":apps:ktor-otel-observability:frontend-api")
 include(":apps:ktor-otel-observability:backend")
+
+include(":apps:ktor-graphql-api:frontend")
+include(":apps:ktor-graphql-api:frontend-api")
+include(":apps:ktor-graphql-api:backend")

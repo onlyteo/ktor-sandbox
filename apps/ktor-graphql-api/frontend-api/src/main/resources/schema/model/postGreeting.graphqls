@@ -1,0 +1,5 @@
+mutation ($person: Person!) {
+    postGreeting(person: $person) {
+        message
+    }
+}
