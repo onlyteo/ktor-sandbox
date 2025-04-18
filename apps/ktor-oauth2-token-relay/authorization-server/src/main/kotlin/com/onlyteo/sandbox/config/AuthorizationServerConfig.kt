@@ -30,23 +30,18 @@ class AuthorizationServerConfig {
     @Order(1)
     @Throws(Exception::class)
     fun authorizationServerSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
-        val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer.authorizationServer()
+        val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer
+            .authorizationServer()
+            .oidc(Customizer.withDefaults()) // Enable OpenID Connect 1.0
         return http
             .securityMatcher(authorizationServerConfigurer.endpointsMatcher)
-            .with(authorizationServerConfigurer) { config: OAuth2AuthorizationServerConfigurer ->
-                config
-                    .oidc(Customizer.withDefaults())    // Enable OpenID Connect 1.0
-            }
-            .authorizeHttpRequests { config ->
-                config
-                    .anyRequest().authenticated()
-            }
-            .exceptionHandling { config ->
-                config
-                    .defaultAuthenticationEntryPointFor(
-                        LoginUrlAuthenticationEntryPoint("/login"),
-                        MediaTypeRequestMatcher(MediaType.TEXT_HTML)
-                    )
+            .with(authorizationServerConfigurer, Customizer.withDefaults())
+            .authorizeHttpRequests { it.anyRequest().authenticated() }
+            .exceptionHandling {
+                it.defaultAuthenticationEntryPointFor(
+                    LoginUrlAuthenticationEntryPoint("/login"),
+                    MediaTypeRequestMatcher(MediaType.TEXT_HTML)
+                )
             }
             .build()
     }
