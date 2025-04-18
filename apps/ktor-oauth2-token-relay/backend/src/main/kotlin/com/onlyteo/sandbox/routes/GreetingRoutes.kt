@@ -2,7 +2,7 @@ package com.onlyteo.sandbox.routes
 
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.Person
-import com.onlyteo.sandbox.routes.plugin.authorize
+import com.onlyteo.sandbox.plugin.authorize
 import io.ktor.server.auth.authenticate
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route

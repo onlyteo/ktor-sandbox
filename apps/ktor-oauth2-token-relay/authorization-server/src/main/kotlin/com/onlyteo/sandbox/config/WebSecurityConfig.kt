@@ -40,7 +40,7 @@ class WebSecurityConfig {
                     .requestMatchers(*properties.security.whitelistedPaths.toTypedArray()).permitAll()
                     .anyRequest().authenticated()
             }
-            .formLogin { config: FormLoginConfigurer<HttpSecurity?> ->
+            .formLogin { config: FormLoginConfigurer<HttpSecurity> ->
                 config
                     .loginPage("/login").permitAll()
             }

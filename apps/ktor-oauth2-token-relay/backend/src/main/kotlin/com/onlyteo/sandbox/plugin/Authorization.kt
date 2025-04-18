@@ -1,4 +1,4 @@
-package com.onlyteo.sandbox.routes.plugin
+package com.onlyteo.sandbox.plugin
 
 import io.ktor.server.application.createRouteScopedPlugin
 import io.ktor.server.application.log

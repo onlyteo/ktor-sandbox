@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT
 import com.onlyteo.sandbox.context.ApplicationContext
 import com.onlyteo.sandbox.model.UserSession
 import com.onlyteo.sandbox.model.asAccessToken
+import com.onlyteo.sandbox.serializer.JacksonSessionSerializer
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
@@ -27,7 +28,9 @@ fun Application.configAuthentication(applicationContext: ApplicationContext) {
     with(applicationContext) {
         with(properties.security) {
             install(Sessions) {
-                cookie<UserSession>(session.cookieName)
+                cookie<UserSession>(session.cookieName) {
+                    serializer = JacksonSessionSerializer()
+                }
             }
             install(Authentication) {
                 session<UserSession>(session.name) {
