@@ -3,7 +3,7 @@
 kotlinx-coroutines = "1.10.1"
 ktor = "3.1.2"
 jackson = "2.18.3"
-logback = "1.5.17"
+logback = "1.5.18"
 logstash-logback = "8.0"
 micrometer = "1.14.5"
 opentelemetry = "1.48.0"
