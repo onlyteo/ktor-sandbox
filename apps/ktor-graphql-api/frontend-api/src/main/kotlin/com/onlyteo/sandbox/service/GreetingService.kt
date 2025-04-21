@@ -2,10 +2,10 @@ package com.onlyteo.sandbox.service
 
 import com.expediagroup.graphql.client.ktor.GraphQLKtorClient
 import com.onlyteo.sandbox.exception.GreetingFailedException
+import com.onlyteo.sandbox.logging.factory.buildLogger
 import com.onlyteo.sandbox.model.Greeting
 import com.onlyteo.sandbox.model.Person
 import com.onlyteo.sandbox.schema.GetGreeting
-import no.onlyteo.sandbox.logging.factory.buildLogger
 
 class GreetingService(
     private val graphQLClient: GraphQLKtorClient

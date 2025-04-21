@@ -8,14 +8,14 @@ import io.ktor.server.application.install
 import io.ktor.server.application.log
 import io.ktor.server.plugins.statuspages.StatusPages
 
-const val ERROR_HANDLING_PLUGIN_NAME: String = "ErrorHandlingPlugin"
+const val REST_ERROR_HANDLING_PLUGIN_NAME: String = "RestErrorHandlingPlugin"
 
-class ErrorHandlingPluginConfig {
+class RestErrorHandlingPluginConfig {
 }
 
-val ErrorHandlingPlugin: ApplicationPlugin<ErrorHandlingPluginConfig> =
-    createApplicationPlugin("ErrorHandlingPlugin", ::ErrorHandlingPluginConfig) {
-        application.log.info("Installing {}", ERROR_HANDLING_PLUGIN_NAME)
+val RestErrorHandlingPlugin: ApplicationPlugin<RestErrorHandlingPluginConfig> =
+    createApplicationPlugin(REST_ERROR_HANDLING_PLUGIN_NAME, ::RestErrorHandlingPluginConfig) {
+        application.log.info("Installing {}", REST_ERROR_HANDLING_PLUGIN_NAME)
 
         application.install(StatusPages) {
             exception<Throwable> { call: ApplicationCall, cause: Throwable ->

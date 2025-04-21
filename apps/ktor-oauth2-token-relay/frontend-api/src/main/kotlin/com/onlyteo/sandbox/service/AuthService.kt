@@ -1,5 +1,6 @@
 package com.onlyteo.sandbox.service
 
+import com.onlyteo.sandbox.logging.factory.buildLogger
 import com.onlyteo.sandbox.model.OAuth2TokenResponse
 import com.onlyteo.sandbox.properties.ApplicationProperties
 import io.ktor.client.HttpClient
@@ -9,7 +10,6 @@ import io.ktor.client.request.forms.formData
 import io.ktor.client.request.forms.submitForm
 import io.ktor.http.isSuccess
 import io.ktor.server.auth.OAuth2RequestParameters
-import no.onlyteo.sandbox.logging.factory.buildLogger
 import java.io.IOException
 
 class AuthService(

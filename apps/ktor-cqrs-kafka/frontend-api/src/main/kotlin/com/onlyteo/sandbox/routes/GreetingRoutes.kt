@@ -1,6 +1,7 @@
 package com.onlyteo.sandbox.routes
 
 import com.onlyteo.sandbox.context.ApplicationContext
+import com.onlyteo.sandbox.logging.factory.buildLogger
 import com.onlyteo.sandbox.model.Person
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.routing.Route
@@ -9,7 +10,6 @@ import io.ktor.server.websocket.sendSerialized
 import io.ktor.server.websocket.webSocket
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.delay
-import no.onlyteo.sandbox.logging.factory.buildLogger
 import java.util.concurrent.atomic.AtomicBoolean
 
 

@@ -1,7 +1,6 @@
 package com.onlyteo.sandbox.database.plugin
 
 import io.ktor.server.application.ApplicationPlugin
-import io.ktor.server.application.ApplicationStarted
 import io.ktor.server.application.createApplicationPlugin
 import io.ktor.server.application.hooks.MonitoringEvent
 import io.ktor.server.application.log
@@ -25,7 +24,7 @@ val FlywayPlugin: ApplicationPlugin<FlywayPluginConfig> =
             .dataSource(dataSource)
             .load()
 
-        on(MonitoringEvent(ApplicationStarted)) { application ->
+        on(MonitoringEvent(DataSourceReady)) { application ->
             application.log.info("Executing database migration")
             flyway.migrate()
         }

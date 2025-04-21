@@ -1,9 +1,9 @@
 package com.onlyteo.sandbox
 
 import com.onlyteo.sandbox.context.ApplicationContext
-import com.onlyteo.sandbox.plugin.configureErrorHandling
+import com.onlyteo.sandbox.errors.plugin.configureGraphQLErrorHandling
+import com.onlyteo.sandbox.logging.plugin.configureLogging
 import com.onlyteo.sandbox.plugin.configureGraphQL
-import com.onlyteo.sandbox.plugin.configureLogging
 import com.onlyteo.sandbox.plugin.configureRouting
 import com.onlyteo.sandbox.plugin.configureWebjars
 import com.onlyteo.sandbox.properties.KtorPropertiesHolder
@@ -30,7 +30,7 @@ fun Application.module() {
 
     configureLogging()
     configureWebjars()
-    configureErrorHandling()
+    configureGraphQLErrorHandling()
     configureGraphQL(applicationContext)
     configureRouting()
 }

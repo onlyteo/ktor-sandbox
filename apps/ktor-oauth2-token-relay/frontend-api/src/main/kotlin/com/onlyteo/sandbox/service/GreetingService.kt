@@ -1,5 +1,6 @@
 package com.onlyteo.sandbox.service
 
+import com.onlyteo.sandbox.logging.factory.buildLogger
 import com.onlyteo.sandbox.model.Greeting
 import com.onlyteo.sandbox.model.Person
 import com.onlyteo.sandbox.model.UserSession
@@ -11,7 +12,6 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import no.onlyteo.sandbox.logging.factory.buildLogger
 
 class GreetingService(
     private val properties: ApplicationProperties,

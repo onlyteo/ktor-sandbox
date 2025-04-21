@@ -1,7 +1,7 @@
 # Ktor Sandbox
 
-[![Kotlin](https://img.shields.io/badge/kotlin-2.0.20-8d53f9.svg?logo=kotlin&logoColor=8d53f9)](http://kotlinlang.org)
-[![Ktor](https://img.shields.io/badge/ktor-2.3.12-8d53f9.svg?logo=ktor&logoColor=8d53f9)](https://ktor.io)
+[![Kotlin](https://img.shields.io/badge/kotlin-2.1.20-8d53f9.svg?logo=kotlin&logoColor=8d53f9)](http://kotlinlang.org)
+[![Ktor](https://img.shields.io/badge/ktor-3.1.2-8d53f9.svg?logo=ktor&logoColor=8d53f9)](https://ktor.io)
 [![TypeScript](https://img.shields.io/badge/typescript-5.2.2-3178c6.svg?logo=typescript&logoColor=3178c6)](https://www.typescriptlang.org)
 [![React](https://img.shields.io/badge/react-18.3.1-58c4dc.svg?logo=react&logoColor=58c4dc)](https://react.dev)
 [![Gradle](https://img.shields.io/badge/gradle-stable-209bc4.svg?logo=gradle&logoColor=209bc4)](https://gradle.org)
@@ -23,6 +23,7 @@ Read details about the examples in their respective project roots.
 * [OAuth2 Token Relay](./apps/ktor-oauth2-token-relay)
 * [OTEL Observability](./apps/ktor-otel-observability)
 * [Kafka CQRS](./apps/ktor-cqrs-kafka)
+* [GraphQL API](./apps/ktor-graphql-api)
 
 ## Architecture
 [Ktor](https://ktor.io) is a lightweight framework for building applications for the

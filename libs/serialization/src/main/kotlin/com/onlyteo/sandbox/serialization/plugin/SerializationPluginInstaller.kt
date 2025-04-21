@@ -1,4 +1,4 @@
-package com.onlyteo.sandbox.plugin
+package com.onlyteo.sandbox.serialization.plugin
 
 import com.onlyteo.sandbox.serialization.factory.configureJackson
 import io.ktor.serialization.jackson.jackson
