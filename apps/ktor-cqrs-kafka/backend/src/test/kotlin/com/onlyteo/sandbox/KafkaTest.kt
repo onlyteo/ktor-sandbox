@@ -1,9 +1,9 @@
 package com.onlyteo.sandbox
 
-import com.onlyteo.sandbox.model.Greeting
-import com.onlyteo.sandbox.model.Person
-import com.onlyteo.sandbox.serialization.factory.buildJsonDeserializer
-import com.onlyteo.sandbox.serialization.factory.buildJsonSerializer
+import com.onlyteo.sandbox.app.model.Greeting
+import com.onlyteo.sandbox.app.model.Person
+import com.onlyteo.sandbox.lib.serialization.factory.buildJsonDeserializer
+import com.onlyteo.sandbox.lib.serialization.factory.buildJsonSerializer
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.producer.KafkaProducer

@@ -1,0 +1,24 @@
+package com.onlyteo.sandbox.app.context
+
+import com.onlyteo.sandbox.lib.database.factory.buildHikariDataSource
+import com.onlyteo.sandbox.app.properties.ApplicationProperties
+import com.onlyteo.sandbox.app.properties.ApplicationPropertiesHolder
+import com.onlyteo.sandbox.properties.loadProperties
+import com.onlyteo.sandbox.app.repository.GreetingRepository
+import com.onlyteo.sandbox.app.repository.PersonRepository
+import com.onlyteo.sandbox.app.repository.PrefixRepository
+import com.onlyteo.sandbox.app.service.GreetingService
+import org.jooq.DSLContext
+import org.jooq.SQLDialect
+import org.jooq.impl.DSL
+import javax.sql.DataSource
+
+data class ApplicationContext(
+    val properties: ApplicationProperties = loadProperties<ApplicationPropertiesHolder>().app,
+    val hikariDataSource: DataSource = buildHikariDataSource(properties.dataSource),
+    val dslContext: DSLContext = DSL.using(hikariDataSource, SQLDialect.POSTGRES),
+    val prefixRepository: PrefixRepository = PrefixRepository(properties.resources.prefixesFile),
+    val personRepository: PersonRepository = PersonRepository(dslContext),
+    val greetingRepository: GreetingRepository = GreetingRepository(dslContext),
+    val greetingService: GreetingService = GreetingService(prefixRepository, personRepository, greetingRepository)
+)
