@@ -12,13 +12,13 @@ This example shows a React frontend and Ktor REST API.
 
 Start Backend application:
 ```bash
-../gradlew :ktor-rest-api:backend:run
+../../gradlew :apps:ktor-api-rest:backend:run
 ```
 
 Start Frontend API application:
 
 ```bash
-../gradlew :ktor-rest-api:frontend-api:run
+../../gradlew :apps:ktor-api-rest:frontend-api:run
 ```
 
 Start Frontend application (this should open a browser window):

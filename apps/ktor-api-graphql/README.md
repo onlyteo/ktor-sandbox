@@ -12,13 +12,13 @@ This example shows a React frontend and Ktor GraphQL API.
 
 Start Backend application:
 ```bash
-../gradlew :ktor-rest-api:backend:run
+../../gradlew :apps:ktor-api-graphql:backend:run
 ```
 
 Start Frontend API application:
 
 ```bash
-../gradlew :ktor-rest-api:frontend-api:run
+../../gradlew :ktor-api-graphql:frontend-api:run
 ```
 
 Start Frontend application (this should open a browser window):

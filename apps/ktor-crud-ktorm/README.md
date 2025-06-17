@@ -10,13 +10,13 @@ This example shows a CRUD architecture using the Ktorm framework.
 
 Start Backend application:
 ```bash
-../gradlew :ktor-crud-ktorm:backend:run
+../../gradlew :apps:ktor-crud-ktorm:backend:run
 ```
 
 Start Frontend application:
 
 ```bash
-../gradlew :ktor-crud-ktorm:frontend:run
+../../gradlew :apps:ktor-crud-ktorm:frontend:run
 ```
 
 ## Architecture

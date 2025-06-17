@@ -44,9 +44,9 @@ include(":libs:kafka-clients")
 include(":libs:kafka-streams")
 
 // APPS
-include(":apps:ktor-rest-api:frontend")
-include(":apps:ktor-rest-api:frontend-api")
-include(":apps:ktor-rest-api:backend")
+include(":apps:ktor-api-rest:frontend")
+include(":apps:ktor-api-rest:frontend-api")
+include(":apps:ktor-api-rest:backend")
 
 include(":apps:ktor-crud-exposed-jdbc:frontend")
 include(":apps:ktor-crud-exposed-jdbc:backend")
@@ -73,6 +73,6 @@ include(":apps:ktor-otel-observability:frontend")
 include(":apps:ktor-otel-observability:frontend-api")
 include(":apps:ktor-otel-observability:backend")
 
-include(":apps:ktor-graphql-api:frontend")
-include(":apps:ktor-graphql-api:frontend-api")
-include(":apps:ktor-graphql-api:backend")
+include(":apps:ktor-api-graphql:frontend")
+include(":apps:ktor-api-graphql:frontend-api")
+include(":apps:ktor-api-graphql:backend")

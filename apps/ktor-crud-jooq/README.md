@@ -10,13 +10,13 @@ This example shows a CRUD architecture using the JOOQ framework.
 
 Start Backend application:
 ```bash
-../gradlew :ktor-crud-jooq:backend:run
+../../gradlew :apps:ktor-crud-jooq:backend:run
 ```
 
 Start Frontend application:
 
 ```bash
-../gradlew :ktor-crud-jooq:frontend:run
+../../gradlew :apps:ktor-crud-jooq:frontend:run
 ```
 
 ## Architecture

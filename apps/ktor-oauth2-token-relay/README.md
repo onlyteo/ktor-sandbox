@@ -15,18 +15,18 @@ the end users.
 
 Start Backend application:
 ```bash
-../gradlew :ktor-oauth2-token-relay:authorization-server:bootRun
+../../gradlew :apps:ktor-oauth2-token-relay:authorization-server:bootRun
 ```
 
 Start Backend application:
 ```bash
-../gradlew :ktor-oauth2-token-relay:backend:run
+../../gradlew :apps:ktor-oauth2-token-relay:backend:run
 ```
 
 Start Frontend API application:
 
 ```bash
-../gradlew :ktor-oauth2-token-relay:frontend-api:run
+../../gradlew :apps:ktor-oauth2-token-relay:frontend-api:run
 ```
 
 Start Frontend application (this should open a browser window):

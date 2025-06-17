@@ -10,13 +10,13 @@ This example shows a CRUD architecture using the Exposed framework.
 
 Start Backend application:
 ```bash
-../gradlew :ktor-crud-exposed-jdbc:backend:run
+../../gradlew :apps:ktor-crud-exposed-jdbc:backend:run
 ```
 
 Start Frontend application:
 
 ```bash
-../gradlew :ktor-crud-exposed-jdbc:frontend:run
+../../gradlew :apps:ktor-crud-exposed-jdbc:frontend:run
 ```
 
 ## Architecture

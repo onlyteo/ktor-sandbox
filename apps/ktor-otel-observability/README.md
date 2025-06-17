@@ -13,18 +13,18 @@ This example shows an observability enabled architecture with Open Telemetry and
 
 Start Grafana and Prometheus:
 ```bash
-docker compose -f ../docker/grafana/docker-compose.yml up -d
+docker compose -f ../../docker/grafana/docker-compose.yml up -d
 ```
 
 Start Backend application:
 ```bash
-../gradlew :ktor-otel-observability:backend:run
+../../gradlew :apps:ktor-otel-observability:backend:run
 ```
 
 Start Frontend API application:
 
 ```bash
-../gradlew :ktor-otel-observability:frontend-api:run
+../../gradlew :apps:ktor-otel-observability:frontend-api:run
 ```
 
 Start Frontend application (this should open a browser window):

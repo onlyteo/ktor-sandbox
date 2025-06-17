@@ -1,12 +1,12 @@
 ### VERSIONS ###
 [versions]
-kotlinx-coroutines = "1.10.1"
+kotlinx-coroutines = "1.10.2"
 ktor = "3.1.2"
-jackson = "2.18.3"
+jackson = "2.19.0"
 logback = "1.5.18"
 logstash-logback = "8.1"
 micrometer = "1.15.0"
-opentelemetry = "1.48.0"
+opentelemetry = "1.51.0"
 opentelemetry-instrumentation = "2.16.0"
 opentelemetry-instrumentation-ktor = "2.16.0-alpha"
 hoplite = "2.9.0"
@@ -25,10 +25,10 @@ webjars-locator = "0.52"
 webjars-fontawesome = "6.7.2"
 thymeleaf-layout-dialect = "3.4.0"
 graphql = "8.7.0"
-junit = "5.12.2"
+junit = "5.13.1"
 kotest = "5.9.1"
 mockk = "1.13.17"
-testcontainers = "1.20.6"
+testcontainers = "1.21.1"
 
 ### LIBRARIES ###
 [libraries]
