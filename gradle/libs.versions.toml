@@ -27,7 +27,7 @@ thymeleaf-layout-dialect = "3.4.0"
 graphql = "8.7.0"
 junit = "5.13.1"
 kotest = "5.9.1"
-mockk = "1.13.17"
+mockk = "1.14.4"
 testcontainers = "1.21.1"
 
 ### LIBRARIES ###
