@@ -28,7 +28,7 @@ graphql = "8.7.0"
 junit = "5.13.1"
 kotest = "5.9.1"
 mockk = "1.13.17"
-testcontainers = "1.21.1"
+testcontainers = "1.21.2"
 
 ### LIBRARIES ###
 [libraries]
