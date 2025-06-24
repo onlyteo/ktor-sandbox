@@ -1,11 +1,11 @@
 # Ktor Sandbox
 
-[![Kotlin](https://img.shields.io/badge/kotlin-2.1.20-8d53f9.svg?logo=kotlin&logoColor=8d53f9)](http://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/kotlin-2.1.20-8d53f9.svg?logo=kotlin&logoColor=8d53f9)](https://kotlinlang.org)
 [![Ktor](https://img.shields.io/badge/ktor-3.1.2-8d53f9.svg?logo=ktor&logoColor=8d53f9)](https://ktor.io)
 [![TypeScript](https://img.shields.io/badge/typescript-5.2.2-3178c6.svg?logo=typescript&logoColor=3178c6)](https://www.typescriptlang.org)
 [![React](https://img.shields.io/badge/react-18.3.1-58c4dc.svg?logo=react&logoColor=58c4dc)](https://react.dev)
 [![Gradle](https://img.shields.io/badge/gradle-stable-209bc4.svg?logo=gradle&logoColor=209bc4)](https://gradle.org)
-[![Gradle](https://img.shields.io/badge/node.js-stable-417e38.svg?logo=nodedotjs&logoColor=417e38)](https://nodejs.org)
+[![NodeJS](https://img.shields.io/badge/node.js-stable-417e38.svg?logo=nodedotjs&logoColor=417e38)](https://nodejs.org)
 [![GitHub license](https://img.shields.io/badge/license-Apache_2.0-e97726.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 This repository contain sandbox projects to showcase features of the [Ktor framework](https://ktor.io).
@@ -15,15 +15,15 @@ All examples are written in [Kotlin](https://kotlinlang.org) and built using [Gr
 ## Examples
 Read details about the examples in their respective project roots.
 
-* [REST API](./apps/ktor-rest-api)
+* [REST API](./apps/ktor-api-rest)
+* [GraphQL API](./apps/ktor-api-graphql)
 * [CRUD Exposed JDBC](./apps/ktor-crud-exposed-jdbc)
 * [CRUD Exposed DAO](./apps/ktor-crud-exposed-dao)
 * [CRUD Ktorm](./apps/ktor-crud-ktorm)
 * [CRUD JOOQ](./apps/ktor-crud-jooq)
 * [OAuth2 Token Relay](./apps/ktor-oauth2-token-relay)
 * [OTEL Observability](./apps/ktor-otel-observability)
-* [Kafka CQRS](./apps/ktor-cqrs-kafka)
-* [GraphQL API](./apps/ktor-graphql-api)
+* [Kafka CQRS](./apps/ktor-kafka-cqrs)
 
 ## Architecture
 [Ktor](https://ktor.io) is a lightweight framework for building applications for the

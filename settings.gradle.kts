@@ -20,9 +20,9 @@ dependencyResolutionManagement {
 
 // PLUGINS
 plugins {
-    kotlin("jvm") version "2.1.21" apply false
-    kotlin("plugin.spring") version "2.1.21" apply false
-    kotlin("plugin.serialization") version "2.1.21" apply false
+    kotlin("jvm") version "2.2.0" apply false
+    kotlin("plugin.spring") version "2.2.0" apply false
+    kotlin("plugin.serialization") version "2.2.0" apply false
     id("io.ktor.plugin") version "3.2.0" apply false
     id("org.springframework.boot") version "3.5.3" apply false
     id("io.spring.dependency-management") version "1.1.7" apply false
@@ -65,9 +65,9 @@ include(":apps:ktor-oauth2-token-relay:frontend-api")
 include(":apps:ktor-oauth2-token-relay:backend")
 include(":apps:ktor-oauth2-token-relay:authorization-server")
 
-include(":apps:ktor-cqrs-kafka:frontend")
-include(":apps:ktor-cqrs-kafka:frontend-api")
-include(":apps:ktor-cqrs-kafka:backend")
+include(":apps:ktor-kafka-cqrs:frontend")
+include(":apps:ktor-kafka-cqrs:frontend-api")
+include(":apps:ktor-kafka-cqrs:backend")
 
 include(":apps:ktor-otel-observability:frontend")
 include(":apps:ktor-otel-observability:frontend-api")
