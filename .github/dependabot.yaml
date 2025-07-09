@@ -1,9 +1,13 @@
 version: 2
 updates:
+  - package-ecosystem: "npm"
+    directory: "**/frontend"
+    schedule:
+      interval: "monthly"
   - package-ecosystem: "gradle"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     groups:
       kotlin:
         patterns:
