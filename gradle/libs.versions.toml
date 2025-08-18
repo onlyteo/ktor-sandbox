@@ -2,13 +2,12 @@
 [versions]
 kotlinx-coroutines = "1.10.2"
 ktor = "3.2.3"
-jackson = "2.19.1"
+jackson = "2.19.2"
 logback = "1.5.18"
 logstash-logback = "8.1"
 micrometer = "1.15.2"
-opentelemetry = "1.52.0"
-opentelemetry-instrumentation = "2.18.1"
-opentelemetry-instrumentation-ktor = "2.18.1-alpha"
+opentelemetry = "1.53.0"
+opentelemetry-instrumentation = "2.19.0"
 hoplite = "2.9.0"
 jetbrains-exposed = "0.61.0"
 jooq = "3.20.5"
@@ -26,7 +25,7 @@ webjars-fontawesome = "7.0.0"
 thymeleaf-layout-dialect = "3.4.0"
 graphql = "8.8.1"
 junit = "5.13.4"
-kotest = "5.9.1"
+kotest = "6.0.0"
 mockk = "1.14.5"
 testcontainers = "1.21.3"
 
@@ -82,7 +81,6 @@ logstash-logback-encoder = { module = "net.logstash.logback:logstash-logback-enc
 micrometer-prometheus-registry = { module = "io.micrometer:micrometer-registry-prometheus", version.ref = "micrometer" }
 # OpenTelemetry
 opentelemetry-kotlin = { module = "io.opentelemetry:opentelemetry-extension-kotlin", version.ref = "opentelemetry" }
-opentelemetry-instrumentation-ktor = { module = "io.opentelemetry.instrumentation:opentelemetry-ktor-2.0", version.ref = "opentelemetry-instrumentation-ktor" }
 opentelemetry-instrumentation-annotations = { module = "io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations", version.ref = "opentelemetry-instrumentation" }
 opentelemetry-java-agent = { module = "io.opentelemetry.javaagent:opentelemetry-javaagent", version.ref = "opentelemetry-instrumentation" }
 # Hoplite

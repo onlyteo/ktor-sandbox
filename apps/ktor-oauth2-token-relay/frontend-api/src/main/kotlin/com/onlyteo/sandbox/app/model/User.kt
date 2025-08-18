@@ -3,7 +3,7 @@ package com.onlyteo.sandbox.app.model
 import com.fasterxml.jackson.annotation.JsonProperty
 import kotlinx.serialization.SerialName
 
-data class User(@JsonProperty("sub") val subject: String)
+data class User(@field:JsonProperty("sub") val subject: String)
 
 data class UserInfo(
     val id: String,
