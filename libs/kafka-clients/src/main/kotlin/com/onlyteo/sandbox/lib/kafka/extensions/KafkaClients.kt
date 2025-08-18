@@ -25,7 +25,9 @@ fun <K, V> Consumer<K, V>.consumeSequence(
     }
 }
 
-fun <K, V> Consumer<K, V>.abort() {
+fun <K, V> Consumer<K, V>.abort(
+    closeTimeout: Duration = Duration.ofMillis(1000)
+) {
     unsubscribe()
-    close(Duration.ofSeconds(2))
+    close(closeTimeout)
 }

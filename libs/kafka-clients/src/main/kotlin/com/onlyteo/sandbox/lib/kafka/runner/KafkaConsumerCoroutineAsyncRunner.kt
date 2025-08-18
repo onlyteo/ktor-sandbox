@@ -1,6 +1,7 @@
 package com.onlyteo.sandbox.lib.kafka.runner
 
 import com.onlyteo.sandbox.lib.async.runner.CoroutineAsyncRunner
+import com.onlyteo.sandbox.lib.kafka.extensions.abort
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import org.apache.kafka.clients.consumer.ConsumerRebalanceListener
@@ -10,8 +11,8 @@ import org.slf4j.LoggerFactory
 import java.time.Duration
 
 class KafkaConsumerCoroutineAsyncRunner<K, V>(
-    private val consumeFunction: (ConsumerRecords<K, V>) -> Unit,
-    private val errorFunction: (Throwable) -> Unit,
+    private val onSuccess: (ConsumerRecords<K, V>) -> Unit,
+    private val onFailure: (Throwable) -> Unit,
     private val topics: Collection<String>,
     private val kafkaConsumer: KafkaConsumer<K, V>,
     private val rebalanceListener: ConsumerRebalanceListener,
@@ -28,15 +29,14 @@ class KafkaConsumerCoroutineAsyncRunner<K, V>(
     override fun start() {
         run(
             task = { kafkaConsumer.poll(Duration.ofMillis(100)) },
-            onSuccess = consumeFunction,
-            onFailure = errorFunction
+            onSuccess = onSuccess,
+            onFailure = onFailure
         )
     }
 
     override fun stop() {
         abort(onAbort = {
-            kafkaConsumer.unsubscribe()
-            kafkaConsumer.close(Duration.ofMillis(500))
+            kafkaConsumer.abort()
         })
     }
 }

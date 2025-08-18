@@ -34,8 +34,8 @@ class KafkaConsumerPluginConfig {
     inline fun <reified K, V> useThreadPool(noinline block: ThreadPoolAsyncConfig<K, V>.() -> Unit) {
         val config = ThreadPoolAsyncConfig<K, V>().apply(block)
         this.asyncRunner = KafkaConsumerThreadPoolAsyncRunner(
-            consumeFunction = checkNotNull(config.consumeFunction) { "Consume function must not be null" },
-            errorFunction = checkNotNull(config.errorFunction) { "Error function must not be null" },
+            onSuccess = checkNotNull(config.onSuccess) { "Consume function must not be null" },
+            onFailure = checkNotNull(config.onFailure) { "Error function must not be null" },
             topics = checkNotNull(config.topics) { "Kafka topic list must not be null" },
             kafkaConsumer = checkNotNull(config.kafkaConsumer) { "Kafka Consumer must not be null" },
             rebalanceListener = config.rebalanceListener ?: NoopConsumerRebalanceListener(),
@@ -46,8 +46,8 @@ class KafkaConsumerPluginConfig {
     inline fun <reified K, V> useCoroutines(noinline block: CoroutinesAsyncConfig<K, V>.() -> Unit) {
         val config = CoroutinesAsyncConfig<K, V>().apply(block)
         this.asyncRunner = KafkaConsumerCoroutineAsyncRunner(
-            consumeFunction = checkNotNull(config.consumeFunction) { "Consume function must not be null" },
-            errorFunction = checkNotNull(config.errorFunction) { "Error function must not be null" },
+            onSuccess = checkNotNull(config.onSuccess) { "Consume function must not be null" },
+            onFailure = checkNotNull(config.onFailure) { "Error function must not be null" },
             topics = checkNotNull(config.topics) { "Kafka topic list must not be null" },
             kafkaConsumer = checkNotNull(config.kafkaConsumer) { "Kafka Consumer must not be null" },
             rebalanceListener = config.rebalanceListener ?: NoopConsumerRebalanceListener(),
@@ -57,8 +57,8 @@ class KafkaConsumerPluginConfig {
     }
 
     class ThreadPoolAsyncConfig<K, V> {
-        var consumeFunction: ((ConsumerRecords<K, V>) -> Unit)? = null
-        var errorFunction: ((Throwable) -> Unit)? = null
+        var onSuccess: ((ConsumerRecords<K, V>) -> Unit)? = null
+        var onFailure: ((Throwable) -> Unit)? = null
         var topics: Collection<String>? = null
         var kafkaConsumer: KafkaConsumer<K, V>? = null
         var rebalanceListener: ConsumerRebalanceListener? = null
@@ -66,8 +66,8 @@ class KafkaConsumerPluginConfig {
     }
 
     class CoroutinesAsyncConfig<K, V> {
-        var consumeFunction: ((ConsumerRecords<K, V>) -> Unit)? = null
-        var errorFunction: ((Throwable) -> Unit)? = null
+        var onSuccess: ((ConsumerRecords<K, V>) -> Unit)? = null
+        var onFailure: ((Throwable) -> Unit)? = null
         var topics: Collection<String>? = null
         var kafkaConsumer: KafkaConsumer<K, V>? = null
         var rebalanceListener: ConsumerRebalanceListener? = null
