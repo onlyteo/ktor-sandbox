@@ -20,7 +20,7 @@ dependencyResolutionManagement {
 
 // PLUGINS
 plugins {
-    kotlin("jvm") version "2.2.0" apply false
+    kotlin("jvm") version "2.2.10" apply false
     kotlin("plugin.spring") version "2.2.0" apply false
     kotlin("plugin.serialization") version "2.2.0" apply false
     id("io.ktor.plugin") version "3.2.0" apply false
