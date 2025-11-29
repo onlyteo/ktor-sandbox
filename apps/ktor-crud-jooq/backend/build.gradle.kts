@@ -42,6 +42,10 @@ sourceSets {
     }
 }
 
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
+
 jooq {
     configuration {
         generator {

@@ -1,7 +1,7 @@
 ### VERSIONS ###
 [versions]
 kotlinx-coroutines = "1.10.2"
-ktor = "3.2.3"
+ktor = "3.3.1"
 jackson = "2.19.2"
 logback = "1.5.18"
 logstash-logback = "8.1"
@@ -9,8 +9,8 @@ micrometer = "1.15.2"
 opentelemetry = "1.53.0"
 opentelemetry-instrumentation = "2.19.0"
 hoplite = "2.9.0"
-jetbrains-exposed = "0.61.0"
-jooq = "3.20.5"
+jetbrains-exposed = "1.0.0-rc-3"
+jooq = "3.20.6"
 ktorm = "4.1.1"
 flyway = "11.10.5"
 h2database = "2.3.232"
@@ -25,7 +25,7 @@ webjars-fontawesome = "7.0.0"
 thymeleaf-layout-dialect = "3.4.0"
 graphql = "8.8.1"
 junit = "5.13.4"
-kotest = "6.0.0"
+kotest = "6.0.5"
 mockk = "1.14.5"
 testcontainers = "1.21.3"
 
@@ -68,8 +68,7 @@ spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-start
 spring-boot-starter-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc" }
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-thymeleaf = { module = "org.springframework.boot:spring-boot-starter-thymeleaf" }
-# Spring Security
-spring-security-oauth2-authorization-server = { module = "org.springframework.security:spring-security-oauth2-authorization-server" }
+spring-boot-starter-oauth2-authorization-server = { module = "org.springframework.boot:spring-boot-starter-oauth2-authorization-server" }
 # Jackson
 jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }

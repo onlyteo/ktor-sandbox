@@ -34,3 +34,7 @@ dependencies {
 application {
     mainClass = "com.onlyteo.sandbox.KafkaCqrsKafkaFrontendApiApplicationKt"
 }
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}

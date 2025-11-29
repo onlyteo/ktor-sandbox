@@ -28,3 +28,7 @@ dependencies {
 application {
     mainClass = "com.onlyteo.sandbox.CrudJooqFrontendApplicationKt"
 }
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}

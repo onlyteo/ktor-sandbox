@@ -51,6 +51,10 @@ application {
     mainClass = "com.onlyteo.sandbox.GraphQLApiFrontendApiApplicationKt"
 }
 
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
+
 graphql {
     schema {
         packages = listOf("com.onlyteo.sandbox")

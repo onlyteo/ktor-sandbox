@@ -16,3 +16,7 @@ dependencies {
         exclude(group = "com.fasterxml.jackson.module")
     }
 }
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}

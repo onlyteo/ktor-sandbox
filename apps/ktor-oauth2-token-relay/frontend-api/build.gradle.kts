@@ -30,3 +30,7 @@ dependencies {
 application {
     mainClass = "com.onlyteo.sandbox.OAuth2TokenRelayFrontendApiApplicationKt"
 }
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}

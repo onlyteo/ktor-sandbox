@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    id("io.kotest")
     id("io.ktor.plugin")
     application
 }
@@ -27,4 +28,8 @@ dependencies {
 
 application {
     mainClass = "com.onlyteo.sandbox.CrudExposedDaoFrontendApplicationKt"
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }

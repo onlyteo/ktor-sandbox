@@ -11,3 +11,7 @@ dependencies {
     // Logback
     compileOnly(libs.bundles.logback)
 }
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}

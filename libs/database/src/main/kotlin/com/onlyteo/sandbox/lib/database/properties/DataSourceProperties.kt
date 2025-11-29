@@ -1,6 +1,6 @@
 package com.onlyteo.sandbox.lib.database.properties
 
-class DataSourceProperties(
+data class DataSourceProperties(
     val driverClassName: String,
     val url: String,
     val username: String,

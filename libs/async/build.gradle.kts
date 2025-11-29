@@ -8,3 +8,7 @@ dependencies {
     compileOnly(libs.kotlinx.coroutines.core)
     compileOnly(libs.logback.classic)
 }
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}

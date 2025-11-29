@@ -29,3 +29,7 @@ dependencies {
 application {
     mainClass = "com.onlyteo.sandbox.RestApiBackendApplicationKt"
 }
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}

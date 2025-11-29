@@ -32,3 +32,7 @@ dependencies {
 application {
     mainClass = "com.onlyteo.sandbox.CrudKtormBackendApplicationKt"
 }
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}

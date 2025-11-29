@@ -12,3 +12,7 @@ dependencies {
     compileOnly(libs.h2.database)
     compileOnly(libs.zaxxer.hikari.cp)
 }
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}

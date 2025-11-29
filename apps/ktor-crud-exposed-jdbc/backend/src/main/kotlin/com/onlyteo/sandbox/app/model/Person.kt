@@ -1,6 +1,6 @@
 package com.onlyteo.sandbox.app.model
 
-import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.v1.core.dao.id.IntIdTable
 
 data class Person(val name: String)
 

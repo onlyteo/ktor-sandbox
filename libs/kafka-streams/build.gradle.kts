@@ -11,3 +11,7 @@ dependencies {
     // Kafka
     compileOnly(libs.kafka.streams)
 }
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}

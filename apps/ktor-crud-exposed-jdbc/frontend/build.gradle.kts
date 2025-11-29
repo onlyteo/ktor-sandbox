@@ -28,3 +28,7 @@ dependencies {
 application {
     mainClass = "com.onlyteo.sandbox.CrudExposedJdbcFrontendApplicationKt"
 }
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}

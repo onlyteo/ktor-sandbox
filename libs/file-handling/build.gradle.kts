@@ -8,3 +8,7 @@ dependencies {
     compileOnly(libs.jackson.module.kotlin)
     compileOnly(libs.jackson.dataformat.csv)
 }
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}

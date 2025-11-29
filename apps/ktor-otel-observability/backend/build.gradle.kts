@@ -43,6 +43,10 @@ application {
     mainClass = "com.onlyteo.sandbox.OtelObservabilityBackendApplicationKt"
 }
 
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
+
 tasks.withType<Jar> {
     manifest {
         attributes["Main-Class"] = application.mainClass.get()

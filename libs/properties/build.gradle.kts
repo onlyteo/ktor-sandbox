@@ -6,3 +6,7 @@ plugins {
 dependencies {
     compileOnly(libs.hoplite.yaml)
 }
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
