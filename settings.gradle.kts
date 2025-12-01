@@ -23,7 +23,7 @@ plugins {
     kotlin("jvm") version "2.2.21" apply false
     kotlin("plugin.spring") version "2.2.21" apply false
     kotlin("plugin.serialization") version "2.2.21" apply false
-    id("io.kotest") version "6.0.5" apply false
+    id("io.kotest") version "6.0.7" apply false
     id("io.ktor.plugin") version "3.3.3" apply false
     id("org.springframework.boot") version "4.0.0" apply false
     id("io.spring.dependency-management") version "1.1.7" apply false
